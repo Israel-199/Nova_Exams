@@ -4,19 +4,9 @@ import student1 from "@/assets/student-1.jpg";
 import student2 from "@/assets/student-2.jpg";
 import student3 from "@/assets/student-3.jpg";
 import { WireframeMesh } from "./WireframeMesh";
-import navLogo from "@/assets/navlogo.png";
 import { Link } from "react-router-dom";
 import {Button} from "../components/ui/button"
-import { stat } from "fs/promises";
-const navItems = [
-  { label: "Home", path: "/" },
-  { label: "About Us", path: "/about-us" },
-  { label: "Blog", path: "/blog" },
-  { label: "Shop", path: "/shop" },
-  { label: "Resources", path: "/resources" },
-  { label: "Contact Us", path: "/contact-us" },
-  { label: "Book Now", path: "/booking" },
-];
+import { Navbar } from "./Navbar";
 
 
 const features = [
@@ -48,101 +38,13 @@ export function HeroSection() {
       </div>
 
       {/* Navigation */}
-      <nav className="relative z-50 container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center gap-8">
-            <div className="flex items-center gap-2">
-              <Link to="/" className="flex items-center gap-2">
-              <div className="w-12 h-12 rounded-full bg-purple-950 flex items-center justify-center">
-                <img src={navLogo} alt="Nova Exams Logo" className="w-8 h-8" />
-              </div>
-              <span className="text-secondary-foreground font-display font-bold text-xl">Nova <span className="text-primary">Exams</span></span>
-              </Link>
-            </div>
-          </div>
-
-         {/* Desktop Nav */}
-{/* Desktop Nav */}
-{/* Desktop Nav */}
-{/* Desktop Navigation (only visible on large screens and up) */}
-<div className="hidden lg:flex items-center gap-8">
-  {navItems.map((item) => (
-    <Link
-      key={item.label}
-      to={item.path}
-      className="nav-link font-medium text-secondary-foreground/80 hover:text-yellow-400 transition-colors"
-    >
-      {item.label.split("").map((char, i) => (
-        <span key={i} className="drop-char">{char}</span>
-      ))}
-    </Link>
-  ))}
-</div>
-
-{/* Right Actions */}
-<div className="flex items-center gap-4">
-  {/* Desktop Log in (only visible on lg and up) */}
-  <button
-    className="hidden lg:block px-5 py-2 rounded-lg border border-secondary-foreground/30
-               bg-yellow-400 font-medium text-black
-               transform transition-all duration-300
-               hover:bg-yellow-400/90 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-lg
-               focus-visible:-translate-y-1 focus-visible:-translate-x-1 focus-visible:shadow-lg
-               active:translate-x-0 active:translate-y-0 active:shadow-md"
-  >
-    Log in
-  </button>
-
-  {/* Mobile Menu Toggle (visible below lg) */}
-  <button
-    className="block lg:hidden text-secondary-foreground"
-    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-  >
-    {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-  </button>
-</div>
-
-{/* Mobile Menu (stacked links) */}
-{mobileMenuOpen && (
-  <div className="lg:hidden absolute left-0 right-0 top-full bg-hero border-t border-secondary-foreground/10 p-4 animate-fade-in space-y-3">
-    {navItems.map((item) => (
-      <Link
-        key={item.label}
-        to={item.path}
-        className="block w-full nav-link font-medium text-secondary-foreground/80 hover:text-yellow-400 transition-colors"
-      >
-        {item.label.split("").map((char, i) => (
-          <span key={i} className="drop-char">{char}</span>
-        ))}
-      </Link>
-    ))}
-
-    {/* Mobile Log in (only inside dropdown) */}
-    <button
-      className="mt-4 w-full px-5 py-2 rounded-lg border border-secondary-foreground/30
-                 bg-yellow-400 font-medium text-black
-                 transform transition-all duration-300
-                 hover:bg-yellow-400/90 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-lg
-                 focus-visible:-translate-y-1 focus-visible:-translate-x-1 focus-visible:shadow-lg
-                 active:translate-x-0 active:translate-y-0 active:shadow-md"
-    >
-      Log in
-    </button>
-  </div>
-)}
-
-
-          </div>
-      
-      </nav>
-   
+       <Navbar/>
       {/* Hero Content */}
       <div className="container mx-auto px-4 pt-12 lg:pt-20 pb-32 lg:pb-40">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="relative z-10">
-            <div className="inline-block px-4 py-2 rounded-full bg-primary/20 border border-primary/30 mb-6 animate-fade-in">
+            <div className="inline-block px-4 py-2 rounded-full bg-primary/20 border border-primary/30 mb-6 animate-fade-in mt-10">
             <span className="text-primary font-medium text-sm">
               🎓 Your #1 Go-To For Proficiency Exams
             </span>

@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Calendar, Clock, User, Search } from "lucide-react";
 import { useState } from "react";
+import { Navbar } from "@/components/Navbar";
 
 const posts = [
   {
@@ -62,6 +63,7 @@ const Blog = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* <Navbar /> */}
+      <Navbar/>
       <main className="pt-20">
         {/* Hero */}
         <section className="py-16 bg-gradient-secondary">
