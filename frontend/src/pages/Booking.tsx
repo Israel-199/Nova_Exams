@@ -1,5 +1,5 @@
 import { useState } from "react";
-// import { Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ChatBot } from "@/components/ChatBot";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { CheckCircle, Calendar, CreditCard } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ConsultationBooking } from "@/components/ConsultationBooking";
+
 
 const exams = [
   { id: "duolingo", name: "Duolingo", basePrice: 5500, description: "Quick English proficiency test" },
@@ -55,6 +56,7 @@ const Booking = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* <Navbar /> */}
+      <Navbar bgColor="bg-gradient-secondary"/>
       <main className="pt-20">
         {/* Hero */}
         <section className="py-16 bg-gradient-secondary">

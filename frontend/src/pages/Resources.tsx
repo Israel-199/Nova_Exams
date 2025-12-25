@@ -1,4 +1,4 @@
-// import { Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ChatBot } from "@/components/ChatBot";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
@@ -24,6 +24,7 @@ const Resources = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* <Navbar /> */}
+      <Navbar bgColor="bg-gradient-secondary"/>
       <main className="pt-20">
         {/* Hero */}
         <section className="py-16 bg-gradient-secondary">

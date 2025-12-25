@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import navLogo from "@/assets/navlogo.png";
-import { WireframeMesh } from "./WireframeMesh";
 
 const navItems = [
   { label: "Home", path: "/" },
@@ -12,11 +11,16 @@ const navItems = [
   { label: "Contact Us", path: "/contact-us" },
 ];
 
-export function Navbar() {
+interface NavbarProps {
+  /** Tailwind class or CSS variable for background */
+  bgColor?: string;
+}
+
+export function Navbar({ bgColor = "bg-[hsl(var(--hero-bg))]/70" }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[hsl(var(--hero-bg))]/70 backdrop-blur-md">
+    <nav className={`fixed top-0 left-0 right-0 z-50 ${bgColor} backdrop-blur-md`}>
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-8">
@@ -71,7 +75,9 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden absolute left-0 right-0 top-full bg-[hsl(var(--hero-bg))]/80 backdrop-blur-md border-t border-secondary-foreground/10 p-4 animate-fade-in space-y-3">
+        <div
+          className={`lg:hidden absolute left-0 right-0 top-full ${bgColor} backdrop-blur-md border-t border-secondary-foreground/10 p-4 animate-fade-in space-y-3`}
+        >
           {navItems.map((item) => (
             <Link
               key={item.label}

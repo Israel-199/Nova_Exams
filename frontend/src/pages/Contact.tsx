@@ -1,4 +1,4 @@
-// import { Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ChatBot } from "@/components/ChatBot";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { WireframeMesh } from "@/components/WireframeMesh";
 
 const contactInfo = [
   { icon: Mail, label: "Email", value: "info@novaexams.com" },
@@ -39,6 +40,7 @@ const Contact = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* <Navbar /> */}
+      <Navbar bgColor="bg-gradient-secondary" />
       <main className="pt-20">
         {/* Hero */}
         <section className="py-24 bg-gradient-secondary">
@@ -47,18 +49,20 @@ const Contact = () => {
               Contact <span className="text-primary">Us</span>
             </h1>
             <p className="text-secondary-foreground/90 text-lg max-w-2xl mx-auto">
-              Have questions? We're here to help. Reach out to us and we'll respond as soon as possible.
+              Have questions? We're here to help. Reach out to us and we'll
+              respond as soon as possible.
             </p>
           </div>
         </section>
 
+        {/* Contact Form & Info */}
         {/* Contact Form & Info */}
         <section className="py-24">
           <div className="container mx-auto px-4">
             <div className="grid lg:grid-cols-2 gap-12">
               {/* Contact Info */}
               <div>
-                <h2 className="font-display text-2xl font-bold text-foreground mb-8">
+                <h2 className="font-display text-2xl font-bold text-foreground mb-8  mt-20">
                   Get in Touch
                 </h2>
                 <div className="grid sm:grid-cols-2 gap-4 mb-8">
@@ -69,22 +73,17 @@ const Contact = () => {
                           <item.icon className="w-5 h-5 text-secondary-foreground" />
                         </div>
                         <div>
-                          <p className="text-sm text-muted-foreground">{item.label}</p>
-                          <p className="font-medium text-foreground">{item.value}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {item.label}
+                          </p>
+                          <p className="font-medium text-foreground">
+                            {item.value}
+                          </p>
                         </div>
                       </CardContent>
                     </Card>
                   ))}
                 </div>
-
-                <h3 className="font-display text-xl font-bold text-foreground mb-4">
-                  Our Services
-                </h3>
-                <ul className="space-y-2 text-muted-foreground">
-                  <li>• Exam Room Service - Professional exam facilities</li>
-                  <li>• Exam Mentorship - Expert guidance and preparation</li>
-                  <li>• Exam Purchase - Seamless exam booking</li>
-                </ul>
               </div>
 
               {/* Contact Form */}
@@ -96,20 +95,28 @@ const Contact = () => {
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="text-sm font-medium text-foreground mb-2 block">Name</label>
+                        <label className="text-sm font-medium text-foreground mb-2 block">
+                          Name
+                        </label>
                         <Input
                           value={formData.name}
-                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                          onChange={(e) =>
+                            setFormData({ ...formData, name: e.target.value })
+                          }
                           placeholder="Your name"
                           required
                         />
                       </div>
                       <div>
-                        <label className="text-sm font-medium text-foreground mb-2 block">Email</label>
+                        <label className="text-sm font-medium text-foreground mb-2 block">
+                          Email
+                        </label>
                         <Input
                           type="email"
                           value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          onChange={(e) =>
+                            setFormData({ ...formData, email: e.target.value })
+                          }
                           placeholder="Your email"
                           required
                         />
@@ -117,40 +124,82 @@ const Contact = () => {
                     </div>
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="text-sm font-medium text-foreground mb-2 block">Phone</label>
+                        <label className="text-sm font-medium text-foreground mb-2 block">
+                          Phone
+                        </label>
                         <Input
                           value={formData.phone}
-                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                          onChange={(e) =>
+                            setFormData({ ...formData, phone: e.target.value })
+                          }
                           placeholder="Your phone"
                         />
                       </div>
                       <div>
-                        <label className="text-sm font-medium text-foreground mb-2 block">Subject</label>
+                        <label className="text-sm font-medium text-foreground mb-2 block">
+                          Subject
+                        </label>
                         <Input
                           value={formData.subject}
-                          onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              subject: e.target.value,
+                            })
+                          }
                           placeholder="Subject"
                           required
                         />
                       </div>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-foreground mb-2 block">Message</label>
+                      <label className="text-sm font-medium text-foreground mb-2 block">
+                        Message
+                      </label>
                       <Textarea
                         value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, message: e.target.value })
+                        }
                         placeholder="Your message"
                         rows={5}
                         required
                       />
                     </div>
-                    <Button type="submit" variant="cta" size="lg" className="w-full">
+                    <Button
+                      type="submit"
+                      variant="cta"
+                      size="lg"
+                      className="w-full"
+                    >
                       Send Message
                     </Button>
                   </form>
                 </CardContent>
               </Card>
             </div>
+
+            {/* Our Services moved BELOW the grid */}
+           <div className="mt-16 text-center">
+  <h3 className="font-display text-4xl font-bold text-foreground mb-6">
+    Our <span className="text-gradient-secondary">Services</span>
+  </h3>
+  <div className="flex flex-col items-center space-y-4 text-muted-foreground text-lg leading-relaxed">
+    <div className="flex items-center gap-2">
+      <span className="text-primary">✔</span>
+      <span>Exam Room Service – Professional exam facilities</span>
+    </div>
+    <div className="flex items-center gap-2 ">
+      <span className="text-primary">✔</span>
+      <span>Exam Mentorship – Expert guidance and preparation</span>
+    </div>
+    <div className="flex items-center gap-2">
+      <span className="text-primary">✔</span>
+      <span>Exam Purchase – Seamless exam booking</span>
+    </div>
+  </div>
+</div>
+
           </div>
         </section>
       </main>

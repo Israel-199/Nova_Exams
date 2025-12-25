@@ -63,7 +63,7 @@ const Blog = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* <Navbar /> */}
-      <Navbar/>
+      <Navbar bgColor="bg-gradient-secondary"/>
       <main className="pt-20">
         {/* Hero */}
         <section className="py-16 bg-gradient-secondary">

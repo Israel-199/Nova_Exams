@@ -129,44 +129,48 @@ export function HeroSection() {
             </div>
 
             {/* Profile Card */}
-            <div className="absolute right-20 top-16 floating-card flex items-center gap-3 animate-float-delayed">
-              <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center overflow-hidden">
-                <img src={student2} alt="Ali" className="w-full h-full object-cover" />
-              </div>
-              <div>
-                <p className="font-semibold text-foreground text-sm">Ali Tufan</p>
-                <p className="text-muted-foreground text-xs">UX/UI Designer</p>
-                <div className="flex gap-0.5 mt-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-3 h-3 fill-primary text-primary" />
-                  ))}
-                </div>
-              </div>
-            </div>
+            {/* Testimonial Card */}
+{/* Testimonial Card (Meron Tadesse) */}
+<div className="absolute right-20 top-32 floating-card flex items-center gap-3 animate-float-delayed">
+  <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center overflow-hidden">
+    <img src={student2} alt="Meron" className="w-full h-full object-cover" />
+  </div>
+  <div>
+    <p className="font-semibold text-foreground text-sm">Abel Tadesse</p>
+    <p className="text-muted-foreground text-xs">IELTS Student</p>
+    <div className="flex gap-0.5 mt-1">
+      {[...Array(5)].map((_, i) => (
+        <Star key={i} className="w-3 h-3 fill-primary text-primary" />
+      ))}
+    </div>
+    <p className="text-muted-foreground text-xs mt-1">Scored Band 8.0 🎉</p>
+  </div>
+</div>
 
-            {/* Courses Card */}
-            <div className="absolute left-8 bottom-32 floating-card flex items-center gap-3 animate-float">
-              <div className="w-10 h-10 rounded-full bg-teal/20 flex items-center justify-center">
-                <Award className="w-5 h-5 text-teal" />
-              </div>
-              <div>
-                <p className="font-bold text-foreground text-lg">3,000 +</p>
-                <p className="text-muted-foreground text-xs">Free Courses</p>
-              </div>
-            </div>
+{/* Exams Booked Highlight */}
+<div className="absolute left-8 bottom-32 floating-card flex items-center gap-3 animate-float">
+  <div className="w-10 h-10 rounded-full bg-teal/20 flex items-center justify-center">
+    <Award className="w-5 h-5 text-teal" />
+  </div>
+  <div>
+    <p className="font-bold text-foreground text-lg">5,000+</p>
+    <p className="text-muted-foreground text-xs">Exams Booked Successfully</p>
+  </div>
+</div>
 
-            {/* Congrats Card */}
-            <div className="absolute right-0 bottom-20 floating-card animate-float-slow">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
-                  <Award className="w-4 h-4 text-secondary-foreground" />
-                </div>
-                <div>
-                  <p className="font-semibold text-secondary text-sm">Congrats!</p>
-                  <p className="text-muted-foreground text-xs">Your Admission Completed</p>
-                </div>
-              </div>
-            </div>
+{/* Admission Success Card (nudged left & down for gap) */}
+<div className="absolute right-12 bottom-12 floating-card animate-float-slow">
+  <div className="flex items-center gap-2">
+    <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
+      <Award className="w-4 h-4 text-secondary-foreground" />
+    </div>
+    <div>
+      <p className="font-semibold text-secondary text-sm">Congrats!</p>
+      <p className="text-muted-foreground text-xs">Admission Secured Abroad</p>
+    </div>
+  </div>
+</div>
+
           </div>
         </div>
       </div>

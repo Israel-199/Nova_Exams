@@ -1,14 +1,19 @@
-// import { Navbar } from "@/components/Navbar";
+
 import { Footer } from "@/components/Footer";
 import { ChatBot } from "@/components/ChatBot";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Card, CardContent } from "@/components/ui/card";
 import { Award, Target, Users, Heart } from "lucide-react";
+import { Navbar } from "@/components/Navbar";
+import img1 from "@/assets/profile-1.jpg";
+import img2 from "@/assets/profile-2.jpg";
+import img3 from "@/assets/profile-1.jpg";
+import { WireframeMesh } from "@/components/WireframeMesh";
 
 const team = [
-  { name: "Abebe Kebede", role: "Founder & CEO", bio: "10+ years in education consulting" },
-  { name: "Tigist Hailu", role: "Head of Operations", bio: "Expert in exam coordination" },
-  { name: "Yonas Tesfaye", role: "Lead Mentor", bio: "IELTS Band 9, TOEFL 120 scorer" },
+  { name: "Abebe Kebede", role: "Founder & CEO", bio: "10+ years in education consulting", image: img3 },
+  { name: "Tigist Hailu", role: "Head of Operations", bio: "Expert in exam coordination", image: img1 },
+  { name: "Yonas Tesfaye", role: "Lead Mentor", bio: "IELTS Band 9, TOEFL 120 scorer", image: img2 },
 ];
 
 const values = [
@@ -22,6 +27,7 @@ const About = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* <Navbar /> */}
+      <Navbar bgColor="bg-gradient-secondary"/>
       <main className="pt-20">
         {/* Hero */}
         <section className="py-24 bg-gradient-secondary">
@@ -39,6 +45,7 @@ const About = () => {
         <section className="py-24">
           <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-2 gap-12 items-center">
+                 
               <div>
                 <span className="inline-block px-4 py-1 rounded-full bg-secondary/10 text-secondary font-medium text-sm mb-4">
                   Our Mission
@@ -107,21 +114,20 @@ const About = () => {
               </h2>
             </div>
             <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-              {team.map((member) => (
-                <Card key={member.name} className="text-center bg-card border-border">
-                  <CardContent className="p-6">
-                    <div className="w-20 h-20 rounded-full bg-gradient-secondary mx-auto mb-4 flex items-center justify-center">
-                      <span className="text-2xl font-bold text-secondary-foreground">
-                        {member.name.split(" ").map(n => n[0]).join("")}
-                      </span>
-                    </div>
-                    <h3 className="font-display font-semibold text-foreground mb-1">{member.name}</h3>
-                    <p className="text-secondary text-sm font-medium mb-2">{member.role}</p>
-                    <p className="text-sm text-muted-foreground">{member.bio}</p>
-                  </CardContent>
-                </Card>
-              ))}
+             {team.map((member) => (
+        <Card key={member.name} className="bg-card border-border shadow-md hover:shadow-lg transition-shadow">
+          <CardContent className="p-6 flex flex-col items-center text-center">
+            {/* Profile Image */}
+            <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-secondary">
+              <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
             </div>
+            <h3 className="font-display font-semibold text-lg text-foreground">{member.name}</h3>
+            <p className="text-secondary text-sm mb-2">{member.role}</p>
+            <p className="text-muted-foreground text-sm">{member.bio}</p>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
           </div>
         </section>
       </main>
