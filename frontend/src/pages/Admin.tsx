@@ -234,7 +234,7 @@ const Admin = () => {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Exam Name</TableHead>
+                        <TableHead>Exam Type</TableHead>
                         <TableHead>Price (ETB)</TableHead>
                         <TableHead>Description</TableHead>
                         <TableHead className="text-right">Actions</TableHead>

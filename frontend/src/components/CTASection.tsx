@@ -1,22 +1,21 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { WireframeMesh } from "./WireframeMesh";
+
 
 export function CTASection() {
   return (
     <section className="py-24 bg-background">
-     
-      <div className="container mx-auto px-4">
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-secondary p-8 md:p-16">
-         
-          {/* Background Decoration */}
+      <div className="mx-auto max-w-7xl">
+        {/* Ensure the box has height so the mesh can fill it */}
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-secondary p-8 md:p-16 min-h-[400px]">
+          
+          {/* Decorative blobs */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl" />
-             
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-magenta/20 rounded-full blur-3xl" />
 
+          {/* Foreground content */}
           <div className="relative z-10 text-center max-w-2xl mx-auto">
-           
             <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-secondary-foreground mb-6">
               Ready to Start Your{" "}
               <span className="text-primary">Exam Journey?</span>
@@ -31,7 +30,12 @@ export function CTASection() {
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </Button>
-              <Button variant="heroOutline" size="xl" asChild className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+              <Button
+                variant="heroOutline"
+                size="xl"
+                asChild
+                className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+              >
                 <Link to="/contact">Contact Us</Link>
               </Button>
             </div>

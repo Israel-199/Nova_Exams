@@ -168,7 +168,7 @@ const Booking = () => {
                       <ul className="space-y-2">
                         <li className="flex items-center gap-2 text-foreground">
                           <CheckCircle className="w-4 h-4 text-secondary" />
-                          Exam Room Service
+                          Exam-based preparation
                         </li>
                         <li className="flex items-center gap-2 text-foreground">
                           <CheckCircle className="w-4 h-4 text-secondary" />

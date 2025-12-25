@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle } from "lucide-react";
-import { WireframeMesh } from "./WireframeMesh";
 
 const exams = [
   {
@@ -31,7 +30,6 @@ const exams = [
 export function ExamsSection() {
   return (
     <section className="py-24 bg-indigo relative overflow-hidden">
-       <WireframeMesh />
       {/* Background Decoration */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />

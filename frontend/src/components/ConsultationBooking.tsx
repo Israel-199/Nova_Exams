@@ -57,7 +57,7 @@ export const ConsultationBooking = () => {
             Google Meet Integration
           </Badge>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Book a <span className="text-primary">Consultation</span>
+           Book a free <span className="text-primary">Consultation</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Schedule a video consultation with our experts via Google Meet. 
