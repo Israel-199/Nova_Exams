@@ -29,8 +29,12 @@ import {
   DollarSign,
   MessageSquare,
   FileText,
+  Upload,
 } from "lucide-react";
 import { toast } from "sonner";
+import img1 from "@/assets/student-1.jpg";
+import img2 from "@/assets/student-2.jpg";
+import img3 from "@/assets/student-3.jpg";
 
 // Mock data
 const initialExams = [
@@ -69,11 +73,11 @@ const initialExams = [
 const initialTestimonials = [
   {
     id: 1,
-    name: "Abebe Kebede",
+    name: "Hana Kebede",
     exam: "SAT",
     score: "1520",
     content: "Nova Exams helped me achieve my dream score!",
-    image: "",
+    image: img1,
   },
   {
     id: 2,
@@ -81,7 +85,7 @@ const initialTestimonials = [
     exam: "IELTS",
     score: "8.5",
     content: "The mentorship program was incredibly helpful.",
-    image: "",
+    image: img3,
   },
   {
     id: 3,
@@ -89,7 +93,7 @@ const initialTestimonials = [
     exam: "TOEFL",
     score: "115",
     content: "Best preparation center in Ethiopia!",
-    image: "",
+    image: img2,
   },
 ];
 
@@ -137,6 +141,7 @@ const Admin = () => {
   const [isBlogDialogOpen, setIsBlogDialogOpen] = useState(false);
 
   // Exam handlers
+
   const handleSaveExam = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -481,24 +486,36 @@ const Admin = () => {
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="image">Image URL (optional)</Label>
+                          {" "}
+                          <Label
+                            htmlFor="image"
+                            className="flex items-center gap-2"
+                          >
+                            {" "}
+                            <Upload className="h-4 w-4 text-muted-foreground" />{" "}
+                            Upload Image
+                          </Label>{" "}
                           <Input
                             id="image"
                             name="image"
-                            defaultValue={editingTestimonial?.image}
-                          />
-                        </div>
+                            type="file"
+                            accept="image/*"
+                          />{" "}
+                        </div>{" "}
                         <Button type="submit" className="w-full">
-                          Save Testimonial
+                          {" "}
+                          Save Testimonial{" "}
                         </Button>
                       </form>
                     </DialogContent>
                   </Dialog>
                 </CardHeader>
+
                 <CardContent>
                   <Table>
                     <TableHeader>
                       <TableRow>
+                        <TableHead>Image</TableHead>
                         <TableHead>Student</TableHead>
                         <TableHead>Exam</TableHead>
                         <TableHead>Score</TableHead>
@@ -509,6 +526,21 @@ const Admin = () => {
                     <TableBody>
                       {testimonials.map((testimonial) => (
                         <TableRow key={testimonial.id}>
+                          {/* ✅ Image cell */}
+                          <TableCell>
+                            {testimonial.image ? (
+                              <img
+                                src={testimonial.image}
+                                alt={testimonial.name}
+                                className="w-12 h-12 rounded-full object-cover"
+                              />
+                            ) : (
+                              <span className="text-muted-foreground text-sm">
+                                No image
+                              </span>
+                            )}
+                          </TableCell>
+
                           <TableCell className="font-medium">
                             {testimonial.name}
                           </TableCell>
