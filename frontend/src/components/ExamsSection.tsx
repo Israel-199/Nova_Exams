@@ -8,7 +8,11 @@ const exams = [
   {
     name: "Duolingo",
     description: "Quick and convenient English proficiency test",
-    features: ["2-hour test", "Results in 48 hours", "Accepted by 6000+ universities"],
+    features: [
+      "2-hour test",
+      "Results in 48 hours",
+      "Accepted by 6000+ universities",
+    ],
   },
   {
     name: "TOEFL",
@@ -44,7 +48,8 @@ export function ExamsSection() {
             Choose Your <span className="text-primary">Exam</span>
           </h2>
           <p className="text-indigo-foreground/80 text-lg">
-            We offer a variety of internationally recognized exams to help you achieve your educational goals.
+            We offer a variety of internationally recognized exams to help you
+            achieve your educational goals.
           </p>
         </div>
 
@@ -62,12 +67,17 @@ export function ExamsSection() {
                 <CardTitle className="text-indigo-foreground font-display">
                   {exam.name} Exam
                 </CardTitle>
-                <p className="text-sm text-indigo-foreground/70">{exam.description}</p>
+                <p className="text-sm text-indigo-foreground/70">
+                  {exam.description}
+                </p>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
                   {exam.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2 text-sm text-indigo-foreground/80">
+                    <li
+                      key={feature}
+                      className="flex items-center gap-2 text-sm text-indigo-foreground/80"
+                    >
                       <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
                       <span>{feature}</span>
                     </li>

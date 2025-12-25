@@ -7,14 +7,34 @@ import { Button } from "@/components/ui/button";
 import { FileText, Video, ExternalLink, Download } from "lucide-react";
 
 const guides = [
-  { title: "IELTS Preparation Guide", description: "Complete study guide with tips and strategies", type: "PDF" },
-  { title: "TOEFL Speaking Templates", description: "Ready-to-use templates for all speaking tasks", type: "PDF" },
-  { title: "Duolingo Quick Tips", description: "Essential tips for the Duolingo English Test", type: "PDF" },
-  { title: "GRE Vocabulary List", description: "1000 most common GRE words", type: "PDF" },
+  {
+    title: "IELTS Preparation Guide",
+    description: "Complete study guide with tips and strategies",
+    type: "PDF",
+  },
+  {
+    title: "TOEFL Speaking Templates",
+    description: "Ready-to-use templates for all speaking tasks",
+    type: "PDF",
+  },
+  {
+    title: "Duolingo Quick Tips",
+    description: "Essential tips for the Duolingo English Test",
+    type: "PDF",
+  },
+  {
+    title: "GRE Vocabulary List",
+    description: "1000 most common GRE words",
+    type: "PDF",
+  },
 ];
 
 const videos = [
-  { title: "IELTS Writing Task 2 Masterclass", channel: "Nova Exams", url: "#" },
+  {
+    title: "IELTS Writing Task 2 Masterclass",
+    channel: "Nova Exams",
+    url: "#",
+  },
   { title: "How to Score 120 on TOEFL", channel: "Nova Exams", url: "#" },
   { title: "Duolingo Test Walkthrough", channel: "Nova Exams", url: "#" },
   { title: "TOLC Preparation Tips", channel: "Nova Exams", url: "#" },
@@ -24,7 +44,7 @@ const Resources = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* <Navbar /> */}
-      <Navbar bgColor="bg-gradient-secondary"/>
+      <Navbar bgColor="bg-gradient-secondary" />
       <main className="pt-20">
         {/* Hero */}
         <section className="py-16 bg-gradient-secondary">
@@ -33,7 +53,8 @@ const Resources = () => {
               <span className="text-primary">Resources</span>
             </h1>
             <p className="text-secondary-foreground/90 text-lg max-w-2xl mx-auto">
-              Free study materials, guides, and video content to help you prepare for your exams.
+              Free study materials, guides, and video content to help you
+              prepare for your exams.
             </p>
           </div>
         </section>
@@ -52,14 +73,21 @@ const Resources = () => {
 
             <div className="grid md:grid-cols-2 gap-6">
               {guides.map((guide) => (
-                <Card key={guide.title} className="bg-card border-border hover:border-secondary/50 transition-colors">
+                <Card
+                  key={guide.title}
+                  className="bg-card border-border hover:border-secondary/50 transition-colors"
+                >
                   <CardContent className="p-6 flex items-center gap-4">
                     <div className="w-12 h-12 rounded-xl bg-gradient-secondary flex items-center justify-center flex-shrink-0">
                       <FileText className="w-6 h-6 text-secondary-foreground" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-display font-semibold text-foreground">{guide.title}</h3>
-                      <p className="text-sm text-muted-foreground">{guide.description}</p>
+                      <h3 className="font-display font-semibold text-foreground">
+                        {guide.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        {guide.description}
+                      </p>
                     </div>
                     <Button variant="outline" size="sm">
                       <Download className="w-4 h-4 mr-2" />
@@ -86,12 +114,17 @@ const Resources = () => {
 
             <div className="grid md:grid-cols-2 gap-6">
               {videos.map((video) => (
-                <Card key={video.title} className="bg-card border-border hover:border-secondary/50 transition-colors group cursor-pointer">
+                <Card
+                  key={video.title}
+                  className="bg-card border-border hover:border-secondary/50 transition-colors group cursor-pointer"
+                >
                   <CardContent className="p-6">
                     <div className="aspect-video bg-indigo rounded-lg mb-4 flex items-center justify-center group-hover:bg-secondary transition-colors">
                       <Video className="w-12 h-12 text-indigo-foreground" />
                     </div>
-                    <h3 className="font-display font-semibold text-foreground mb-1">{video.title}</h3>
+                    <h3 className="font-display font-semibold text-foreground mb-1">
+                      {video.title}
+                    </h3>
                     <p className="text-sm text-muted-foreground flex items-center gap-1">
                       {video.channel}
                       <ExternalLink className="w-3 h-3" />
@@ -110,7 +143,8 @@ const Resources = () => {
               Need More Help?
             </h2>
             <p className="text-muted-foreground mb-8">
-              Our mentorship program provides personalized guidance for your exam preparation.
+              Our mentorship program provides personalized guidance for your
+              exam preparation.
             </p>
             <Button variant="cta" size="lg" asChild>
               <a href="/booking">Get Mentorship</a>

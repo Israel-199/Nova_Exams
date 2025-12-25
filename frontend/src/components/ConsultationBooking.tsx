@@ -18,7 +18,8 @@ const consultationTypes: ConsultationType[] = [
     id: "exam-prep",
     title: "Exam Preparation Session",
     duration: "30 min",
-    description: "One-on-one session to discuss exam strategies and preparation tips",
+    description:
+      "One-on-one session to discuss exam strategies and preparation tips",
     icon: <Calendar className="w-5 h-5" />,
   },
   {
@@ -38,7 +39,9 @@ const consultationTypes: ConsultationType[] = [
 ];
 
 export const ConsultationBooking = () => {
-  const [calendlyUrl, setCalendlyUrl] = useState("https://calendly.com/novaexams");
+  const [calendlyUrl, setCalendlyUrl] = useState(
+    "https://calendly.com/novaexams"
+  );
   const [selectedType, setSelectedType] = useState<string | null>(null);
 
   const handleBookNow = (type: ConsultationType) => {
@@ -57,11 +60,11 @@ export const ConsultationBooking = () => {
             Google Meet Integration
           </Badge>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-           Book a free <span className="text-primary">Consultation</span>
+            Book a free <span className="text-primary">Consultation</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Schedule a video consultation with our experts via Google Meet. 
-            Get personalized guidance for your exam preparation journey.
+            Schedule a video consultation with our experts via Google Meet. Get
+            personalized guidance for your exam preparation journey.
           </p>
         </div>
 
@@ -71,7 +74,9 @@ export const ConsultationBooking = () => {
             <Card
               key={type.id}
               className={`cursor-pointer transition-all hover:shadow-lg hover:border-secondary/50 ${
-                selectedType === type.id ? "border-secondary ring-2 ring-secondary" : ""
+                selectedType === type.id
+                  ? "border-secondary ring-2 ring-secondary"
+                  : ""
               }`}
             >
               <CardHeader>
@@ -83,10 +88,14 @@ export const ConsultationBooking = () => {
                     {type.duration}
                   </Badge>
                 </div>
-                <CardTitle className="font-display text-lg">{type.title}</CardTitle>
+                <CardTitle className="font-display text-lg">
+                  {type.title}
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground mb-4">{type.description}</p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  {type.description}
+                </p>
                 <div className="flex items-center gap-2 text-xs text-muted-foreground mb-4">
                   <Video className="w-4 h-4 text-secondary" />
                   <span>Via Google Meet</span>
@@ -123,13 +132,15 @@ export const ConsultationBooking = () => {
                 Ready to Connect?
               </h3>
               <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                Click the button below to open our scheduling page and book your 
+                Click the button below to open our scheduling page and book your
                 consultation. You'll receive a Google Meet link automatically.
               </p>
               <Button
                 variant="hero"
                 size="lg"
-                onClick={() => window.open(calendlyUrl, "_blank", "noopener,noreferrer")}
+                onClick={() =>
+                  window.open(calendlyUrl, "_blank", "noopener,noreferrer")
+                }
               >
                 <ExternalLink className="w-4 h-4 mr-2" />
                 Open Calendly Scheduler
@@ -145,7 +156,9 @@ export const ConsultationBooking = () => {
                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
                   <Calendar className="w-6 h-6 text-primary" />
                 </div>
-                <h4 className="font-semibold text-foreground mb-1">Easy Scheduling</h4>
+                <h4 className="font-semibold text-foreground mb-1">
+                  Easy Scheduling
+                </h4>
                 <p className="text-sm text-muted-foreground">
                   Pick a time that works for you
                 </p>
@@ -154,7 +167,9 @@ export const ConsultationBooking = () => {
                 <div className="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center mx-auto mb-3">
                   <Video className="w-6 h-6 text-secondary" />
                 </div>
-                <h4 className="font-semibold text-foreground mb-1">Google Meet</h4>
+                <h4 className="font-semibold text-foreground mb-1">
+                  Google Meet
+                </h4>
                 <p className="text-sm text-muted-foreground">
                   Auto-generated meeting links
                 </p>
@@ -163,7 +178,9 @@ export const ConsultationBooking = () => {
                 <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-3">
                   <Clock className="w-6 h-6 text-accent-foreground" />
                 </div>
-                <h4 className="font-semibold text-foreground mb-1">Reminders</h4>
+                <h4 className="font-semibold text-foreground mb-1">
+                  Reminders
+                </h4>
                 <p className="text-sm text-muted-foreground">
                   Email & calendar reminders
                 </p>

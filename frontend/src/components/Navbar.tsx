@@ -16,11 +16,15 @@ interface NavbarProps {
   bgColor?: string;
 }
 
-export function Navbar({ bgColor = "bg-[hsl(var(--hero-bg))]/70" }: NavbarProps) {
+export function Navbar({
+  bgColor = "bg-[hsl(var(--hero-bg))]/70",
+}: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 ${bgColor} backdrop-blur-md`}>
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 ${bgColor} backdrop-blur-md`}
+    >
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-8">
@@ -29,7 +33,7 @@ export function Navbar({ bgColor = "bg-[hsl(var(--hero-bg))]/70" }: NavbarProps)
               <img src={navLogo} alt="Nova Exams Logo" className="w-8 h-8" />
             </div>
             <span className="text-secondary-foreground font-display font-bold text-xl">
-              Nova <span className="text-primary">Exams</span>
+              <span className="text-primary">Nova </span>Exams
             </span>
           </Link>
         </div>
@@ -43,7 +47,9 @@ export function Navbar({ bgColor = "bg-[hsl(var(--hero-bg))]/70" }: NavbarProps)
               className="nav-link font-medium text-secondary-foreground/80 hover:text-yellow-400 transition-colors"
             >
               {item.label.split("").map((char, i) => (
-                <span key={i} className="drop-char">{char}</span>
+                <span key={i} className="drop-char">
+                  {char}
+                </span>
               ))}
             </Link>
           ))}
@@ -68,7 +74,11 @@ export function Navbar({ bgColor = "bg-[hsl(var(--hero-bg))]/70" }: NavbarProps)
             className="block lg:hidden text-secondary-foreground"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {mobileMenuOpen ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
           </button>
         </div>
       </div>
@@ -85,7 +95,9 @@ export function Navbar({ bgColor = "bg-[hsl(var(--hero-bg))]/70" }: NavbarProps)
               className="block w-full nav-link font-medium text-secondary-foreground/80 hover:text-yellow-400 transition-colors"
             >
               {item.label.split("").map((char, i) => (
-                <span key={i} className="drop-char">{char}</span>
+                <span key={i} className="drop-char">
+                  {char}
+                </span>
               ))}
             </Link>
           ))}

@@ -7,32 +7,38 @@ const services = [
   {
     icon: BookOpen,
     title: "Exam Booking",
-    description: "Book international exams including Duolingo, TOEFL, IELTS, TOLC, GRE, and GMAT with ease.",
+    description:
+      "Book international exams including Duolingo, TOEFL, IELTS, TOLC, GRE, and GMAT with ease.",
   },
   {
     icon: Monitor,
     title: "Exam Room Service",
-    description: "Fully equipped exam room service with reliable internet connection and power system.",
+    description:
+      "Fully equipped exam room service with reliable internet connection and power system.",
   },
   {
     icon: Users,
     title: "Mentorship Program",
-    description: "Efficient Mentorship to guide you through your exam preparation journey.",
+    description:
+      "Efficient Mentorship to guide you through your exam preparation journey.",
   },
   {
     icon: Award,
     title: "Success Guarantee",
-    description: "Our 98% success rate speaks for itself. Join thousands of successful students.",
+    description:
+      "Our 98% success rate speaks for itself. Join thousands of successful students.",
   },
   {
     icon: Clock,
     title: "Flexible Scheduling",
-    description: "Choose exam dates that work best for you with our flexible booking system.",
+    description:
+      "Choose exam dates that work best for you with our flexible booking system.",
   },
   {
     icon: Shield,
     title: "Secure Process",
-    description: "Safe and secure exam registration and payment processing with Chapa integration.",
+    description:
+      "Safe and secure exam registration and payment processing with Chapa integration.",
   },
 ];
 
@@ -50,7 +56,8 @@ export function ServicesSection() {
             <span className="text-gradient-secondary">Exam Success</span>
           </h2>
           <p className="text-muted-foreground text-lg">
-            We provide comprehensive services to ensure your exam journey is smooth and successful.
+            We provide comprehensive services to ensure your exam journey is
+            smooth and successful.
           </p>
         </div>
 

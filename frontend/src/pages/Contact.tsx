@@ -9,7 +9,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { WireframeMesh } from "@/components/WireframeMesh";
 
 const contactInfo = [
   { icon: Mail, label: "Email", value: "info@novaexams.com" },
@@ -180,26 +179,25 @@ const Contact = () => {
             </div>
 
             {/* Our Services moved BELOW the grid */}
-           <div className="mt-16 text-center">
-  <h3 className="font-display text-4xl font-bold text-foreground mb-6">
-    Our <span className="text-gradient-secondary">Services</span>
-  </h3>
-  <div className="flex flex-col items-center space-y-4 text-muted-foreground text-lg leading-relaxed">
-    <div className="flex items-center gap-2">
-      <span className="text-primary">✔</span>
-      <span>Exam Room Service – Professional exam facilities</span>
-    </div>
-    <div className="flex items-center gap-2 ">
-      <span className="text-primary">✔</span>
-      <span>Exam Mentorship – Expert guidance and preparation</span>
-    </div>
-    <div className="flex items-center gap-2">
-      <span className="text-primary">✔</span>
-      <span>Exam Purchase – Seamless exam booking</span>
-    </div>
-  </div>
-</div>
-
+            <div className="mt-16 text-center">
+              <h3 className="font-display text-4xl font-bold text-foreground mb-6">
+                Our <span className="text-gradient-secondary">Services</span>
+              </h3>
+              <div className="flex flex-col items-center space-y-4 text-muted-foreground text-lg leading-relaxed">
+                <div className="flex items-center gap-2">
+                  <span className="text-primary">✔</span>
+                  <span>Exam Room Service – Professional exam facilities</span>
+                </div>
+                <div className="flex items-center gap-2 ">
+                  <span className="text-primary">✔</span>
+                  <span>Exam Mentorship – Expert guidance and preparation</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-primary">✔</span>
+                  <span>Exam Purchase – Seamless exam booking</span>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </main>

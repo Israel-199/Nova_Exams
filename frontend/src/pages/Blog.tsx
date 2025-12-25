@@ -13,7 +13,8 @@ const posts = [
   {
     id: 1,
     title: "10 Tips to Ace Your IELTS Speaking Test",
-    excerpt: "Master the IELTS speaking section with these proven strategies from our expert mentors.",
+    excerpt:
+      "Master the IELTS speaking section with these proven strategies from our expert mentors.",
     category: "IELTS",
     author: "Yonas Tesfaye",
     date: "Dec 10, 2024",
@@ -22,7 +23,8 @@ const posts = [
   {
     id: 2,
     title: "Duolingo vs TOEFL: Which Test Is Right for You?",
-    excerpt: "A comprehensive comparison to help you choose the best English proficiency test for your goals.",
+    excerpt:
+      "A comprehensive comparison to help you choose the best English proficiency test for your goals.",
     category: "Guides",
     author: "Tigist Hailu",
     date: "Dec 5, 2024",
@@ -31,7 +33,8 @@ const posts = [
   {
     id: 3,
     title: "How to Prepare for TOLC in 30 Days",
-    excerpt: "A structured study plan to help you prepare effectively for the Italian university admission test.",
+    excerpt:
+      "A structured study plan to help you prepare effectively for the Italian university admission test.",
     category: "TOLC",
     author: "Abebe Kebede",
     date: "Nov 28, 2024",
@@ -40,7 +43,8 @@ const posts = [
   {
     id: 4,
     title: "Understanding GRE Score Requirements",
-    excerpt: "What scores do top universities really look for? We break down the numbers.",
+    excerpt:
+      "What scores do top universities really look for? We break down the numbers.",
     category: "GRE",
     author: "Yonas Tesfaye",
     date: "Nov 20, 2024",
@@ -48,22 +52,33 @@ const posts = [
   },
 ];
 
-const categories = ["All", "IELTS", "TOEFL", "Duolingo", "TOLC", "GRE", "Guides"];
+const categories = [
+  "All",
+  "IELTS",
+  "TOEFL",
+  "Duolingo",
+  "TOLC",
+  "GRE",
+  "Guides",
+];
 
 const Blog = () => {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
 
   const filteredPosts = posts.filter((post) => {
-    const matchesSearch = post.title.toLowerCase().includes(search.toLowerCase());
-    const matchesCategory = activeCategory === "All" || post.category === activeCategory;
+    const matchesSearch = post.title
+      .toLowerCase()
+      .includes(search.toLowerCase());
+    const matchesCategory =
+      activeCategory === "All" || post.category === activeCategory;
     return matchesSearch && matchesCategory;
   });
 
   return (
     <div className="min-h-screen bg-background">
       {/* <Navbar /> */}
-      <Navbar bgColor="bg-gradient-secondary"/>
+      <Navbar bgColor="bg-gradient-secondary" />
       <main className="pt-20">
         {/* Hero */}
         <section className="py-16 bg-gradient-secondary">
@@ -72,7 +87,8 @@ const Blog = () => {
               Nova <span className="text-primary">Blog</span>
             </h1>
             <p className="text-secondary-foreground/90 text-lg max-w-2xl mx-auto">
-              Expert tips, study guides, and resources to help you succeed in your exams.
+              Expert tips, study guides, and resources to help you succeed in
+              your exams.
             </p>
           </div>
         </section>
@@ -111,10 +127,15 @@ const Blog = () => {
             {/* Posts Grid */}
             <div className="grid md:grid-cols-2 gap-6">
               {filteredPosts.map((post) => (
-                <Card key={post.id} className="bg-card border-border hover:border-secondary/50 transition-colors group cursor-pointer">
+                <Card
+                  key={post.id}
+                  className="bg-card border-border hover:border-secondary/50 transition-colors group cursor-pointer"
+                >
                   <CardHeader>
                     <div className="flex items-center gap-2 mb-2">
-                      <Badge className="bg-primary/10 text-primary hover:bg-primary/20">{post.category}</Badge>
+                      <Badge className="bg-primary/10 text-primary hover:bg-primary/20">
+                        {post.category}
+                      </Badge>
                     </div>
                     <CardTitle className="font-display text-xl group-hover:text-secondary transition-colors">
                       {post.title}
@@ -143,7 +164,9 @@ const Blog = () => {
 
             {filteredPosts.length === 0 && (
               <div className="text-center py-12">
-                <p className="text-muted-foreground">No articles found. Try a different search term.</p>
+                <p className="text-muted-foreground">
+                  No articles found. Try a different search term.
+                </p>
               </div>
             )}
           </div>

@@ -8,7 +8,6 @@ import { Footer } from "@/components/Footer";
 import { ChatBot } from "@/components/ChatBot";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 
-
 const Index = () => {
   return (
     <div className="min-h-screen bg-background relative">
