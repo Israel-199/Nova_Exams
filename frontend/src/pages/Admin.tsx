@@ -1,5 +1,4 @@
 import { useState } from "react";
-// import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -30,13 +29,35 @@ import {
   MessageSquare,
   FileText,
   Upload,
+  LinkIcon,
+  Video,
+  FileDown,
+  Book,
 } from "lucide-react";
 import { toast } from "sonner";
 import img1 from "@/assets/student-1.jpg";
 import img2 from "@/assets/student-2.jpg";
 import img3 from "@/assets/student-3.jpg";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-// Mock data
+interface Resource {
+  id: string;
+  type: "pdf" | "video";
+  title: string;
+  description: string;
+  url: string;
+  videoType?: "youtube" | "social" | "upload";
+}
+
+const initialResources: Resource[] = [
+  { id: "1", type: "pdf", title: "IELTS Preparation Guide", description: "Complete study guide with tips and strategies", url: "#" },
+  { id: "2", type: "pdf", title: "TOEFL Speaking Templates", description: "Ready-to-use templates for all speaking tasks", url: "#" },
+  { id: "3", type: "pdf", title: "Duolingo Quick Tips", description: "Essential tips for the Duolingo English Test", url: "#" },
+  { id: "4", type: "pdf", title: "GRE Vocabulary List", description: "1000 most common GRE words", url: "#" },
+  { id: "5", type: "video", title: "IELTS Writing Task 2 Masterclass", description: "Nova Exams", url: "https://youtube.com/watch?v=example1", videoType: "youtube" },
+  { id: "6", type: "video", title: "How to Score 120 on TOEFL", description: "Nova Exams", url: "https://youtube.com/watch?v=example2", videoType: "youtube" },
+];
+
 const initialExams = [
   {
     id: 1,
@@ -125,6 +146,9 @@ const Admin = () => {
   const [exams, setExams] = useState(initialExams);
   const [testimonials, setTestimonials] = useState(initialTestimonials);
   const [blogPosts, setBlogPosts] = useState(initialBlogPosts);
+  const [resources, setResources] = useState<Resource[]>(initialResources);
+   const [resourceDialogOpen, setResourceDialogOpen] = useState(false);
+  
 
   const [editingExam, setEditingExam] = useState<
     (typeof initialExams)[0] | null
@@ -135,12 +159,42 @@ const Admin = () => {
   const [editingBlog, setEditingBlog] = useState<
     (typeof initialBlogPosts)[0] | null
   >(null);
+   const [editingResource, setEditingResource] = useState<Resource | null>(null);
 
   const [isExamDialogOpen, setIsExamDialogOpen] = useState(false);
   const [isTestimonialDialogOpen, setIsTestimonialDialogOpen] = useState(false);
   const [isBlogDialogOpen, setIsBlogDialogOpen] = useState(false);
 
-  // Exam handlers
+   const [resourceForm, setResourceForm] = useState({ 
+    type: "pdf" as "pdf" | "video", 
+    title: "", 
+    description: "", 
+    url: "", 
+    videoType: "youtube" as "youtube" | "social" | "upload", 
+    videoFile: null as File | null,
+    pdfFile: null as File | null,
+    pdfUploadMode: "url" as "url" | "upload"
+  });
+
+
+  const handleVideoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Create a local URL for the video file
+      const videoUrl = URL.createObjectURL(file);
+      setResourceForm({ ...resourceForm, videoFile: file, url: videoUrl });
+    }
+  };
+
+  // Handle PDF file upload
+  const handlePdfFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Create a local URL for the PDF file
+      const pdfUrl = URL.createObjectURL(file);
+      setResourceForm({ ...resourceForm, pdfFile: file, url: pdfUrl });
+    }
+  };
 
   const handleSaveExam = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -231,6 +285,47 @@ const Admin = () => {
     toast.success("Blog post deleted successfully!");
   };
 
+   const handleAddResource = () => {
+    if (!resourceForm.title || !resourceForm.description) {
+      toast.error("Please fill all fields");
+      return;
+    }
+
+    if (editingResource) {
+      setResources(resources.map(r => r.id === editingResource.id ? { ...r, ...resourceForm } : r));
+      toast.success("Resource updated successfully");
+    } else {
+      setResources([...resources, { id: Date.now().toString(), ...resourceForm }]);
+      toast.success("Resource added successfully");
+    }
+        setResourceForm({ type: "pdf", title: "", description: "", url: "", videoType: "youtube", videoFile: null, pdfFile: null, pdfUploadMode: "url" });
+    setEditingResource(null);
+    setResourceDialogOpen(false);
+  };
+
+  const handleEditResource = (resource: Resource) => {
+    setEditingResource(resource);
+    setResourceForm({ 
+      type: resource.type, 
+      title: resource.title, 
+      description: resource.description, 
+      url: resource.url,
+      videoType: resource.videoType || "youtube",
+      videoFile: null,
+      pdfFile: null,
+      pdfUploadMode: "url"
+    });
+    setResourceDialogOpen(true);
+  };
+
+  const handleDeleteResource = (id: string) => {
+    setResources(resources.filter(r => r.id !== id));
+    toast.success("Resource deleted");
+  };
+
+  const pdfResources = resources.filter(r => r.type === "pdf");
+  const videoResources = resources.filter(r => r.type === "video");
+
   return (
     <div className="min-h-screen bg-background">
       {/* <Navbar /> */}
@@ -246,7 +341,7 @@ const Admin = () => {
           </div>
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -286,6 +381,19 @@ const Admin = () => {
                 </div>
               </CardContent>
             </Card>
+              <Card className="bg-gradient-to-br from-indigo/10 to-indigo/5 border-indigo/20">
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  Resources
+                </CardTitle>
+                <Book className="h-5 w-5 text-indigo" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-foreground">
+                  {resources.length}
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
           <Tabs defaultValue="exams" className="space-y-6">
@@ -307,6 +415,12 @@ const Admin = () => {
                 className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
               >
                 Blog Posts
+              </TabsTrigger>
+              <TabsTrigger
+                value="Resources"
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+              >
+                Resources
               </TabsTrigger>
             </TabsList>
 
@@ -526,7 +640,6 @@ const Admin = () => {
                     <TableBody>
                       {testimonials.map((testimonial) => (
                         <TableRow key={testimonial.id}>
-                          {/* ✅ Image cell */}
                           <TableCell>
                             {testimonial.image ? (
                               <img
@@ -697,6 +810,234 @@ const Admin = () => {
                       ))}
                     </TableBody>
                   </Table>
+                </CardContent>
+              </Card>
+            </TabsContent>
+             <TabsContent value="Resources">
+              <Card className="bg-white">
+                <CardContent className="p-6">
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-xl font-semibold text-neutral-dark">Manage Resources</h2>
+                    <Dialog open={resourceDialogOpen} onOpenChange={setResourceDialogOpen}>
+                      <DialogTrigger asChild>
+                        <Button className="bg-accent text-accent-foreground hover:bg-accent/90" onClick={() => { setEditingResource(null); setResourceForm({ type: "pdf", title: "", description: "", url: "", videoType: "youtube", videoFile: null, pdfFile: null, pdfUploadMode: "url" }); }}>
+                          <Plus className="w-4 h-4 mr-2" />
+                          Add Resource
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="bg-white">
+                        <DialogHeader>
+                          <DialogTitle>{editingResource ? "Edit Resource" : "Add New Resource"}</DialogTitle>
+                        </DialogHeader>
+                        <div className="space-y-4 mt-4">
+                          <div>
+                            <Label>Resource Type</Label>
+                            <Select value={resourceForm.type} onValueChange={(value: "pdf" | "video") => setResourceForm({ ...resourceForm, type: value })}>
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="pdf">PDF Document</SelectItem>
+                                <SelectItem value="video">Video</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div>
+                            <Label>Title</Label>
+                            <Input value={resourceForm.title} onChange={e => setResourceForm({ ...resourceForm, title: e.target.value })} placeholder="Resource title" />
+                          </div>
+                          <div>
+                            <Label>Description</Label>
+                            <Input value={resourceForm.description} onChange={e => setResourceForm({ ...resourceForm, description: e.target.value })} placeholder="Brief description" />
+                          </div>
+                          {resourceForm.type === "pdf" && (
+                            <div>
+                              <Label>PDF Source</Label>
+                              <Select value={resourceForm.pdfUploadMode} onValueChange={(value: "url" | "upload") => setResourceForm({ ...resourceForm, pdfUploadMode: value })}>
+                                <SelectTrigger>
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="url">URL Link</SelectItem>
+                                  <SelectItem value="upload">Upload File</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                          )}
+                          {resourceForm.type === "video" && (
+                            <div>
+                              <Label>Video Source</Label>
+                              <Select value={resourceForm.videoType} onValueChange={(value: "youtube" | "social" | "upload") => setResourceForm({ ...resourceForm, videoType: value })}>
+                                <SelectTrigger>
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="youtube">YouTube Link</SelectItem>
+                                  <SelectItem value="social">Social Media Link</SelectItem>
+                                  <SelectItem value="upload">Upload File</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                          )}
+                          {resourceForm.type === "pdf" && resourceForm.pdfUploadMode === "upload" ? (
+                            <div>
+                              <Label>Upload PDF File</Label>
+                              <div className="mt-2">
+                                <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-muted-foreground/30 rounded-lg cursor-pointer hover:bg-muted/10 transition-colors">
+                                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
+                                    {resourceForm.pdfFile ? (
+                                      <p className="text-sm text-primary font-medium">{resourceForm.pdfFile.name}</p>
+                                    ) : (
+                                      <>
+                                        <p className="mb-1 text-sm text-muted-foreground">
+                                          <span className="font-semibold">Click to upload</span> or drag and drop
+                                        </p>
+                                        <p className="text-xs text-muted-foreground">PDF files only (MAX. 50MB)</p>
+                                      </>
+                                    )}
+                                  </div>
+                                  <input
+                                    type="file"
+                                    className="hidden"
+                                    accept=".pdf,application/pdf"
+                                    onChange={handlePdfFileChange}
+                                  />
+                                </label>
+                              </div>
+                            </div>
+                          ) : resourceForm.type === "video" && resourceForm.videoType === "upload" ? (
+                            <div>
+                              <Label>Upload Video File</Label>
+                              <div className="mt-2">
+                                <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-muted-foreground/30 rounded-lg cursor-pointer hover:bg-muted/10 transition-colors">
+                                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
+                                    {resourceForm.videoFile ? (
+                                      <p className="text-sm text-primary font-medium">{resourceForm.videoFile.name}</p>
+                                    ) : (
+                                      <>
+                                        <p className="mb-1 text-sm text-muted-foreground">
+                                          <span className="font-semibold">Click to upload</span> or drag and drop
+                                        </p>
+                                        <p className="text-xs text-muted-foreground">MP4, WebM, MOV (MAX. 100MB)</p>
+                                      </>
+                                    )}
+                                  </div>
+                                  <input
+                                    type="file"
+                                    className="hidden"
+                                    accept="video/*"
+                                    onChange={handleVideoFileChange}
+                                  />
+                                </label>
+                              </div>
+                            </div>
+                          ) : (
+                            <div>
+                              <Label>{resourceForm.type === "pdf" ? "PDF URL" : "Video URL"}</Label>
+                              <Input value={resourceForm.url} onChange={e => setResourceForm({ ...resourceForm, url: e.target.value })} placeholder={resourceForm.type === "pdf" ? "https://example.com/file.pdf" : "https://youtube.com/watch?v=..."} />
+                            </div>
+                          )}
+                          <Button onClick={handleAddResource} className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
+                            {editingResource ? "Update Resource" : "Add Resource"}
+                          </Button>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+
+                  {/* PDF Resources */}
+                  <div className="mb-8">
+                    <h3 className="text-lg font-semibold text-neutral-dark mb-4 flex items-center gap-2">
+                      <FileDown className="w-5 h-5 text-primary" />
+                      Downloadable Guides ({pdfResources.length})
+                    </h3>
+                    <div className="grid gap-3">
+                      {pdfResources.map(resource => (
+                        <div key={resource.id} className="p-4 border rounded-lg flex justify-between items-center hover:bg-muted/5">
+                          <div className="flex items-center gap-4">
+                            <div className="p-2 bg-primary/10 rounded-lg">
+                              <FileDown className="w-5 h-5 text-primary" />
+                            </div>
+                            <div>
+                              <p className="font-medium text-neutral-dark">{resource.title}</p>
+                              <p className="text-sm text-muted-foreground">{resource.description}</p>
+                            </div>
+                          </div>
+                         <div className="flex justify-end gap-2">
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                onClick={() => {
+                                  setEditingResource(resource);
+                                  setResourceDialogOpen(true);
+                                }}
+                              >
+                                <Pencil className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                variant="destructive"
+                                size="icon"
+                                onClick={() => handleDeleteResource(resource.id)}
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Video Resources */}
+                  <div>
+                    <h3 className="text-lg font-semibold text-neutral-dark mb-4 flex items-center gap-2">
+                      <Video className="w-5 h-5 text-tertiary" />
+                      Video Resources ({videoResources.length})
+                    </h3>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      {videoResources.map(resource => (
+                        <div key={resource.id} className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                          <div className="aspect-video bg-neutral-dark flex items-center justify-center relative">
+                            <Video className="w-12 h-12 text-white/50" />
+                            <div className="absolute top-2 right-2 flex gap-1">
+                              <span className="px-2 py-0.5 bg-white/20 text-white text-xs rounded-full flex items-center gap-1">
+                                <LinkIcon className="w-3 h-3" />
+                                {resource.videoType === "youtube" ? "YouTube" : resource.videoType === "social" ? "Social" : "Upload"}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="p-4 bg-white">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <p className="font-medium text-neutral-dark">{resource.title}</p>
+                                <p className="text-sm text-primary">{resource.description} ↗</p>
+                              </div>
+                              <div className="flex justify-end gap-2">
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                onClick={() => {
+                                  setEditingResource(resource);
+                                  setResourceDialogOpen(true);
+                                }}
+                              >
+                                <Pencil className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                variant="destructive"
+                                size="icon"
+                                onClick={() => handleDeleteResource(resource.id)}
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </TabsContent>
