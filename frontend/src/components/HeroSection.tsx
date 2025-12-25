@@ -65,9 +65,14 @@ export function HeroSection() {
          {/* Desktop Nav */}
 {/* Desktop Nav */}
 {/* Desktop Nav */}
+{/* Desktop Navigation (only visible on large screens and up) */}
 <div className="hidden lg:flex items-center gap-8">
   {navItems.map((item) => (
-    <Link key={item.label} to={item.path} className="nav-link font-medium text-secondary-foreground/80 hover:text-yellow-400 transition-colors" >
+    <Link
+      key={item.label}
+      to={item.path}
+      className="nav-link font-medium text-secondary-foreground/80 hover:text-yellow-400 transition-colors"
+    >
       {item.label.split("").map((char, i) => (
         <span key={i} className="drop-char">{char}</span>
       ))}
@@ -77,9 +82,9 @@ export function HeroSection() {
 
 {/* Right Actions */}
 <div className="flex items-center gap-4">
-  {/* Desktop Log in (hidden on mobile) */}
+  {/* Desktop Log in (only visible on lg and up) */}
   <button
-    className="hidden md:block px-5 py-2 rounded-lg border border-secondary-foreground/30
+    className="hidden lg:block px-5 py-2 rounded-lg border border-secondary-foreground/30
                bg-yellow-400 font-medium text-black
                transform transition-all duration-300
                hover:bg-yellow-400/90 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-lg
@@ -89,26 +94,31 @@ export function HeroSection() {
     Log in
   </button>
 
-  {/* Mobile Menu Toggle */}
+  {/* Mobile Menu Toggle (visible below lg) */}
   <button
-    className="lg:hidden text-secondary-foreground"
+    className="block lg:hidden text-secondary-foreground"
     onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
   >
     {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
   </button>
 </div>
 
-{/* Mobile Menu */}
+{/* Mobile Menu (stacked links) */}
 {mobileMenuOpen && (
-  <div className="lg:hidden absolute left-0 right-0 top-full bg-hero border-t border-secondary-foreground/10 p-4 animate-fade-in">
-  {navItems.map((item) => (
-    <Link key={item.label} to={item.path} className="nav-link font-medium text-secondary-foreground/80 hover:text-yellow-400 transition-colors" >
-      {item.label.split("").map((char, i) => (
-        <span key={i} className="drop-char">{char}</span>
-      ))}
-    </Link>
-  ))}
-    {/* Mobile Log in (only visible inside dropdown) */}
+  <div className="lg:hidden absolute left-0 right-0 top-full bg-hero border-t border-secondary-foreground/10 p-4 animate-fade-in space-y-3">
+    {navItems.map((item) => (
+      <Link
+        key={item.label}
+        to={item.path}
+        className="block w-full nav-link font-medium text-secondary-foreground/80 hover:text-yellow-400 transition-colors"
+      >
+        {item.label.split("").map((char, i) => (
+          <span key={i} className="drop-char">{char}</span>
+        ))}
+      </Link>
+    ))}
+
+    {/* Mobile Log in (only inside dropdown) */}
     <button
       className="mt-4 w-full px-5 py-2 rounded-lg border border-secondary-foreground/30
                  bg-yellow-400 font-medium text-black

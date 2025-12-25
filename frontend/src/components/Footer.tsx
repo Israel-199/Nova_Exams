@@ -9,12 +9,13 @@ export function Footer() {
       <div className="relative z-10 mx-auto max-w-7xl py-16 px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
+      
           <div className="space-y-4">
             <Link to="/" className="flex items-center gap-2">
-              <div className="w-12 h-12 rounded-xl bg-purple-950 flex items-center justify-center">
-                <img src={navLogo} alt="Nova Exams Logo" className="w-8 h-8" />
-              </div>
-              <span className="font-display font-bold text-[30px]">
+              <div className="w-12 h-12 rounded-full bg-purple-950 flex items-center justify-center">
+                          <img src={navLogo} alt="Nova Exams Logo" className="w-8 h-8" />
+                        </div>
+              <span className="font-display font-bold text-xl">
                 <span className="text-primary">Nova</span>
                 <span className="text-indigo-foreground"> Exams</span>
               </span>
