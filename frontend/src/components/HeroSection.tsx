@@ -9,14 +9,15 @@ import { Link } from "react-router-dom";
 import {Button} from "../components/ui/button"
 import { stat } from "fs/promises";
 const navItems = [
-  { label: "Home"},
-  { label: "About Us" },
-  { label: "Blog",  },
-  { label: "Shop" },  
-  { label: "Resources" },
-  { label: "Contact Us" },
-  { label: "Book Now" },
+  { label: "Home", path: "/" },
+  { label: "About Us", path: "/about-us" },
+  { label: "Blog", path: "/blog" },
+  { label: "Shop", path: "/shop" },
+  { label: "Resources", path: "/resources" },
+  { label: "Contact Us", path: "/contact-us" },
+  { label: "Book Now", path: "/booking" },
 ];
+
 
 const features = [
   "Expert Exam Guidance",
@@ -61,45 +62,69 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-8">
-            {navItems.map((item) => (
-              <button
-                key={item.label}
-                className="flex items-center gap-1 text-secondary-foreground/80 hover:text-secondary-foreground transition-colors font-medium"
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
+         {/* Desktop Nav */}
+{/* Desktop Nav */}
+{/* Desktop Nav */}
+<div className="hidden lg:flex items-center gap-8">
+  {navItems.map((item) => (
+    <Link key={item.label} to={item.path} className="nav-link font-medium text-secondary-foreground/80 hover:text-yellow-400 transition-colors" >
+      {item.label.split("").map((char, i) => (
+        <span key={i} className="drop-char">{char}</span>
+      ))}
+    </Link>
+  ))}
+</div>
 
-          {/* Right Actions */}
-          <div className="flex items-center gap-4">
-            <button className="hidden md:block px-5 py-2 rounded-lg border border-secondary-foreground/30 bg-yellow-400 font-medium hover:bg-yellow-400/90 text-black transition-colors">
-              Log in
-            </button>
-            <button
-              className="lg:hidden text-secondary-foreground"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-        </div>
+{/* Right Actions */}
+<div className="flex items-center gap-4">
+  {/* Desktop Log in (hidden on mobile) */}
+  <button
+    className="hidden md:block px-5 py-2 rounded-lg border border-secondary-foreground/30
+               bg-yellow-400 font-medium text-black
+               transform transition-all duration-300
+               hover:bg-yellow-400/90 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-lg
+               focus-visible:-translate-y-1 focus-visible:-translate-x-1 focus-visible:shadow-lg
+               active:translate-x-0 active:translate-y-0 active:shadow-md"
+  >
+    Log in
+  </button>
 
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden absolute left-0 right-0 top-full bg-hero border-t border-secondary-foreground/10 p-4 animate-fade-in">
-            {navItems.map((item) => (
-              <button
-                key={item.label}
-                className="flex items-center justify-between w-full py-3 text-secondary-foreground/80 hover:text-secondary-foreground transition-colors font-medium border-b border-secondary-foreground/10"
-              >
-                {item.label}
-              </button>
-            ))}
+  {/* Mobile Menu Toggle */}
+  <button
+    className="lg:hidden text-secondary-foreground"
+    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+  >
+    {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+  </button>
+</div>
+
+{/* Mobile Menu */}
+{mobileMenuOpen && (
+  <div className="lg:hidden absolute left-0 right-0 top-full bg-hero border-t border-secondary-foreground/10 p-4 animate-fade-in">
+  {navItems.map((item) => (
+    <Link key={item.label} to={item.path} className="nav-link font-medium text-secondary-foreground/80 hover:text-yellow-400 transition-colors" >
+      {item.label.split("").map((char, i) => (
+        <span key={i} className="drop-char">{char}</span>
+      ))}
+    </Link>
+  ))}
+    {/* Mobile Log in (only visible inside dropdown) */}
+    <button
+      className="mt-4 w-full px-5 py-2 rounded-lg border border-secondary-foreground/30
+                 bg-yellow-400 font-medium text-black
+                 transform transition-all duration-300
+                 hover:bg-yellow-400/90 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-lg
+                 focus-visible:-translate-y-1 focus-visible:-translate-x-1 focus-visible:shadow-lg
+                 active:translate-x-0 active:translate-y-0 active:shadow-md"
+    >
+      Log in
+    </button>
+  </div>
+)}
+
+
           </div>
-        )}
+      
       </nav>
    
       {/* Hero Content */}
@@ -116,7 +141,8 @@ export function HeroSection() {
               Seamless English 
               <br />
               Proficiency <span className="text-primary">Exam Services</span>-at{" "}
-              <span className="underline-teal">Nova Exams</span>
+              <span className="underline-yellow cursor-pointer">Nova Exams</span>
+
             </h1>
            <p className="text-lg md:text-xl text-secondary-foreground/90 mb-8 leading-relaxed animate-slide-up" style={{ animationDelay: "0.1s" }}>
             Book international exams like Duolingo, TOEFL, IELTS, and TOLC with ease. 

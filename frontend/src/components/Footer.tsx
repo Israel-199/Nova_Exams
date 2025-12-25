@@ -25,21 +25,23 @@ export function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div>
-            <h4 className="font-display font-semibold text-lg mb-4 text-primary">Quick Links</h4>
-            <ul className="space-y-3">
-              {["Home", "About Us", "Blog", "Resources", "Contact Us", "Book Now"].map((link) => (
-                <li key={link}>
-                  <Link
-                    to={link === "Book Now" ? "/booking" : `/${link.toLowerCase().replace(" ", "-").replace("home", "")}`}
-                    className="text-indigo-foreground/80 hover:text-primary transition-colors text-sm"
-                  >
-                    {link}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+         <div>
+  <h4 className="font-display font-semibold text-lg mb-4 text-primary">Quick Links</h4>
+  <ul className="space-y-3">
+    {["Home", "About Us", "Blog", "Resources", "Contact Us", "Book Now"].map((link) => (
+      <li key={link}>
+        <Link
+          to={link === "Book Now" ? "/booking" : `/${link.toLowerCase().replace(" ", "-").replace("home", "")}`}
+          className="nav-link text-indigo-foreground/80 transition-colors text-sm hover:text-yellow-400"
+        >
+          {link.split("").map((char, i) => (
+            <span key={i} className="drop-char">{char}</span>
+          ))}
+        </Link>
+      </li>
+    ))}
+  </ul>
+</div>
 
           {/* Exams Offered */}
           <div>
@@ -72,16 +74,19 @@ export function Footer() {
             </ul>
             {/* Social Links */}
             <div className="flex items-center gap-4 mt-6">
-              {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="w-9 h-9 rounded-lg bg-indigo-foreground/10 flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all"
-                >
-                  <Icon className="w-4 h-4" />
-                </a>
-              ))}
-            </div>
+  {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
+    <a
+      key={i}
+      href="#"
+      className="w-9 h-9 rounded-lg bg-indigo-foreground/10 flex items-center justify-center 
+                 hover:bg-primary hover:text-primary-foreground 
+                 transition-transform duration-300 ease-in-out"
+    >
+      <Icon className="w-4 h-4 transform hover:rotate-12" />
+    </a>
+  ))}
+</div>
+
           </div>
         </div>
 
