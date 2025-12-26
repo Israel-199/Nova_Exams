@@ -336,7 +336,7 @@ const Admin = () => {
               Admin Dashboard
             </h1>
             <p className="text-muted-foreground">
-              Manage exams, testimonials, and blog posts
+              Manage exams, testimonials, blog posts and resources
             </p>
           </div>
 
