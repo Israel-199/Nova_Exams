@@ -58,6 +58,7 @@ export function Navbar({
         {/* Right Actions */}
         <div className="flex items-center gap-4">
           {/* Desktop Log in */}
+          <Link to="/admin">
           <button
             className="hidden lg:block px-5 py-2 rounded-lg border border-secondary-foreground/30
                        bg-yellow-400 font-medium text-black
@@ -68,6 +69,7 @@ export function Navbar({
           >
             Log in
           </button>
+          </Link>
 
           {/* Mobile Menu Toggle */}
           <button
