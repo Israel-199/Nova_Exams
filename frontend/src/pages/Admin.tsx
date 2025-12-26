@@ -38,7 +38,13 @@ import { toast } from "sonner";
 import img1 from "@/assets/student-1.jpg";
 import img2 from "@/assets/student-2.jpg";
 import img3 from "@/assets/student-3.jpg";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface Resource {
   id: string;
@@ -48,46 +54,96 @@ interface Resource {
   url: string;
   videoType?: "youtube" | "social" | "upload";
 }
+interface Exam {
+  id: string;
+  examType: "Duolingo" | "TOEFL" | "Pearson" | "IELTS Home" | "Others";
+  mentorship: string;
+  examRoomService: number;
+  sum: number;
+}
 
 const initialResources: Resource[] = [
-  { id: "1", type: "pdf", title: "IELTS Preparation Guide", description: "Complete study guide with tips and strategies", url: "#" },
-  { id: "2", type: "pdf", title: "TOEFL Speaking Templates", description: "Ready-to-use templates for all speaking tasks", url: "#" },
-  { id: "3", type: "pdf", title: "Duolingo Quick Tips", description: "Essential tips for the Duolingo English Test", url: "#" },
-  { id: "4", type: "pdf", title: "GRE Vocabulary List", description: "1000 most common GRE words", url: "#" },
-  { id: "5", type: "video", title: "IELTS Writing Task 2 Masterclass", description: "Nova Exams", url: "https://youtube.com/watch?v=example1", videoType: "youtube" },
-  { id: "6", type: "video", title: "How to Score 120 on TOEFL", description: "Nova Exams", url: "https://youtube.com/watch?v=example2", videoType: "youtube" },
+  {
+    id: "1",
+    type: "pdf",
+    title: "IELTS Preparation Guide",
+    description: "Complete study guide with tips and strategies",
+    url: "#",
+  },
+  {
+    id: "2",
+    type: "pdf",
+    title: "TOEFL Speaking Templates",
+    description: "Ready-to-use templates for all speaking tasks",
+    url: "#",
+  },
+  {
+    id: "3",
+    type: "pdf",
+    title: "Duolingo Quick Tips",
+    description: "Essential tips for the Duolingo English Test",
+    url: "#",
+  },
+  {
+    id: "4",
+    type: "pdf",
+    title: "GRE Vocabulary List",
+    description: "1000 most common GRE words",
+    url: "#",
+  },
+  {
+    id: "5",
+    type: "video",
+    title: "IELTS Writing Task 2 Masterclass",
+    description: "Nova Exams",
+    url: "https://youtube.com/watch?v=example1",
+    videoType: "youtube",
+  },
+  {
+    id: "6",
+    type: "video",
+    title: "How to Score 120 on TOEFL",
+    description: "Nova Exams",
+    url: "https://youtube.com/watch?v=example2",
+    videoType: "youtube",
+  },
 ];
 
-const initialExams = [
+const initialExams: Exam[] = [
   {
-    id: 1,
-    name: "SAT",
-    price: 15000,
-    description: "Scholastic Assessment Test",
+    id: "1",
+    examType: "Duolingo",
+    mentorship: "2 days (in person)",
+    examRoomService: 5000,
+    sum: 8000,
   },
   {
-    id: 2,
-    name: "IELTS",
-    price: 12000,
-    description: "International English Language Testing System",
+    id: "2",
+    examType: "TOEFL",
+    mentorship: "1 Week",
+    examRoomService: 8000,
+    sum: 15000,
   },
   {
-    id: 3,
-    name: "TOEFL",
-    price: 10000,
-    description: "Test of English as a Foreign Language",
+    id: "3",
+    examType: "Pearson",
+    mentorship: "1 Month language Training",
+    examRoomService: 10000,
+    sum: 25000,
   },
   {
-    id: 4,
-    name: "GRE",
-    price: 18000,
-    description: "Graduate Record Examination",
+    id: "4",
+    examType: "IELTS Home",
+    mentorship: "2 Weeks",
+    examRoomService: 12000,
+    sum: 20000,
   },
   {
-    id: 5,
-    name: "GMAT",
-    price: 20000,
-    description: "Graduate Management Admission Test",
+    id: "5",
+    examType: "Others",
+    mentorship: "Contact the center",
+    examRoomService: 0,
+    sum: 0,
   },
 ];
 
@@ -147,35 +203,92 @@ const Admin = () => {
   const [testimonials, setTestimonials] = useState(initialTestimonials);
   const [blogPosts, setBlogPosts] = useState(initialBlogPosts);
   const [resources, setResources] = useState<Resource[]>(initialResources);
-   const [resourceDialogOpen, setResourceDialogOpen] = useState(false);
-  
+  const [resourceDialogOpen, setResourceDialogOpen] = useState(false);
+  const [examDialogOpen, setExamDialogOpen] = useState(false);
 
-  const [editingExam, setEditingExam] = useState<
-    (typeof initialExams)[0] | null
-  >(null);
+  const [editingExam, setEditingExam] = useState<Exam | null>(null);
   const [editingTestimonial, setEditingTestimonial] = useState<
     (typeof initialTestimonials)[0] | null
   >(null);
   const [editingBlog, setEditingBlog] = useState<
     (typeof initialBlogPosts)[0] | null
   >(null);
-   const [editingResource, setEditingResource] = useState<Resource | null>(null);
+  const [editingResource, setEditingResource] = useState<Resource | null>(null);
 
   const [isExamDialogOpen, setIsExamDialogOpen] = useState(false);
   const [isTestimonialDialogOpen, setIsTestimonialDialogOpen] = useState(false);
   const [isBlogDialogOpen, setIsBlogDialogOpen] = useState(false);
 
-   const [resourceForm, setResourceForm] = useState({ 
-    type: "pdf" as "pdf" | "video", 
-    title: "", 
-    description: "", 
-    url: "", 
-    videoType: "youtube" as "youtube" | "social" | "upload", 
+  const [resourceForm, setResourceForm] = useState({
+    type: "pdf" as "pdf" | "video",
+    title: "",
+    description: "",
+    url: "",
+    videoType: "youtube" as "youtube" | "social" | "upload",
     videoFile: null as File | null,
     pdfFile: null as File | null,
-    pdfUploadMode: "url" as "url" | "upload"
+    pdfUploadMode: "url" as "url" | "upload",
   });
 
+  const [examForm, setExamForm] = useState({
+    examType: "Duolingo" as
+      | "Duolingo"
+      | "TOEFL"
+      | "Pearson"
+      | "IELTS Home"
+      | "Others",
+    mentorship: "",
+    examRoomService: "",
+    sum: "",
+  });
+
+  const handleAddExam = () => {
+    if (!examForm.examType || !examForm.mentorship) {
+      toast.error("Please fill all fields");
+      return;
+    }
+    const newExam = {
+      examType: examForm.examType,
+      mentorship: examForm.mentorship,
+      examRoomService: Number(examForm.examRoomService) || 0,
+      sum: Number(examForm.sum) || 0,
+    };
+
+    if (editingExam) {
+      setExams(
+        exams.map((e) => (e.id === editingExam.id ? { ...e, ...newExam } : e))
+      );
+      toast.success("Exam updated successfully");
+    } else {
+      setExams([...exams, { id: Date.now().toString(), ...newExam }]);
+      toast.success("Exam added successfully");
+    }
+
+    setExamForm({
+      examType: "Duolingo",
+      mentorship: "",
+      examRoomService: "",
+      sum: "",
+    });
+    setEditingExam(null);
+    setExamDialogOpen(false);
+  };
+
+  const handleEditExam = (exam: Exam) => {
+    setEditingExam(exam);
+    setExamForm({
+      examType: exam.examType,
+      mentorship: exam.mentorship,
+      examRoomService: exam.examRoomService.toString(),
+      sum: exam.sum.toString(),
+    });
+    setExamDialogOpen(true);
+  };
+
+  const handleDeleteExam = (id: string) => {
+    setExams(exams.filter((e) => e.id !== id));
+    toast.success("Exam deleted");
+  };
 
   const handleVideoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -194,32 +307,6 @@ const Admin = () => {
       const pdfUrl = URL.createObjectURL(file);
       setResourceForm({ ...resourceForm, pdfFile: file, url: pdfUrl });
     }
-  };
-
-  const handleSaveExam = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const examData = {
-      id: editingExam?.id || Date.now(),
-      name: formData.get("name") as string,
-      price: Number(formData.get("price")),
-      description: formData.get("description") as string,
-    };
-
-    if (editingExam) {
-      setExams(exams.map((ex) => (ex.id === editingExam.id ? examData : ex)));
-      toast.success("Exam updated successfully!");
-    } else {
-      setExams([...exams, examData]);
-      toast.success("Exam added successfully!");
-    }
-    setEditingExam(null);
-    setIsExamDialogOpen(false);
-  };
-
-  const handleDeleteExam = (id: number) => {
-    setExams(exams.filter((ex) => ex.id !== id));
-    toast.success("Exam deleted successfully!");
   };
 
   // Testimonial handlers
@@ -285,50 +372,66 @@ const Admin = () => {
     toast.success("Blog post deleted successfully!");
   };
 
-   const handleAddResource = () => {
+  const handleAddResource = () => {
     if (!resourceForm.title || !resourceForm.description) {
       toast.error("Please fill all fields");
       return;
     }
 
     if (editingResource) {
-      setResources(resources.map(r => r.id === editingResource.id ? { ...r, ...resourceForm } : r));
+      setResources(
+        resources.map((r) =>
+          r.id === editingResource.id ? { ...r, ...resourceForm } : r
+        )
+      );
       toast.success("Resource updated successfully");
     } else {
-      setResources([...resources, { id: Date.now().toString(), ...resourceForm }]);
+      setResources([
+        ...resources,
+        { id: Date.now().toString(), ...resourceForm },
+      ]);
       toast.success("Resource added successfully");
     }
-        setResourceForm({ type: "pdf", title: "", description: "", url: "", videoType: "youtube", videoFile: null, pdfFile: null, pdfUploadMode: "url" });
+    setResourceForm({
+      type: "pdf",
+      title: "",
+      description: "",
+      url: "",
+      videoType: "youtube",
+      videoFile: null,
+      pdfFile: null,
+      pdfUploadMode: "url",
+    });
     setEditingResource(null);
     setResourceDialogOpen(false);
   };
 
   const handleEditResource = (resource: Resource) => {
     setEditingResource(resource);
-    setResourceForm({ 
-      type: resource.type, 
-      title: resource.title, 
-      description: resource.description, 
+    setResourceForm({
+      type: resource.type,
+      title: resource.title,
+      description: resource.description,
       url: resource.url,
       videoType: resource.videoType || "youtube",
       videoFile: null,
       pdfFile: null,
-      pdfUploadMode: "url"
+      pdfUploadMode: "url",
     });
     setResourceDialogOpen(true);
   };
 
   const handleDeleteResource = (id: string) => {
-    setResources(resources.filter(r => r.id !== id));
+    setResources(resources.filter((r) => r.id !== id));
     toast.success("Resource deleted");
   };
 
-  const pdfResources = resources.filter(r => r.type === "pdf");
-  const videoResources = resources.filter(r => r.type === "video");
+  const pdfResources = resources.filter((r) => r.type === "pdf");
+  const videoResources = resources.filter((r) => r.type === "video");
 
   return (
     <div className="min-h-screen bg-background">
-      <main >
+      <main>
         <div className="container mx-auto px-4 py-12">
           <div className="mb-8">
             <h1 className="text-4xl font-display font-bold text-foreground mb-2">
@@ -380,7 +483,7 @@ const Admin = () => {
                 </div>
               </CardContent>
             </Card>
-              <Card className="bg-gradient-to-br from-indigo/10 to-indigo/5 border-indigo/20">
+            <Card className="bg-gradient-to-br from-indigo/10 to-indigo/5 border-indigo/20">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
                   Resources
@@ -425,108 +528,189 @@ const Admin = () => {
 
             {/* Exams Tab */}
             <TabsContent value="exams">
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between">
-                  <CardTitle>Manage Exam Prices</CardTitle>
-                  <Dialog
-                    open={isExamDialogOpen}
-                    onOpenChange={setIsExamDialogOpen}
-                  >
-                    <DialogTrigger asChild>
-                      <Button
-                        onClick={() => setEditingExam(null)}
-                        className="gap-2"
-                      >
-                        <Plus className="h-4 w-4" /> Add Exam
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="bg-card">
-                      <DialogHeader>
-                        <DialogTitle>
-                          {editingExam ? "Edit Exam" : "Add New Exam"}
-                        </DialogTitle>
-                      </DialogHeader>
-                      <form onSubmit={handleSaveExam} className="space-y-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="name">Exam Name</Label>
-                          <Input
-                            id="name"
-                            name="name"
-                            defaultValue={editingExam?.name}
-                            required
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="price">Price (ETB)</Label>
-                          <Input
-                            id="price"
-                            name="price"
-                            type="number"
-                            defaultValue={editingExam?.price}
-                            required
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="description">Description</Label>
-                          <Textarea
-                            id="description"
-                            name="description"
-                            defaultValue={editingExam?.description}
-                            required
-                          />
-                        </div>
-                        <Button type="submit" className="w-full">
-                          Save Exam
+              <Card className="bg-white">
+                <CardContent className="p-6">
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-xl font-semibold text-neutral-dark">
+                      Manage Exam Prices
+                    </h2>
+                    <Dialog
+                      open={examDialogOpen}
+                      onOpenChange={setExamDialogOpen}
+                    >
+                      <DialogTrigger asChild>
+                        <Button
+                          className="gap-2"
+                          onClick={() => {
+                            setEditingExam(null);
+                            setExamForm({
+                              examType: "Duolingo",
+                              mentorship: "",
+                              examRoomService: "",
+                              sum: "",
+                            });
+                          }}
+                        >
+                          <Plus className="w-4 h-4 mr-2" />
+                          Add Exam
                         </Button>
-                      </form>
-                    </DialogContent>
-                  </Dialog>
-                </CardHeader>
-                <CardContent>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Exam Type</TableHead>
-                        <TableHead>Price (ETB)</TableHead>
-                        <TableHead>Description</TableHead>
-                        <TableHead className="text-right">Actions</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {exams.map((exam) => (
-                        <TableRow key={exam.id}>
-                          <TableCell className="font-medium">
-                            {exam.name}
-                          </TableCell>
-                          <TableCell>{exam.price.toLocaleString()}</TableCell>
-                          <TableCell className="max-w-xs truncate">
-                            {exam.description}
-                          </TableCell>
-                          <TableCell className="text-right">
-                            <div className="flex justify-end gap-2">
-                              <Button
-                                variant="outline"
-                                size="icon"
-                                onClick={() => {
-                                  setEditingExam(exam);
-                                  setIsExamDialogOpen(true);
-                                }}
-                              >
-                                <Pencil className="h-4 w-4" />
-                              </Button>
-                              <Button
-                                variant="destructive"
-                                size="icon"
-                                onClick={() => handleDeleteExam(exam.id)}
-                              >
-                                <Trash2 className="h-4 w-4" />
-                              </Button>
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
+                      </DialogTrigger>
+                      <DialogContent className="bg-card">
+                        <DialogHeader>
+                          <DialogTitle>
+                            {editingExam ? "Edit Exam" : "Add New Exam"}
+                          </DialogTitle>
+                        </DialogHeader>
+                        <div className="space-y-4 mt-4">
+                          <div>
+                            <Label>Exam Type</Label>
+                            <Select
+                              value={examForm.examType}
+                              onValueChange={(
+                                value:
+                                  | "Duolingo"
+                                  | "TOEFL"
+                                  | "Pearson"
+                                  | "IELTS Home"
+                                  | "Others"
+                              ) =>
+                                setExamForm({ ...examForm, examType: value })
+                              }
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select exam type" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="Duolingo">
+                                  Duolingo
+                                </SelectItem>
+                                <SelectItem value="TOEFL">TOEFL</SelectItem>
+                                <SelectItem value="Pearson">Pearson</SelectItem>
+                                <SelectItem value="IELTS Home">
+                                  IELTS Home
+                                </SelectItem>
+                                <SelectItem value="Others">Others</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div>
+                            <Label>Mentorship</Label>
+                            <Input
+                              value={examForm.mentorship}
+                              onChange={(e) =>
+                                setExamForm({
+                                  ...examForm,
+                                  mentorship: e.target.value,
+                                })
+                              }
+                              placeholder="e.g., 2 days (in person)"
+                            />
+                          </div>
+                          <div>
+                            <Label>Exam Room Service (ETB)</Label>
+                            <Input
+                              type="number"
+                              value={examForm.examRoomService}
+                              onChange={(e) =>
+                                setExamForm({
+                                  ...examForm,
+                                  examRoomService: e.target.value,
+                                })
+                              }
+                              placeholder="e.g., 5000"
+                            />
+                          </div>
+                          <div>
+                            <Label>Sum (ETB)</Label>
+                            <Input
+                              type="number"
+                              value={examForm.sum}
+                              onChange={(e) =>
+                                setExamForm({
+                                  ...examForm,
+                                  sum: e.target.value,
+                                })
+                              }
+                              placeholder="e.g., 8000"
+                            />
+                          </div>
+                          <Button onClick={handleAddExam} className="w-full">
+                            {editingExam ? "Update Exam" : "Add Exam"}
+                          </Button>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="text-left py-3 px-4 text-muted-foreground font-medium">
+                            Exam Type
+                          </th>
+                          <th className="text-left py-3 px-4 text-muted-foreground font-medium">
+                            Mentorship
+                          </th>
+                          <th className="text-left py-3 px-4 text-muted-foreground font-medium">
+                            Exam Room Service
+                          </th>
+                          <th className="text-left py-3 px-4 text-muted-foreground font-medium">
+                            Sum
+                          </th>
+                          <th className="text-right py-3 px-4 text-muted-foreground font-medium">
+                            Actions
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {exams.map((exam) => (
+                          <tr
+                            key={exam.id}
+                            className="border-b hover:bg-muted/5"
+                          >
+                            <td className="py-4 px-4 font-medium text-neutral-dark">
+                              {exam.examType}
+                            </td>
+                            <td className="py-4 px-4 text-neutral-dark">
+                              {exam.mentorship}
+                            </td>
+                            <td className="py-4 px-4 text-neutral-dark">
+                              {exam.examType === "Others"
+                                ? "-"
+                                : exam.examRoomService.toLocaleString() +
+                                  " ETB"}
+                            </td>
+                            <td className="py-4 px-4 text-neutral-dark">
+                              {exam.examType === "Others"
+                                ? "-"
+                                : exam.sum.toLocaleString() + " ETB"}
+                            </td>
+                            <td className="py-4 px-4">
+                              <div className="flex justify-end gap-2">
+                                <Button
+                                  variant="outline"
+                                  size="icon"
+                                  onClick={() => handleEditExam(exam)}
+                                  className="h-8 w-8"
+                                >
+                                  <Pencil className="w-4 h-4" />
+                                </Button>
+                                <Button
+                                  variant="destructive"
+                                  size="icon"
+                                  onClick={() => handleDeleteExam(exam.id)}
+                                  className="h-8 w-8 border-destructive/30 hover:bg-destructive/10"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </Button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -812,53 +996,115 @@ const Admin = () => {
                 </CardContent>
               </Card>
             </TabsContent>
-             <TabsContent value="Resources">
+            <TabsContent value="Resources">
               <Card className="bg-white">
                 <CardContent className="p-6">
                   <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-semibold text-neutral-dark">Manage Resources</h2>
-                    <Dialog open={resourceDialogOpen} onOpenChange={setResourceDialogOpen}>
+                    <h2 className="text-xl font-semibold text-neutral-dark">
+                      Manage Resources
+                    </h2>
+                    <Dialog
+                      open={resourceDialogOpen}
+                      onOpenChange={setResourceDialogOpen}
+                    >
                       <DialogTrigger asChild>
-                        <Button className="bg-accent text-accent-foreground hover:bg-accent/90" onClick={() => { setEditingResource(null); setResourceForm({ type: "pdf", title: "", description: "", url: "", videoType: "youtube", videoFile: null, pdfFile: null, pdfUploadMode: "url" }); }}>
+                        <Button
+                          className="bg-accent text-accent-foreground hover:bg-accent/90"
+                          onClick={() => {
+                            setEditingResource(null);
+                            setResourceForm({
+                              type: "pdf",
+                              title: "",
+                              description: "",
+                              url: "",
+                              videoType: "youtube",
+                              videoFile: null,
+                              pdfFile: null,
+                              pdfUploadMode: "url",
+                            });
+                          }}
+                        >
                           <Plus className="w-4 h-4 mr-2" />
                           Add Resource
                         </Button>
                       </DialogTrigger>
                       <DialogContent className="bg-white">
                         <DialogHeader>
-                          <DialogTitle>{editingResource ? "Edit Resource" : "Add New Resource"}</DialogTitle>
+                          <DialogTitle>
+                            {editingResource
+                              ? "Edit Resource"
+                              : "Add New Resource"}
+                          </DialogTitle>
                         </DialogHeader>
                         <div className="space-y-4 mt-4">
                           <div>
                             <Label>Resource Type</Label>
-                            <Select value={resourceForm.type} onValueChange={(value: "pdf" | "video") => setResourceForm({ ...resourceForm, type: value })}>
+                            <Select
+                              value={resourceForm.type}
+                              onValueChange={(value: "pdf" | "video") =>
+                                setResourceForm({
+                                  ...resourceForm,
+                                  type: value,
+                                })
+                              }
+                            >
                               <SelectTrigger>
                                 <SelectValue />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="pdf">PDF Document</SelectItem>
+                                <SelectItem value="pdf">
+                                  PDF Document
+                                </SelectItem>
                                 <SelectItem value="video">Video</SelectItem>
                               </SelectContent>
                             </Select>
                           </div>
                           <div>
                             <Label>Title</Label>
-                            <Input value={resourceForm.title} onChange={e => setResourceForm({ ...resourceForm, title: e.target.value })} placeholder="Resource title" />
+                            <Input
+                              value={resourceForm.title}
+                              onChange={(e) =>
+                                setResourceForm({
+                                  ...resourceForm,
+                                  title: e.target.value,
+                                })
+                              }
+                              placeholder="Resource title"
+                            />
                           </div>
                           <div>
                             <Label>Description</Label>
-                            <Input value={resourceForm.description} onChange={e => setResourceForm({ ...resourceForm, description: e.target.value })} placeholder="Brief description" />
+                            <Input
+                              value={resourceForm.description}
+                              onChange={(e) =>
+                                setResourceForm({
+                                  ...resourceForm,
+                                  description: e.target.value,
+                                })
+                              }
+                              placeholder="Brief description"
+                            />
                           </div>
                           {resourceForm.type === "pdf" && (
                             <div>
                               <Label>PDF Source</Label>
-                              <Select value={resourceForm.pdfUploadMode} onValueChange={(value: "url" | "upload") => setResourceForm({ ...resourceForm, pdfUploadMode: value })}>
+                              <Select
+                                value={resourceForm.pdfUploadMode}
+                                onValueChange={(value: "url" | "upload") =>
+                                  setResourceForm({
+                                    ...resourceForm,
+                                    pdfUploadMode: value,
+                                  })
+                                }
+                              >
                                 <SelectTrigger>
                                   <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
                                   <SelectItem value="url">URL Link</SelectItem>
-                                  <SelectItem value="upload">Upload File</SelectItem>
+                                  <SelectItem value="upload">
+                                    Upload File
+                                  </SelectItem>
                                 </SelectContent>
                               </Select>
                             </div>
@@ -866,19 +1112,36 @@ const Admin = () => {
                           {resourceForm.type === "video" && (
                             <div>
                               <Label>Video Source</Label>
-                              <Select value={resourceForm.videoType} onValueChange={(value: "youtube" | "social" | "upload") => setResourceForm({ ...resourceForm, videoType: value })}>
+                              <Select
+                                value={resourceForm.videoType}
+                                onValueChange={(
+                                  value: "youtube" | "social" | "upload"
+                                ) =>
+                                  setResourceForm({
+                                    ...resourceForm,
+                                    videoType: value,
+                                  })
+                                }
+                              >
                                 <SelectTrigger>
                                   <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                  <SelectItem value="youtube">YouTube Link</SelectItem>
-                                  <SelectItem value="social">Social Media Link</SelectItem>
-                                  <SelectItem value="upload">Upload File</SelectItem>
+                                  <SelectItem value="youtube">
+                                    YouTube Link
+                                  </SelectItem>
+                                  <SelectItem value="social">
+                                    Social Media Link
+                                  </SelectItem>
+                                  <SelectItem value="upload">
+                                    Upload File
+                                  </SelectItem>
                                 </SelectContent>
                               </Select>
                             </div>
                           )}
-                          {resourceForm.type === "pdf" && resourceForm.pdfUploadMode === "upload" ? (
+                          {resourceForm.type === "pdf" &&
+                          resourceForm.pdfUploadMode === "upload" ? (
                             <div>
                               <Label>Upload PDF File</Label>
                               <div className="mt-2">
@@ -886,13 +1149,20 @@ const Admin = () => {
                                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                     <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
                                     {resourceForm.pdfFile ? (
-                                      <p className="text-sm text-primary font-medium">{resourceForm.pdfFile.name}</p>
+                                      <p className="text-sm text-primary font-medium">
+                                        {resourceForm.pdfFile.name}
+                                      </p>
                                     ) : (
                                       <>
                                         <p className="mb-1 text-sm text-muted-foreground">
-                                          <span className="font-semibold">Click to upload</span> or drag and drop
+                                          <span className="font-semibold">
+                                            Click to upload
+                                          </span>{" "}
+                                          or drag and drop
                                         </p>
-                                        <p className="text-xs text-muted-foreground">PDF files only (MAX. 50MB)</p>
+                                        <p className="text-xs text-muted-foreground">
+                                          PDF files only (MAX. 50MB)
+                                        </p>
                                       </>
                                     )}
                                   </div>
@@ -905,7 +1175,8 @@ const Admin = () => {
                                 </label>
                               </div>
                             </div>
-                          ) : resourceForm.type === "video" && resourceForm.videoType === "upload" ? (
+                          ) : resourceForm.type === "video" &&
+                            resourceForm.videoType === "upload" ? (
                             <div>
                               <Label>Upload Video File</Label>
                               <div className="mt-2">
@@ -913,13 +1184,20 @@ const Admin = () => {
                                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                     <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
                                     {resourceForm.videoFile ? (
-                                      <p className="text-sm text-primary font-medium">{resourceForm.videoFile.name}</p>
+                                      <p className="text-sm text-primary font-medium">
+                                        {resourceForm.videoFile.name}
+                                      </p>
                                     ) : (
                                       <>
                                         <p className="mb-1 text-sm text-muted-foreground">
-                                          <span className="font-semibold">Click to upload</span> or drag and drop
+                                          <span className="font-semibold">
+                                            Click to upload
+                                          </span>{" "}
+                                          or drag and drop
                                         </p>
-                                        <p className="text-xs text-muted-foreground">MP4, WebM, MOV (MAX. 100MB)</p>
+                                        <p className="text-xs text-muted-foreground">
+                                          MP4, WebM, MOV (MAX. 100MB)
+                                        </p>
                                       </>
                                     )}
                                   </div>
@@ -934,12 +1212,34 @@ const Admin = () => {
                             </div>
                           ) : (
                             <div>
-                              <Label>{resourceForm.type === "pdf" ? "PDF URL" : "Video URL"}</Label>
-                              <Input value={resourceForm.url} onChange={e => setResourceForm({ ...resourceForm, url: e.target.value })} placeholder={resourceForm.type === "pdf" ? "https://example.com/file.pdf" : "https://youtube.com/watch?v=..."} />
+                              <Label>
+                                {resourceForm.type === "pdf"
+                                  ? "PDF URL"
+                                  : "Video URL"}
+                              </Label>
+                              <Input
+                                value={resourceForm.url}
+                                onChange={(e) =>
+                                  setResourceForm({
+                                    ...resourceForm,
+                                    url: e.target.value,
+                                  })
+                                }
+                                placeholder={
+                                  resourceForm.type === "pdf"
+                                    ? "https://example.com/file.pdf"
+                                    : "https://youtube.com/watch?v=..."
+                                }
+                              />
                             </div>
                           )}
-                          <Button onClick={handleAddResource} className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                            {editingResource ? "Update Resource" : "Add Resource"}
+                          <Button
+                            onClick={handleAddResource}
+                            className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
+                          >
+                            {editingResource
+                              ? "Update Resource"
+                              : "Add Resource"}
                           </Button>
                         </div>
                       </DialogContent>
@@ -953,36 +1253,43 @@ const Admin = () => {
                       Downloadable Guides ({pdfResources.length})
                     </h3>
                     <div className="grid gap-3">
-                      {pdfResources.map(resource => (
-                        <div key={resource.id} className="p-4 border rounded-lg flex justify-between items-center hover:bg-muted/5">
+                      {pdfResources.map((resource) => (
+                        <div
+                          key={resource.id}
+                          className="p-4 border rounded-lg flex justify-between items-center hover:bg-muted/5"
+                        >
                           <div className="flex items-center gap-4">
                             <div className="p-2 bg-primary/10 rounded-lg">
                               <FileDown className="w-5 h-5 text-primary" />
                             </div>
                             <div>
-                              <p className="font-medium text-neutral-dark">{resource.title}</p>
-                              <p className="text-sm text-muted-foreground">{resource.description}</p>
+                              <p className="font-medium text-neutral-dark">
+                                {resource.title}
+                              </p>
+                              <p className="text-sm text-muted-foreground">
+                                {resource.description}
+                              </p>
                             </div>
                           </div>
-                         <div className="flex justify-end gap-2">
-                              <Button
-                                variant="outline"
-                                size="icon"
-                                onClick={() => {
-                                  setEditingResource(resource);
-                                  setResourceDialogOpen(true);
-                                }}
-                              >
-                                <Pencil className="h-4 w-4" />
-                              </Button>
-                              <Button
-                                variant="destructive"
-                                size="icon"
-                                onClick={() => handleDeleteResource(resource.id)}
-                              >
-                                <Trash2 className="h-4 w-4" />
-                              </Button>
-                            </div>
+                          <div className="flex justify-end gap-2">
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              onClick={() => {
+                                setEditingResource(resource);
+                                setResourceDialogOpen(true);
+                              }}
+                            >
+                              <Pencil className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="destructive"
+                              size="icon"
+                              onClick={() => handleDeleteResource(resource.id)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -995,42 +1302,55 @@ const Admin = () => {
                       Video Resources ({videoResources.length})
                     </h3>
                     <div className="grid md:grid-cols-2 gap-4">
-                      {videoResources.map(resource => (
-                        <div key={resource.id} className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                      {videoResources.map((resource) => (
+                        <div
+                          key={resource.id}
+                          className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow"
+                        >
                           <div className="aspect-video bg-neutral-dark flex items-center justify-center relative">
                             <Video className="w-12 h-12 text-white/50" />
                             <div className="absolute top-2 right-2 flex gap-1">
                               <span className="px-2 py-0.5 bg-white/20 text-white text-xs rounded-full flex items-center gap-1">
                                 <LinkIcon className="w-3 h-3" />
-                                {resource.videoType === "youtube" ? "YouTube" : resource.videoType === "social" ? "Social" : "Upload"}
+                                {resource.videoType === "youtube"
+                                  ? "YouTube"
+                                  : resource.videoType === "social"
+                                  ? "Social"
+                                  : "Upload"}
                               </span>
                             </div>
                           </div>
                           <div className="p-4 bg-white">
                             <div className="flex justify-between items-start">
                               <div>
-                                <p className="font-medium text-neutral-dark">{resource.title}</p>
-                                <p className="text-sm text-primary">{resource.description} ↗</p>
+                                <p className="font-medium text-neutral-dark">
+                                  {resource.title}
+                                </p>
+                                <p className="text-sm text-primary">
+                                  {resource.description} ↗
+                                </p>
                               </div>
                               <div className="flex justify-end gap-2">
-                              <Button
-                                variant="outline"
-                                size="icon"
-                                onClick={() => {
-                                  setEditingResource(resource);
-                                  setResourceDialogOpen(true);
-                                }}
-                              >
-                                <Pencil className="h-4 w-4" />
-                              </Button>
-                              <Button
-                                variant="destructive"
-                                size="icon"
-                                onClick={() => handleDeleteResource(resource.id)}
-                              >
-                                <Trash2 className="h-4 w-4" />
-                              </Button>
-                            </div>
+                                <Button
+                                  variant="outline"
+                                  size="icon"
+                                  onClick={() => {
+                                    setEditingResource(resource);
+                                    setResourceDialogOpen(true);
+                                  }}
+                                >
+                                  <Pencil className="h-4 w-4" />
+                                </Button>
+                                <Button
+                                  variant="destructive"
+                                  size="icon"
+                                  onClick={() =>
+                                    handleDeleteResource(resource.id)
+                                  }
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </div>
                             </div>
                           </div>
                         </div>
