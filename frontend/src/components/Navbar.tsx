@@ -105,6 +105,7 @@ export function Navbar({
           ))}
 
           {/* Mobile Log in */}
+           <Link to="/admin">
           <button
             className="mt-4 w-full px-5 py-2 rounded-lg border border-secondary-foreground/30
                        bg-yellow-400 font-medium text-black
@@ -115,6 +116,7 @@ export function Navbar({
           >
             Log in
           </button>
+          </Link>
         </div>
       )}
     </nav>
