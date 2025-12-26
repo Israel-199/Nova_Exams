@@ -33,6 +33,7 @@ import {
   Video,
   FileDown,
   Book,
+  Link,
 } from "lucide-react";
 import { toast } from "sonner";
 import img1 from "@/assets/student-1.jpg";
@@ -45,6 +46,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { redirect } from "react-router-dom";
 
 interface Resource {
   id: string;
@@ -214,8 +216,6 @@ const Admin = () => {
     (typeof initialBlogPosts)[0] | null
   >(null);
   const [editingResource, setEditingResource] = useState<Resource | null>(null);
-
-  const [isExamDialogOpen, setIsExamDialogOpen] = useState(false);
   const [isTestimonialDialogOpen, setIsTestimonialDialogOpen] = useState(false);
   const [isBlogDialogOpen, setIsBlogDialogOpen] = useState(false);
 
@@ -405,22 +405,6 @@ const Admin = () => {
     setEditingResource(null);
     setResourceDialogOpen(false);
   };
-
-  const handleEditResource = (resource: Resource) => {
-    setEditingResource(resource);
-    setResourceForm({
-      type: resource.type,
-      title: resource.title,
-      description: resource.description,
-      url: resource.url,
-      videoType: resource.videoType || "youtube",
-      videoFile: null,
-      pdfFile: null,
-      pdfUploadMode: "url",
-    });
-    setResourceDialogOpen(true);
-  };
-
   const handleDeleteResource = (id: string) => {
     setResources(resources.filter((r) => r.id !== id));
     toast.success("Resource deleted");
@@ -430,7 +414,13 @@ const Admin = () => {
   const videoResources = resources.filter((r) => r.type === "video");
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      <div className="absolute top-4 right-4">
+        <Button onClick={() => {}} variant="destructive">
+          Logout
+        </Button>
+      </div>
+
       <main>
         <div className="container mx-auto px-4 py-12">
           <div className="mb-8">
@@ -441,7 +431,6 @@ const Admin = () => {
               Manage exams, testimonials, blog posts and resources
             </p>
           </div>
-
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
@@ -1367,5 +1356,4 @@ const Admin = () => {
     </div>
   );
 };
-
 export default Admin;
