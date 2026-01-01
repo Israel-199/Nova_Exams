@@ -12,7 +12,6 @@ const navItems = [
 ];
 
 interface NavbarProps {
-  /** Tailwind class or CSS variable for background */
   bgColor?: string;
 }
 
@@ -59,16 +58,16 @@ export function Navbar({
         <div className="flex items-center gap-4">
           {/* Desktop Log in */}
           <Link to="/admin">
-          <button
-            className="hidden lg:block px-5 py-2 rounded-lg border border-secondary-foreground/30
+            <button
+              className="hidden lg:block px-5 py-2 rounded-lg border border-secondary-foreground/30
                        bg-yellow-400 font-medium text-black
                        transform transition-all duration-300
                        hover:bg-yellow-400/90 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-lg
                        focus-visible:-translate-y-1 focus-visible:-translate-x-1 focus-visible:shadow-lg
                        active:translate-x-0 active:translate-y-0 active:shadow-md"
-          >
-            Log in
-          </button>
+            >
+              Log in
+            </button>
           </Link>
 
           {/* Mobile Menu Toggle */}
@@ -103,19 +102,17 @@ export function Navbar({
               ))}
             </Link>
           ))}
-
-          {/* Mobile Log in */}
-           <Link to="/admin">
-          <button
-            className="mt-4 w-full px-5 py-2 rounded-lg border border-secondary-foreground/30
+          <Link to="/admin">
+            <button
+              className="mt-4 w-full px-5 py-2 rounded-lg border border-secondary-foreground/30
                        bg-yellow-400 font-medium text-black
                        transform transition-all duration-300
                        hover:bg-yellow-400/90 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-lg
                        focus-visible:-translate-y-1 focus-visible:-translate-x-1 focus-visible:shadow-lg
                        active:translate-x-0 active:translate-y-0 active:shadow-md"
-          >
-            Log in
-          </button>
+            >
+              Log in
+            </button>
           </Link>
         </div>
       )}
