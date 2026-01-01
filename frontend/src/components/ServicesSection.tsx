@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { BookOpen, Users, Monitor, Award, Clock, Shield } from "lucide-react";
+import { motion } from "framer-motion";
 
 const services = [
   {
@@ -47,7 +48,12 @@ export function ServicesSection() {
     <section className="py-24 bg-muted">
       <div className="container mx-auto px-4">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-2xl mx-auto mb-16"
+        >
           <span className="inline-block px-4 py-1 rounded-full bg-secondary/10 text-secondary font-medium text-sm mb-4">
             Our Services
           </span>
@@ -59,37 +65,52 @@ export function ServicesSection() {
             We provide comprehensive services to ensure your exam journey is
             smooth and successful.
           </p>
-        </div>
+        </motion.div>
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, index) => (
-            <Card
+            <motion.div
               key={service.title}
-              className="group bg-card border-border hover:border-secondary/50 hover:shadow-lg transition-all duration-300"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
+              whileHover={{ scale: 1.05 }}
             >
-              <CardContent className="p-6">
-                <div className="w-12 h-12 rounded-xl bg-gradient-secondary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <service.icon className="w-6 h-6 text-secondary-foreground" />
-                </div>
-                <h3 className="font-display font-semibold text-lg text-foreground mb-2">
-                  {service.title}
-                </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  {service.description}
-                </p>
-              </CardContent>
-            </Card>
+              <Card className="group bg-card border-border shadow-md hover:shadow-xl transition-all duration-300">
+                <CardContent className="p-6">
+                  <motion.div
+                    animate={{ y: [0, -5, 0] }}
+                    transition={{ repeat: Infinity, duration: 2 }}
+                    className="w-12 h-12 rounded-xl bg-gradient-secondary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-sm"
+                  >
+                    <service.icon className="w-6 h-6 text-secondary-foreground" />
+                  </motion.div>
+                  <h3 className="font-display font-semibold text-lg text-foreground mb-2">
+                    {service.title}
+                  </h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    {service.description}
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
         </div>
 
         {/* CTA */}
-        <div className="text-center mt-12">
-          <Button variant="cta" size="lg" asChild>
-            <Link to="/booking">Explore All Services</Link>
-          </Button>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="text-center mt-12"
+        >
+          <motion.div whileHover={{ scale: 1.05 }}>
+            <Button variant="cta" size="lg" asChild>
+              <Link to="/booking">Explore All Services</Link>
+            </Button>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
