@@ -1,13 +1,17 @@
-// import { Navbar } from "@/components/Navbar";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Search, Calendar, Clock, User, ArrowRight } from "lucide-react";
+
+import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ChatBot } from "@/components/ChatBot";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Calendar, Clock, User, Search } from "lucide-react";
-import { useState } from "react";
-import { Navbar } from "@/components/Navbar";
+
+/* -------------------- DATA -------------------- */
 
 const posts = [
   {
@@ -62,6 +66,23 @@ const categories = [
   "Guides",
 ];
 
+/* -------------------- ANIMATIONS -------------------- */
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
+
+/* -------------------- COMPONENT -------------------- */
+
 const Blog = () => {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
@@ -70,20 +91,22 @@ const Blog = () => {
     const matchesSearch = post.title
       .toLowerCase()
       .includes(search.toLowerCase());
+
     const matchesCategory =
       activeCategory === "All" || post.category === activeCategory;
+
     return matchesSearch && matchesCategory;
   });
 
   return (
     <div className="min-h-screen bg-background">
-      {/* <Navbar /> */}
       <Navbar bgColor="bg-gradient-secondary" />
+
       <main className="pt-20">
-        {/* Hero */}
+        {/* ---------------- HERO ---------------- */}
         <section className="py-16 bg-gradient-secondary">
           <div className="container mx-auto px-4 text-center">
-            <h1 className="font-display text-4xl md:text-5xl font-bold text-secondary-foreground mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold text-secondary-foreground mb-6">
               Nova <span className="text-primary">Blog</span>
             </h1>
             <p className="text-secondary-foreground/90 text-lg max-w-2xl mx-auto">
@@ -93,85 +116,106 @@ const Blog = () => {
           </div>
         </section>
 
-        {/* Blog Content */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            {/* Search & Filters */}
-            <div className="flex flex-col md:flex-row gap-4 mb-12">
-              <div className="relative flex-1 max-w-md">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                <Input
-                  placeholder="Search articles..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {categories.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => setActiveCategory(cat)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                      activeCategory === cat
-                        ? "bg-secondary text-secondary-foreground"
-                        : "bg-muted text-muted-foreground hover:bg-muted/80"
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
+        {/* ---------------- CONTENT ---------------- */}
+        <div className="container mx-auto px-4 py-12">
+          {/* Search + Categories */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col lg:flex-row gap-4 mb-10 items-center justify-center"
+          >
+            <div className="relative w-full lg:w-96">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+              <Input
+                placeholder="Search articles..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="pl-12 py-6 rounded-xl"
+              />
             </div>
 
-            {/* Posts Grid */}
-            <div className="grid md:grid-cols-2 gap-6">
-              {filteredPosts.map((post) => (
-                <Card
-                  key={post.id}
-                  className="bg-card border-border hover:border-secondary/50 transition-colors group cursor-pointer"
+            <div className="flex flex-wrap gap-2 justify-center">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`px-4 py-2 rounded-xl text-sm font-medium transition ${
+                    activeCategory === cat
+                      ? "bg-secondary text-secondary-foreground"
+                      : "bg-card border"
+                  }`}
                 >
-                  <CardHeader>
-                    <div className="flex items-center gap-2 mb-2">
-                      <Badge className="bg-primary/10 text-primary hover:bg-primary/20">
-                        {post.category}
-                      </Badge>
-                    </div>
-                    <CardTitle className="font-display text-xl group-hover:text-secondary transition-colors">
-                      {post.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground mb-4">{post.excerpt}</p>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                      <span className="flex items-center gap-1">
-                        <User className="w-4 h-4" />
-                        {post.author}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Calendar className="w-4 h-4" />
-                        {post.date}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-4 h-4" />
-                        {post.readTime}
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
+                  {cat}
+                </button>
               ))}
             </div>
+          </motion.div>
 
-            {filteredPosts.length === 0 && (
-              <div className="text-center py-12">
-                <p className="text-muted-foreground">
-                  No articles found. Try a different search term.
-                </p>
-              </div>
-            )}
-          </div>
-        </section>
+          {/* Posts */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-col gap-5 max-w-3xl mx-auto"
+          >
+            <AnimatePresence>
+              {filteredPosts.map((post) => (
+                <motion.div key={post.id} variants={cardVariants} layout>
+                  <Card className="rounded-2xl hover:shadow-lg transition">
+                    <CardContent className="p-6 space-y-3">
+                      <div className="flex items-center gap-3">
+                        <Badge>{post.category}</Badge>
+                        <span className="text-xs text-muted-foreground flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          {post.readTime}
+                        </span>
+                      </div>
+
+                      <h3 className="text-xl font-bold">{post.title}</h3>
+                      <p className="text-sm text-muted-foreground">
+                        {post.excerpt}
+                      </p>
+
+                      <div className="flex justify-between items-center pt-2">
+                        <div className="flex gap-4 text-xs text-muted-foreground">
+                          <span className="flex items-center gap-1">
+                            <User className="w-3 h-3" />
+                            {post.author}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Calendar className="w-3 h-3" />
+                            {post.date}
+                          </span>
+                        </div>
+
+                        <span className="flex items-center gap-1 text-secondary font-medium">
+                          Read more <ArrowRight className="w-4 h-4" />
+                        </span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+
+          {/* Empty State */}
+          {filteredPosts.length === 0 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center py-20"
+            >
+              <Search className="w-10 h-10 mx-auto mb-4 text-muted-foreground" />
+              <p className="text-muted-foreground">
+                No articles found. Try a different search term.
+              </p>
+            </motion.div>
+          )}
+        </div>
       </main>
+
       <Footer />
       <ChatBot />
       <WhatsAppButton />
