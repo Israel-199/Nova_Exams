@@ -1,10 +1,6 @@
 import { useState } from "react";
 import {
-  Menu,
   X,
-  Users,
-  Play,
-  Cloud,
   Star,
   Award,
   ArrowRight,

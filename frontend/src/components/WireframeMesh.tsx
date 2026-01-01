@@ -13,12 +13,12 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
   const dotsRef = useRef<THREE.Points>(null);
   const glowDotsRef = useRef<THREE.Points>(null);
 
-  // Smoothed mouse for fluid animation
   const smoothedMouse = useRef({ x: 0, y: 0 });
   const time = useRef(0);
 
-  const gridCols = 50;
-  const gridRows = 30;
+  // Reduced density
+  const gridCols = 55;
+  const gridRows = 40;
   const spacingX = 0.28;
   const spacingY = 0.28;
 
@@ -29,7 +29,6 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
       const origDots: number[] = [];
       const glow: number[] = [];
 
-      // Create uniform grid of points
       for (let i = 0; i < gridRows; i++) {
         for (let j = 0; j < gridCols; j++) {
           const x = (j - gridCols / 2) * spacingX;
@@ -42,7 +41,6 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
         }
       }
 
-      // Create grid lines (horizontal + vertical)
       for (let i = 0; i < gridRows; i++) {
         for (let j = 0; j < gridCols; j++) {
           const idx = (i * gridCols + j) * 3;
@@ -50,7 +48,6 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
           const y1 = dots[idx + 1];
           const z1 = dots[idx + 2];
 
-          // Horizontal lines
           if (j < gridCols - 1) {
             const nextIdx = (i * gridCols + j + 1) * 3;
             lines.push(
@@ -63,7 +60,6 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
             );
           }
 
-          // Vertical lines
           if (i < gridRows - 1) {
             const nextIdx = ((i + 1) * gridCols + j) * 3;
             lines.push(
@@ -91,7 +87,6 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
 
     time.current += delta;
 
-    // Smooth mouse interpolation
     const lerpFactor = Math.min(delta * 6, 1);
     smoothedMouse.current.x +=
       (mousePosition.x - smoothedMouse.current.x) * lerpFactor;
@@ -107,7 +102,6 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
 
     const pointCount = dotPos.length / 3;
 
-    // Update dot positions
     for (let i = 0; i < pointCount; i++) {
       const ox = originalDotPositions[i * 3];
       const oy = originalDotPositions[i * 3 + 1];
@@ -116,16 +110,15 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
       const currentY = dotPos[i * 3 + 1];
       const currentZ = dotPos[i * 3 + 2];
 
-      // Subtle idle drift animation
-      const driftX = Math.sin(time.current * 0.3 + ox * 2) * 0.015;
-      const driftY = Math.cos(time.current * 0.25 + oy * 2) * 0.015;
+      // Softer idle drift
+      const driftX = Math.sin(time.current * 0.2 + ox * 2) * 0.01;
+      const driftY = Math.cos(time.current * 0.15 + oy * 2) * 0.01;
 
       let targetX = ox + driftX;
       let targetY = oy + driftY;
       let targetZ = 0;
 
       if (isHovering) {
-        // Mouse position in world space
         const mouseWorldX = smoothedMouse.current.x * 6;
         const mouseWorldY = smoothedMouse.current.y * 4;
 
@@ -133,36 +126,31 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
         const dy = mouseWorldY - oy;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
-        // Smooth attraction radius
         const radius = 3.0;
         const influence = Math.max(0, 1 - dist / radius);
 
-        // Organic easing curve
         const eased =
           influence *
           influence *
           influence *
           (influence * (influence * 6 - 15) + 10);
-        const warpStrength = eased * 0.8;
+        const warpStrength = eased * 0.6;
 
         if (warpStrength > 0.001) {
-          // Gentle flow toward cursor
           const angle = Math.atan2(dy, dx);
-          const pullStrength = warpStrength * 0.4;
+          const pullStrength = warpStrength * 0.3;
 
           targetX = ox + Math.cos(angle) * dist * pullStrength + driftX;
           targetY = oy + Math.sin(angle) * dist * pullStrength + driftY;
-          targetZ = -warpStrength * 0.8; // Subtle depth
+          targetZ = -warpStrength * 0.6;
         }
       }
 
-      // Very smooth interpolation
       const smoothFactor = isHovering ? 0.08 : 0.04;
       dotPos[i * 3] = currentX + (targetX - currentX) * smoothFactor;
       dotPos[i * 3 + 1] = currentY + (targetY - currentY) * smoothFactor;
       dotPos[i * 3 + 2] = currentZ + (targetZ - currentZ) * smoothFactor;
 
-      // Glow dots follow with slight lag
       glowPos[i * 3] = dotPos[i * 3];
       glowPos[i * 3 + 1] = dotPos[i * 3 + 1];
       glowPos[i * 3 + 2] = dotPos[i * 3 + 2] - 0.01;
@@ -171,7 +159,6 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
     dotAttr.needsUpdate = true;
     glowAttr.needsUpdate = true;
 
-    // Update lines to follow dots
     let lineIdx = 0;
     for (let i = 0; i < gridRows; i++) {
       for (let j = 0; j < gridCols; j++) {
@@ -201,15 +188,14 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
 
     lineAttr.needsUpdate = true;
 
-    // Animate glow opacity based on hover
     const glowMaterial = glowDotsRef.current.material as THREE.PointsMaterial;
-    const targetOpacity = isHovering ? 0.25 : 0.08;
+    const targetOpacity = isHovering ? 0.15 : 0.05;
     glowMaterial.opacity += (targetOpacity - glowMaterial.opacity) * 0.05;
   });
 
   return (
     <group ref={groupRef} position={[0, 0, 0]}>
-      {/* Main grid lines - soft cyan/teal */}
+      {/* Lines */}
       <lineSegments ref={linesRef}>
         <bufferGeometry>
           <bufferAttribute
@@ -219,10 +205,10 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
             itemSize={3}
           />
         </bufferGeometry>
-        <lineBasicMaterial color="#4fd1c5" transparent opacity={0.08} />
+        <lineBasicMaterial color="#4fd1c5" transparent opacity={0.04} />
       </lineSegments>
 
-      {/* Glow layer for dots - larger, softer */}
+      {/* Glow dots */}
       <points ref={glowDotsRef}>
         <bufferGeometry>
           <bufferAttribute
@@ -233,10 +219,10 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
           />
         </bufferGeometry>
         <pointsMaterial
-          size={0.12}
+          size={0.08} // reduced glow size
           color="#63b3ed"
           transparent
-          opacity={0.08}
+          opacity={0.05} // softer glow
           sizeAttenuation
           blending={THREE.AdditiveBlending}
         />
@@ -253,10 +239,10 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
           />
         </bufferGeometry>
         <pointsMaterial
-          size={0.025}
+          size={0.015} // smaller dots
           color="#81e6d9"
           transparent
-          opacity={0.15}
+          opacity={0.08} // lighter opacity
           sizeAttenuation
         />
       </points>
@@ -265,11 +251,7 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
 }
 
 function Scene({ mousePosition, isHovering }: GridProps) {
-  return (
-    <>
-      <FluidGrid mousePosition={mousePosition} isHovering={isHovering} />
-    </>
-  );
+  return <FluidGrid mousePosition={mousePosition} isHovering={isHovering} />;
 }
 
 export function WireframeMesh() {
@@ -280,14 +262,11 @@ export function WireframeMesh() {
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!containerRef.current) return;
-
       const rect = containerRef.current.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       const y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-
       setMousePosition({ x, y });
     };
-
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
