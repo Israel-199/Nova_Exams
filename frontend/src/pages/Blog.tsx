@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Calendar, Clock, User, ArrowRight } from "lucide-react";
+import { Search, Calendar, Clock, User } from "lucide-react";
 
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -12,7 +12,6 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 
 /* -------------------- DATA -------------------- */
-
 const posts = [
   {
     id: 1,
@@ -56,18 +55,9 @@ const posts = [
   },
 ];
 
-const categories = [
-  "All",
-  "IELTS",
-  "TOEFL",
-  "Duolingo",
-  "TOLC",
-  "GRE",
-  "Guides",
-];
+const categories = ["All", "IELTS", "TOEFL", "Duolingo", "TOLC", "GRE", "Guides"];
 
 /* -------------------- ANIMATIONS -------------------- */
-
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -82,19 +72,13 @@ const cardVariants = {
 };
 
 /* -------------------- COMPONENT -------------------- */
-
 const Blog = () => {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
 
   const filteredPosts = posts.filter((post) => {
-    const matchesSearch = post.title
-      .toLowerCase()
-      .includes(search.toLowerCase());
-
-    const matchesCategory =
-      activeCategory === "All" || post.category === activeCategory;
-
+    const matchesSearch = post.title.toLowerCase().includes(search.toLowerCase());
+    const matchesCategory = activeCategory === "All" || post.category === activeCategory;
     return matchesSearch && matchesCategory;
   });
 
@@ -106,13 +90,22 @@ const Blog = () => {
         {/* ---------------- HERO ---------------- */}
         <section className="py-16 bg-gradient-secondary">
           <div className="container mx-auto px-4 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-secondary-foreground mb-6">
+            <motion.h1
+              initial={{ opacity: 0, y: -30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-4xl md:text-5xl font-bold text-secondary-foreground mb-6"
+            >
               Nova <span className="text-primary">Blog</span>
-            </h1>
-            <p className="text-secondary-foreground/90 text-lg max-w-2xl mx-auto">
-              Expert tips, study guides, and resources to help you succeed in
-              your exams.
-            </p>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-secondary-foreground/90 text-lg max-w-2xl mx-auto"
+            >
+              Expert tips, study guides, and resources to help you succeed in your exams.
+            </motion.p>
           </div>
         </section>
 
@@ -122,7 +115,7 @@ const Blog = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.3 }}
             className="flex flex-col lg:flex-row gap-4 mb-10 items-center justify-center"
           >
             <div className="relative w-full lg:w-96">
@@ -136,9 +129,14 @@ const Blog = () => {
             </div>
 
             <div className="flex flex-wrap gap-2 justify-center">
-              {categories.map((cat) => (
-                <button
+              {categories.map((cat, i) => (
+                <motion.button
                   key={cat}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: i * 0.05 }}
                   onClick={() => setActiveCategory(cat)}
                   className={`px-4 py-2 rounded-xl text-sm font-medium transition ${
                     activeCategory === cat
@@ -147,7 +145,7 @@ const Blog = () => {
                   }`}
                 >
                   {cat}
-                </button>
+                </motion.button>
               ))}
             </div>
           </motion.div>
@@ -161,8 +159,14 @@ const Blog = () => {
           >
             <AnimatePresence>
               {filteredPosts.map((post) => (
-                <motion.div key={post.id} variants={cardVariants} layout>
-                  <Card className="rounded-2xl hover:shadow-lg transition">
+                <motion.div
+                  key={post.id}
+                  variants={cardVariants}
+                  layout
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Card className="rounded-2xl hover:shadow-lg transition-shadow">
                     <CardContent className="p-6 space-y-3">
                       <div className="flex items-center gap-3">
                         <Badge>{post.category}</Badge>
@@ -173,9 +177,7 @@ const Blog = () => {
                       </div>
 
                       <h3 className="text-xl font-bold">{post.title}</h3>
-                      <p className="text-sm text-muted-foreground">
-                        {post.excerpt}
-                      </p>
+                      <p className="text-sm text-muted-foreground">{post.excerpt}</p>
 
                       <div className="flex justify-between items-center pt-2">
                         <div className="flex gap-4 text-xs text-muted-foreground">
