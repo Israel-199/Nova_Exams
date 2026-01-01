@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle } from "lucide-react";
+import { motion } from "framer-motion";
 
 const exams = [
   {
@@ -40,7 +41,12 @@ export function ExamsSection() {
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center max-w-2xl mx-auto mb-16"
+        >
           <span className="inline-block px-4 py-1 rounded-full bg-primary/20 text-primary font-medium text-sm mb-4">
             Exams Offered
           </span>
@@ -51,49 +57,64 @@ export function ExamsSection() {
             We offer a variety of internationally recognized exams to help you
             achieve your educational goals.
           </p>
-        </div>
+        </motion.div>
 
         {/* Exams Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {exams.map((exam, index) => (
-            <Card
+            <motion.div
               key={exam.name}
-              className="bg-indigo-foreground/5 border-indigo-foreground/10 backdrop-blur-sm hover:border-primary/50 transition-all duration-300 group"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              whileHover={{ scale: 1.02 }}
             >
-              <CardHeader>
-                <Badge className="w-fit bg-primary text-primary-foreground mb-2">
-                  {exam.name}
-                </Badge>
-                <CardTitle className="text-indigo-foreground font-display">
-                  {exam.name} Exam
-                </CardTitle>
-                <p className="text-sm text-indigo-foreground/70">
-                  {exam.description}
-                </p>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  {exam.features.map((feature) => (
-                    <li
-                      key={feature}
-                      className="flex items-center gap-2 text-sm text-indigo-foreground/80"
-                    >
-                      <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
+              <Card className="bg-indigo-foreground/5 border-indigo-foreground/10 backdrop-blur-sm hover:border-primary/50 transition-shadow duration-200 hover:shadow-lg">
+                <CardHeader>
+                  <Badge className="w-fit bg-primary text-primary-foreground mb-2">
+                    {exam.name}
+                  </Badge>
+                  <CardTitle className="text-indigo-foreground font-display">
+                    {exam.name} Exam
+                  </CardTitle>
+                  <p className="text-sm text-indigo-foreground/70">
+                    {exam.description}
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-3">
+                    {exam.features.map((feature) => (
+                      <motion.li
+                        key={feature}
+                        initial={{ opacity: 0, x: -10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="flex items-center gap-2 text-sm text-indigo-foreground/80"
+                      >
+                        <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                        <span>{feature}</span>
+                      </motion.li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
         </div>
 
         {/* CTA */}
-        <div className="text-center mt-12">
-          <Button variant="hero" size="lg" asChild>
-            <Link to="/booking">Book Your Exam</Link>
-          </Button>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="text-center mt-12"
+        >
+          <motion.div whileHover={{ scale: 1.05 }}>
+            <Button variant="hero" size="lg" asChild>
+              <Link to="/booking">Book Your Exam</Link>
+            </Button>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
