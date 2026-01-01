@@ -188,10 +188,6 @@ const Blog = () => {
                             {post.date}
                           </span>
                         </div>
-
-                        <span className="flex items-center gap-1 text-secondary font-medium">
-                          Read more <ArrowRight className="w-4 h-4" />
-                        </span>
                       </div>
                     </CardContent>
                   </Card>
