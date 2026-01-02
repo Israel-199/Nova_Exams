@@ -1,0 +1,105 @@
+const prisma = require("../prisma/client");
+
+// Create Blog Post
+exports.createBlogPost = async (req, res) => {
+  try {
+    const blogPost = await prisma.blogPost.create({ data: req.body });
+    res.status(201).json({
+      success: true,
+      message: "Blog post created successfully",
+      data: blogPost,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to create blog post",
+      error: error.message,
+    });
+  }
+};
+
+// Get All Blog Posts
+exports.getBlogPosts = async (req, res) => {
+  try {
+    const blogPosts = await prisma.blogPost.findMany({
+      orderBy: { date: "desc" }, // newest first
+    });
+    res.json({
+      success: true,
+      message: "Blog posts fetched successfully",
+      data: blogPosts,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch blog posts",
+      error: error.message,
+    });
+  }
+};
+
+// Get Single Blog Post
+exports.getBlogPost = async (req, res) => {
+  try {
+    const blogPost = await prisma.blogPost.findUnique({
+      where: { id: req.params.id }, 
+    });
+
+    if (!blogPost) {
+      return res.status(404).json({
+        success: false,
+        message: "Blog post not found",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Blog post fetched successfully",
+      data: blogPost,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch blog post",
+      error: error.message,
+    });
+  }
+};
+
+// Update Blog Post
+exports.updateBlogPost = async (req, res) => {
+  try {
+    const blogPost = await prisma.blogPost.update({
+      where: { id: req.params.id },
+      data: req.body,
+    });
+    res.json({
+      success: true,
+      message: "Blog post updated successfully",
+      data: blogPost,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to update blog post",
+      error: error.message,
+    });
+  }
+};
+
+// Delete Blog Post
+exports.deleteBlogPost = async (req, res) => {
+  try {
+    await prisma.blogPost.delete({ where: { id: req.params.id } });
+    res.json({
+      success: true,
+      message: "Blog post deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete blog post",
+      error: error.message,
+    });
+  }
+};
