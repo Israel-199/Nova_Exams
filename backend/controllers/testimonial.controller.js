@@ -1,24 +1,103 @@
 const prisma = require("../prisma/client");
 
+// Create Testimonial
 exports.createTestimonial = async (req, res) => {
-  const testimonial = await prisma.testimonial.create({ data: req.body });
-  res.json(testimonial);
+  try {
+    const testimonial = await prisma.testimonial.create({ data: req.body });
+    res.status(201).json({
+      success: true,
+      message: "Testimonial created successfully",
+      data: testimonial,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to create testimonial",
+      error: error.message,
+    });
+  }
 };
 
+// Get All Testimonials
 exports.getTestimonials = async (req, res) => {
-  const testimonials = await prisma.testimonial.findMany();
-  res.json(testimonials);
+  try {
+    const testimonials = await prisma.testimonial.findMany();
+    res.json({
+      success: true,
+      message: "Testimonials fetched successfully",
+      data: testimonials,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch testimonials",
+      error: error.message,
+    });
+  }
 };
 
+// Get Single Testimonial
+exports.getTestimonial = async (req, res) => {
+  try {
+    const testimonial = await prisma.testimonial.findUnique({
+      where: { id: req.params.id }, 
+    });
+
+    if (!testimonial) {
+      return res.status(404).json({
+        success: false,
+        message: "Testimonial not found",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Testimonial fetched successfully",
+      data: testimonial,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch testimonial",
+      error: error.message,
+    });
+  }
+};
+
+// Update Testimonial
 exports.updateTestimonial = async (req, res) => {
-  const testimonial = await prisma.testimonial.update({
-    where: { id: req.params.id },
-    data: req.body,
-  });
-  res.json(testimonial);
+  try {
+    const testimonial = await prisma.testimonial.update({
+      where: { id: req.params.id }, 
+      data: req.body,
+    });
+    res.json({
+      success: true,
+      message: "Testimonial updated successfully",
+      data: testimonial,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to update testimonial",
+      error: error.message,
+    });
+  }
 };
 
+// Delete Testimonial
 exports.deleteTestimonial = async (req, res) => {
-  await prisma.testimonial.delete({ where: { id: req.params.id } });
-  res.json({ message: "Testimonial deleted" });
+  try {
+    await prisma.testimonial.delete({ where: { id: req.params.id } }); // 👈 UUID string
+    res.json({
+      success: true,
+      message: "Testimonial deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete testimonial",
+      error: error.message,
+    });
+  }
 };
