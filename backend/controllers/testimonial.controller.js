@@ -88,7 +88,7 @@ exports.updateTestimonial = async (req, res) => {
 // Delete Testimonial
 exports.deleteTestimonial = async (req, res) => {
   try {
-    await prisma.testimonial.delete({ where: { id: req.params.id } }); // 👈 UUID string
+    await prisma.testimonial.delete({ where: { id: req.params.id } });
     res.json({
       success: true,
       message: "Testimonial deleted successfully",

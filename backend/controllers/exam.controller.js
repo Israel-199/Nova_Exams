@@ -40,7 +40,7 @@ exports.getExams = async (req, res) => {
 exports.getExam = async (req, res) => {
   try {
     const exam = await prisma.exam.findUnique({
-      where: { id: req.params.id }, // 👈 UUID string
+      where: { id: req.params.id }, 
     });
 
     if (!exam) {
@@ -68,7 +68,7 @@ exports.getExam = async (req, res) => {
 exports.updateExam = async (req, res) => {
   try {
     const exam = await prisma.exam.update({
-      where: { id: req.params.id }, // 👈 UUID string
+      where: { id: req.params.id }, 
       data: req.body,
     });
 
@@ -89,7 +89,7 @@ exports.updateExam = async (req, res) => {
 // Delete Exam
 exports.deleteExam = async (req, res) => {
   try {
-    await prisma.exam.delete({ where: { id: req.params.id } }); // 👈 UUID string
+    await prisma.exam.delete({ where: { id: req.params.id } }); 
     res.json({
       success: true,
       message: "Exam deleted successfully",
