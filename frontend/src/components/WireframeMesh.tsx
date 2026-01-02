@@ -16,7 +16,6 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
   const smoothedMouse = useRef({ x: 0, y: 0 });
   const time = useRef(0);
 
-  // Reduced density
   const gridCols = 55;
   const gridRows = 40;
   const spacingX = 0.28;
