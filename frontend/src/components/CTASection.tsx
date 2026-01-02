@@ -16,8 +16,12 @@ export function CTASection() {
           <div className="relative z-10 text-center max-w-2xl mx-auto">
             <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-secondary-foreground mb-6">
               Ready to Start Your{" "}
-              <span className="text-primary">Exam Journey?</span>
+              <span className="text-primary">
+                Exam Journey
+                <span className="inline-block animate-question">?</span>
+              </span>
             </h2>
+
             <p className="text-secondary-foreground/90 text-lg mb-8">
               Book your exam today and take the first step towards achieving
               your educational goals. Our team is here to support you every step
