@@ -19,12 +19,14 @@ model Exam {
 
 model Testimonial {
   id         String   @id @default(uuid())
-  name       String
-  role       String?
-  content    String
-  rating     Int      @default(5)
+  student    String   
+  exam       String   
+  score      String   
+  content    String   
+  image      String?  
   created_at DateTime @default(now())
 }
+
 
 model BlogPost {
   id         String   @id @default(uuid())
