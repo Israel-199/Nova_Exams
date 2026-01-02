@@ -33,7 +33,7 @@ import {
   Video,
   FileDown,
   Book,
-  Link,
+  ArrowLeft,
 } from "lucide-react";
 import { toast } from "sonner";
 import img1 from "@/assets/student-1.jpg";
@@ -46,7 +46,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { redirect } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 
 interface Resource {
   id: string;
@@ -422,8 +422,17 @@ const Admin = () => {
       </div>
 
       <main>
-        <div className="container mx-auto px-4 py-12">
-          <div className="mb-8">
+        <div className="container mx-auto px-4 py-12 relative">
+          <div className="absolute top-4 left-4">
+            <Link
+              to="/"
+              className="absolute  flex items-center space-x-2 rounded-md px-3 py-2 bg-muted text-muted-foreground hover:bg-primary transition-colors"
+            >
+              <ArrowLeft className="h-5 w-5" />
+              <span className="font-medium">Back</span>
+            </Link>
+          </div>
+          <div className="mb-8 mt-5">
             <h1 className="text-4xl font-display font-bold text-foreground mb-2">
               Admin Dashboard
             </h1>
