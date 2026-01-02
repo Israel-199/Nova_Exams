@@ -18,7 +18,7 @@ export function CTASection() {
               Ready to Start Your{" "}
               <span className="text-primary">
                 Exam Journey
-                <span className="inline-block animate-question">?</span>
+                <span className="inline-block animate-question ml-4">?</span>
               </span>
             </h2>
 
