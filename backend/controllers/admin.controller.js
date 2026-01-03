@@ -2,7 +2,7 @@ const prisma = require("../prisma/client");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-// Admin Login
+// Login Admin (sets cookie)
 exports.loginAdmin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -23,14 +23,23 @@ exports.loginAdmin = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    res.json({
-      success: true,
-      message: "Login successful",
-      token,
+    res.cookie("adminToken", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 60 * 60 * 1000,
     });
+
+    res.json({ success: true, message: "Login successful" });
   } catch (error) {
     res.status(500).json({ success: false, message: "Login failed", error: error.message });
   }
+};
+
+// Logout Admin (clear cookie)
+exports.logoutAdmin = async (req, res) => {
+  res.clearCookie("adminToken");
+  res.json({ success: true, message: "Logged out successfully" });
 };
 
 // Get Admin Profile
@@ -39,7 +48,6 @@ exports.getProfile = async (req, res) => {
     const admin = await prisma.admin.findUnique({ where: { id: req.admin.id } });
     res.json({
       success: true,
-      message: "Profile fetched successfully",
       data: { id: admin.id, name: admin.name, email: admin.email },
     });
   } catch (error) {
