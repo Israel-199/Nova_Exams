@@ -1,19 +1,22 @@
 const express = require("express");
 const router = express.Router();
 const testimonialController = require("../controllers/testimonial.controller");
+const upload = require("../middleware/upload");
 
-// Create testimonial
-router.post("/", testimonialController.createTestimonial);
+router.post(
+  "/testimonials",
+  upload.single("image"), 
+  testimonialController.createTestimonial
+);
 
-// Get all testimonials
-router.get("/", testimonialController.getTestimonials);
+router.patch(
+  "/testimonials/:id",
+  upload.single("image"), 
+  testimonialController.updateTestimonial
+);
 
-// Update testimonial by ID
-router.put("/:id", testimonialController.updateTestimonial);
-
-// Delete testimonial by ID
-router.delete("/:id", testimonialController.deleteTestimonial);
+router.get("/testimonials", testimonialController.getTestimonials);   // ✅ fixed
+router.get("/testimonials/:id", testimonialController.getTestimonial);
+router.delete("/testimonials/:id", testimonialController.deleteTestimonial);
 
 module.exports = router;
-
-

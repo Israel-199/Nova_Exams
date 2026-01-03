@@ -1,9 +1,28 @@
 const prisma = require("../prisma/client");
+const uploadToCloudinary = require("../utils/cloudinaryUpload");
 
 // Create Testimonial
 exports.createTestimonial = async (req, res) => {
   try {
-    const testimonial = await prisma.testimonial.create({ data: req.body });
+    let imageUrl = null;
+
+    if (req.file) {
+      const uploadResult = await uploadToCloudinary(
+        req.file.buffer,
+        req.file.mimetype,
+        "testimonials"
+      );
+      imageUrl = uploadResult.secure_url;
+    }
+
+    const testimonial = await prisma.testimonial.create({
+      data: {
+        name: req.body.name,
+        message: req.body.message,
+        imageUrl,
+      },
+    });
+
     res.status(201).json({
       success: true,
       message: "Testimonial created successfully",
@@ -21,7 +40,9 @@ exports.createTestimonial = async (req, res) => {
 // Get All Testimonials
 exports.getTestimonials = async (req, res) => {
   try {
-    const testimonials = await prisma.testimonial.findMany();
+    const testimonials = await prisma.testimonial.findMany({
+      orderBy: { created_at: "desc" },
+    });
     res.json({
       success: true,
       message: "Testimonials fetched successfully",
@@ -40,7 +61,7 @@ exports.getTestimonials = async (req, res) => {
 exports.getTestimonial = async (req, res) => {
   try {
     const testimonial = await prisma.testimonial.findUnique({
-      where: { id: req.params.id }, 
+      where: { id: req.params.id },
     });
 
     if (!testimonial) {
@@ -67,10 +88,26 @@ exports.getTestimonial = async (req, res) => {
 // Update Testimonial
 exports.updateTestimonial = async (req, res) => {
   try {
+    let imageUrl = req.body.imageUrl || null;
+
+    if (req.file) {
+      const uploadResult = await uploadToCloudinary(
+        req.file.buffer,
+        req.file.mimetype,
+        "testimonials"
+      );
+      imageUrl = uploadResult.secure_url;
+    }
+
     const testimonial = await prisma.testimonial.update({
-      where: { id: req.params.id }, 
-      data: req.body,
+      where: { id: req.params.id },
+      data: {
+        name: req.body.name,
+        message: req.body.message,
+        imageUrl,
+      },
     });
+
     res.json({
       success: true,
       message: "Testimonial updated successfully",

@@ -1,26 +1,36 @@
 const prisma = require("../prisma/client");
-const cloudinary = require("../lib/cloudinary"); 
+const uploadToCloudinary = require("../utils/cloudinaryUpload");
 
 // Create Resource
 exports.createResource = async (req, res) => {
   try {
+    const { type, title, description } = req.body;
+
+    if (!type || !title || !description) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields: type, title, description",
+      });
+    }
+
     let sourceUrl = req.body.sourceUrl || null;
     let sourceType = req.body.sourceType || "url";
 
     if (req.file) {
-      const uploadResult = await cloudinary.uploader.upload(req.file.path, {
-        folder: req.body.type === "Video" ? "lib/video" : "lib/pdf",
-        resource_type: req.body.type === "Video" ? "video" : "raw",
-      });
+      const uploadResult = await uploadToCloudinary(
+        req.file.buffer,
+        req.file.mimetype,
+        type === "Video" ? "lib/video" : "lib/pdf"
+      );
       sourceUrl = uploadResult.secure_url;
       sourceType = "upload";
     }
 
     const resource = await prisma.resource.create({
       data: {
-        type: req.body.type,
-        title: req.body.title,
-        description: req.body.description,
+        type,
+        title,
+        description,
         sourceType,
         sourceUrl,
       },
@@ -95,10 +105,11 @@ exports.updateResource = async (req, res) => {
     let sourceType = req.body.sourceType || "url";
 
     if (req.file) {
-      const uploadResult = await cloudinary.uploader.upload(req.file.path, {
-        folder: req.body.type === "Video" ? "lib/video" : "lib/pdf",
-        resource_type: req.body.type === "Video" ? "video" : "raw",
-      });
+      const uploadResult = await uploadToCloudinary(
+        req.file.buffer,
+        req.file.mimetype,
+        req.body.type === "Video" ? "lib/video" : "lib/pdf"
+      );
       sourceUrl = uploadResult.secure_url;
       sourceType = "upload";
     }

@@ -1,20 +1,25 @@
 const express = require("express");
 const router = express.Router();
 const resourceController = require("../controllers/resource.controller");
+const upload = require("../middleware/upload");
 
-// Create resource (PDF or Video)
-router.post("/", resourceController.createResource);
-
-// Get all resources
+// Public routes
 router.get("/", resourceController.getResources);
-
-// Get single resource
 router.get("/:id", resourceController.getResource);
 
-// Update resource
-router.patch("/:id", resourceController.updateResource);
+// Admin-only routes
+router.post(
+  "/",
+  upload.single("file"), 
+  resourceController.createResource
+);
 
-// Delete resource
+router.patch(
+  "/:id",
+  upload.single("file"),
+  resourceController.updateResource
+);
+
 router.delete("/:id", resourceController.deleteResource);
 
 module.exports = router;
