@@ -49,7 +49,6 @@ exports.getExam = async (req, res) => {
         message: "Exam not found",
       });
     }
-
     res.json({
       success: true,
       message: "Exam fetched successfully",
