@@ -194,7 +194,6 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
 
   return (
     <group ref={groupRef} position={[0, 0, 0]}>
-      {/* Lines */}
       <lineSegments ref={linesRef}>
         <bufferGeometry>
           <bufferAttribute
@@ -207,7 +206,6 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
         <lineBasicMaterial color="#4fd1c5" transparent opacity={0.04} />
       </lineSegments>
 
-      {/* Glow dots */}
       <points ref={glowDotsRef}>
         <bufferGeometry>
           <bufferAttribute
@@ -218,16 +216,15 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
           />
         </bufferGeometry>
         <pointsMaterial
-          size={0.08} // reduced glow size
+          size={0.08} 
           color="#63b3ed"
           transparent
-          opacity={0.05} // softer glow
+          opacity={0.05} 
           sizeAttenuation
           blending={THREE.AdditiveBlending}
         />
       </points>
 
-      {/* Small node dots */}
       <points ref={dotsRef}>
         <bufferGeometry>
           <bufferAttribute
