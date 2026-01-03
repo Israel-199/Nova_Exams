@@ -3,6 +3,7 @@ const examRoutes = require("./routes/exam.routes");
 const testimonialRoutes = require("./routes/testimonial.routes");
 const blogRoutes = require("./routes/blogpost.routes");
 const resourceRoutes = require("./routes/resource.routes");
+const adminRoutes = require("./routes/admin.routes");
 const express = require("express");
 const cors = require("cors");
 
@@ -15,6 +16,7 @@ app.use("/api/exams", examRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/resources", resourceRoutes);
+app.use("/api/admin", adminRoutes);
 
 const PORT = process.env.PORT || 5000;
 
