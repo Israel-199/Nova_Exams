@@ -151,10 +151,12 @@ export function Navbar({
       <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen}>
         <DialogContent className="w-full max-w-sm sm:max-w-md sm:mx-0 bg-card border-border rounded-lg sm:rounded-xl" >
           <DialogHeader className="text-center">
-            <div className="mx-auto w-12 h-12 rounded-xl bg-gradient-secondary flex items-center justify-center mb-4">
-              <Shield className="w-6 h-6 text-secondary-foreground" />
+            <div className="mx-auto w-12 h-12 rounded-xl bg-gradient-secondary flex items-center justify-center ">
+              <img src={navLogo} alt="Nova Exams Logo" className="w-8 h-8" />
             </div>
-            <DialogTitle className="font-display text-2xl">
+           
+       
+            <DialogTitle className="font-display text-2xl text-center">
               Admin Login
             </DialogTitle>
             <DialogDescription className="text-muted-foreground">
