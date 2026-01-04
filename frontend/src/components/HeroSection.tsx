@@ -24,7 +24,7 @@ export function HeroSection() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <section className="relative min-h-screen bg-hero overflow-hidden">
+<section className="relative h-full w-full bg-hero overflow-hidden">
       {/* 3D Wireframe Mesh Background */}
       <WireframeMesh />
 
@@ -53,6 +53,7 @@ export function HeroSection() {
 
       {/* Navigation */}
       <Navbar />
+
       {/* Hero Content */}
       <div className="container mx-auto px-4 pt-12 lg:pt-20 pb-32 lg:pb-40">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -66,12 +67,8 @@ export function HeroSection() {
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-secondary-foreground leading-tight mb-6">
               Seamless English
               <br />
-              Proficiency <span className="text-primary">
-                Exam Services
-              </span>-at{" "}
-              <span className="underline-yellow cursor-pointer">
-                Nova Exams
-              </span>
+              Proficiency <span className="text-primary">Exam Services</span> - at{" "}
+              <span className="underline-yellow cursor-pointer">Nova Exams</span>
             </h1>
             <p
               className="text-lg md:text-xl text-secondary-foreground/90 mb-8 leading-relaxed animate-slide-up"
@@ -139,6 +136,7 @@ export function HeroSection() {
               ))}
             </div>
           </div>
+
           {/* Right Content - Floating Cards */}
           <div className="relative hidden lg:block h-[500px]">
             {/* Main student image */}
@@ -168,9 +166,7 @@ export function HeroSection() {
               />
             </div>
 
-            {/* Profile Card */}
             {/* Testimonial Card */}
-            {/* Testimonial Card (Meron Tadesse) */}
             <div className="absolute right-20 top-32 floating-card flex items-center gap-3 animate-float-delayed">
               <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center overflow-hidden">
                 <img
@@ -186,10 +182,7 @@ export function HeroSection() {
                 <p className="text-muted-foreground text-xs">IELTS Student</p>
                 <div className="flex gap-0.5 mt-1">
                   {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-3 h-3 fill-primary text-primary"
-                    />
+                    <Star key={i} className="w-3 h-3 fill-primary text-primary" />
                   ))}
                 </div>
                 <p className="text-muted-foreground text-xs mt-1">
@@ -211,16 +204,14 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* Admission Success Card (nudged left & down for gap) */}
+            {/* Admission Success Card */}
             <div className="absolute right-12 bottom-12 floating-card animate-float-slow">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
                   <Award className="w-4 h-4 text-secondary-foreground" />
                 </div>
                 <div>
-                  <p className="font-semibold text-secondary text-sm">
-                    Congrats!
-                  </p>
+                  <p className="font-semibold text-secondary text-sm">Congrats!</p>
                   <p className="text-muted-foreground text-xs">
                     Admission Secured Abroad
                   </p>

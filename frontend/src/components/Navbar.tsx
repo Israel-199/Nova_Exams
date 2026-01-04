@@ -1,7 +1,18 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Eye, EyeOff, Menu, Shield, X } from "lucide-react";
 import navLogo from "@/assets/navlogo.png";
+import { Button } from "./ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
 
 const navItems = [
   { label: "Home", path: "/" },
@@ -19,6 +30,26 @@ export function Navbar({
   bgColor = "bg-[hsl(var(--hero-bg))]/70",
 }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    // TODO: Integrate with authentication backend
+    setTimeout(() => {
+      toast({
+        title: "Login attempted",
+        description: "Backend authentication not yet configured.",
+      });
+      setIsLoading(false);
+    }, 1000);
+  };
 
   return (
     <nav
@@ -57,18 +88,17 @@ export function Navbar({
         {/* Right Actions */}
         <div className="flex items-center gap-4">
           {/* Desktop Log in */}
-          <Link to="/admin">
-            <button
-              className="hidden lg:block px-5 py-2 rounded-lg border border-secondary-foreground/30
+          <button
+            onClick={() => setIsLoginOpen(true)}
+            className="hidden lg:block px-5 py-2 rounded-lg border border-secondary-foreground/30
                        bg-yellow-400 font-medium text-black
                        transform transition-all duration-300
                        hover:bg-yellow-400/90 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-lg
                        focus-visible:-translate-y-1 focus-visible:-translate-x-1 focus-visible:shadow-lg
                        active:translate-x-0 active:translate-y-0 active:shadow-md"
-            >
-              Log in
-            </button>
-          </Link>
+          >
+            Log in
+          </button>
 
           {/* Mobile Menu Toggle */}
           <button
@@ -102,20 +132,87 @@ export function Navbar({
               ))}
             </Link>
           ))}
-          <Link to="/admin">
-            <button
-              className="mt-4 w-full px-5 py-2 rounded-lg border border-secondary-foreground/30
+          <button
+            onClick={() => setIsLoginOpen(true)}
+            className="mt-4 w-full px-5 py-2 rounded-lg border border-secondary-foreground/30
                        bg-yellow-400 font-medium text-black
                        transform transition-all duration-300
                        hover:bg-yellow-400/90 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-lg
                        focus-visible:-translate-y-1 focus-visible:-translate-x-1 focus-visible:shadow-lg
                        active:translate-x-0 active:translate-y-0 active:shadow-md"
-            >
-              Log in
-            </button>
-          </Link>
+          >
+            Log in
+          </button>
         </div>
       )}
-    </nav>
+      
+
+      {/* Admin Login Dialog */}
+      <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen}>
+        <DialogContent className="w-full max-w-sm sm:max-w-md mx-2 sm:mx-0 bg-card border-border rounded-lg sm:rounded-xl" >
+          <DialogHeader className="text-center">
+            <div className="mx-auto w-12 h-12 rounded-xl bg-gradient-secondary flex items-center justify-center mb-4">
+              <Shield className="w-6 h-6 text-secondary-foreground" />
+            </div>
+            <DialogTitle className="font-display text-2xl">
+              Admin Login
+            </DialogTitle>
+            <DialogDescription className="text-muted-foreground">
+              This login is for administrators only. Regular users do not need to log in.
+            </DialogDescription>
+          </DialogHeader>
+
+          <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="admin@novaexams.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
+            <Button
+              type="submit"
+              variant="cta"
+              size="lg"
+              className="w-full"
+              disabled={isLoading}
+            >
+              {isLoading ? "Signing in..." : "Sign In"}
+            </Button>
+
+            <p className="text-center text-xs text-muted-foreground mt-4">
+              <Shield className="inline w-3 h-3 mr-1" />
+              Admin access only
+            </p>
+          </form>
+        </DialogContent>
+      </Dialog>
+       </nav>
   );
 }

@@ -231,6 +231,20 @@
   }
 }
 
+/* globals.css */
+html {
+  overflow-y: scroll; /* Prevent layout shift */
+  scrollbar-gutter: stable;
+}
+
+html[data-scroll-locked] {
+  padding-right: var(--removed-body-scroll-bar-size);
+}
+
+.hero {
+  width: calc(100vw - var(--removed-body-scroll-bar-size, 0px));
+}
+
 .drop-char {
   display: inline-block;
   transition: color 0.3s ease;
