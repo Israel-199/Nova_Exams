@@ -149,7 +149,7 @@ export function Navbar({
 
       {/* Admin Login Dialog */}
       <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen}>
-        <DialogContent className="w-full max-w-sm sm:max-w-md mx-2 sm:mx-0 bg-card border-border rounded-lg sm:rounded-xl" >
+        <DialogContent className="w-full max-w-sm sm:max-w-md sm:mx-0 bg-card border-border rounded-lg sm:rounded-xl" >
           <DialogHeader className="text-center">
             <div className="mx-auto w-12 h-12 rounded-xl bg-gradient-secondary flex items-center justify-center mb-4">
               <Shield className="w-6 h-6 text-secondary-foreground" />

@@ -233,17 +233,14 @@
 
 /* globals.css */
 html {
-  overflow-y: scroll; /* Prevent layout shift */
-  scrollbar-gutter: stable;
+  overflow-y: scroll;          /* Always show scrollbar */
+  scrollbar-gutter: stable;    /* Reserve scrollbar space so content doesn't shift */
 }
 
-html[data-scroll-locked] {
-  padding-right: var(--removed-body-scroll-bar-size);
+html[data-scroll-locked] body {
+  margin-right: var(--removed-body-scroll-bar-size); /* Radix compensation */
 }
 
-.hero {
-  width: calc(100vw - var(--removed-body-scroll-bar-size, 0px));
-}
 
 .drop-char {
   display: inline-block;

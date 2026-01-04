@@ -10,19 +10,19 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background relative">
-      {/* <Navbar /> */}
-      <main>
-        <HeroSection />
-        <ServicesSection />
-        <ExamsSection />
-        <TestimonialsSection />
-        <CTASection />
-      </main>
-      <Footer />
-      <ChatBot />
-      <WhatsAppButton />
-    </div>
+   <div className="min-h-screen bg-background relative overflow-x-hidden">
+  <main className="w-full overflow-x-hidden">
+    <HeroSection />
+    <ServicesSection />
+    <ExamsSection />
+    <TestimonialsSection />
+    <CTASection />
+  </main>
+  <Footer />
+  <ChatBot />
+  <WhatsAppButton />
+</div>
+
   );
 };
 

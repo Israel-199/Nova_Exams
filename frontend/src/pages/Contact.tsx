@@ -42,7 +42,8 @@ const Contact = () => {
     setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
   };
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background overflow-x-hidden">
+
       {" "}
       <Navbar bgColor="bg-gradient-secondary" />{" "}
       <main className="pt-20">
@@ -133,8 +134,8 @@ const Contact = () => {
               </motion.div>{" "}
               {/* Contact Form */}{" "}
               <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
               >
                 {" "}
@@ -267,11 +268,13 @@ const Contact = () => {
               <div className="grid md:grid-cols-3 gap-8">
                 {/* Exam Room Service */}
                 <motion.div
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                  whileHover={{ scale: 1.05 }}
-                >
+  initial={{ opacity: 0, y: 40 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6 }}
+  whileHover={{ scale: 1.03 }}
+  className="overflow-hidden"
+>
+
                   <Card className="bg-muted border-border text-center shadow-lg hover:shadow-xl transition-shadow">
                     <CardContent className="p-6 flex flex-col items-center">
                       <div className="w-14 h-14 rounded-lg bg-yellow-300 flex items-center justify-center mb-4 shadow-md">

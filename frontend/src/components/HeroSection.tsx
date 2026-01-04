@@ -24,7 +24,7 @@ export function HeroSection() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-<section className="relative h-full w-full bg-hero overflow-hidden">
+<section className="relative min-h-screen w-full bg-hero overflow-hidden">
       {/* 3D Wireframe Mesh Background */}
       <WireframeMesh />
 
