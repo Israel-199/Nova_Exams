@@ -145,22 +145,21 @@ export function Navbar({
           </button>
         </div>
       )}
-      
 
       {/* Admin Login Dialog */}
       <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen}>
-        <DialogContent className="w-full max-w-sm sm:max-w-md sm:mx-0 bg-card border-border rounded-lg sm:rounded-xl" >
+        <DialogContent className="w-full max-w-sm sm:max-w-md sm:mx-0 bg-card border-border rounded-lg sm:rounded-xl">
           <DialogHeader className="text-center">
             <div className="mx-auto w-12 h-12 rounded-xl bg-gradient-secondary flex items-center justify-center ">
               <img src={navLogo} alt="Nova Exams Logo" className="w-8 h-8" />
             </div>
-           
-       
+
             <DialogTitle className="font-display text-2xl text-center">
               Admin Login
             </DialogTitle>
             <DialogDescription className="text-muted-foreground">
-              This login is for administrators only. Regular users do not need to log in.
+              This login is for administrators only. Regular users do not need
+              to log in.
             </DialogDescription>
           </DialogHeader>
 
@@ -194,7 +193,11 @@ export function Navbar({
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showPassword ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
                 </button>
               </div>
             </div>
@@ -215,6 +218,6 @@ export function Navbar({
           </form>
         </DialogContent>
       </Dialog>
-       </nav>
+    </nav>
   );
 }
