@@ -13,6 +13,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
+import { useLogin } from "@/hooks/useAuth";
 
 const navItems = [
   { label: "Home", path: "/" },
@@ -36,20 +38,38 @@ export function Navbar({
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
+const { mutateAsync: login, isPending } = useLogin();
 
-    // TODO: Integrate with authentication backend
-    setTimeout(() => {
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  try {
+    const res = await login({ email, password });
+    if (res.success) {
+      toast({ title: "Login successful", description: res.message });
+      setIsLoginOpen(false);
+      setEmail("");
+      setPassword("");
+      navigate("/admin");
+    } else {
       toast({
-        title: "Login attempted",
-        description: "Backend authentication not yet configured.",
+        title: "Login failed",
+        description: res.message,
+        variant: "destructive",
       });
-      setIsLoading(false);
-    }, 1000);
-  };
+    }
+  } catch (error: any) {
+    toast({
+      title: "Login failed",
+      description: error.response?.data?.message || "Unexpected server error.",
+      variant: "destructive",
+    });
+  }
+};
+
+
 
   return (
     <nav
@@ -204,9 +224,9 @@ export function Navbar({
               variant="cta"
               size="lg"
               className="w-full"
-              disabled={isLoading}
+              disabled={isPending}
             >
-              {isLoading ? "Signing in..." : "Sign In"}
+              {isPending ? "Signing in..." : "Sign In"}
             </Button>
 
             <p className="text-center text-xs text-muted-foreground mt-4">
