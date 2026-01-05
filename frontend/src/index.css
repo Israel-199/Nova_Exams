@@ -4,6 +4,19 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
 
+body {
+  @apply bg-background text-foreground font-sans antialiased;
+  overflow-y: scroll; /* Always show scrollbar */
+}
+
+html[data-scroll-locked] body,
+body[data-scroll-locked] {
+  overflow: hidden !important;
+  padding-right: 0 !important; /* Prevent padding compensation */
+}
+
+
+
 @layer base {
   :root {
     /* Nova Exams Color Theme */
@@ -232,16 +245,6 @@
 }
 
 /* globals.css */
-html {
-  overflow-y: scroll;          /* Always show scrollbar */
-  scrollbar-gutter: stable;    /* Reserve scrollbar space so content doesn't shift */
-}
-
-html[data-scroll-locked] body {
-  margin-right: var(--removed-body-scroll-bar-size); /* Radix compensation */
-}
-
-
 .drop-char {
   display: inline-block;
   transition: color 0.3s ease;

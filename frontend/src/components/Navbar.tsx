@@ -153,7 +153,6 @@ export function Navbar({
             <div className="mx-auto w-12 h-12 rounded-xl bg-gradient-secondary flex items-center justify-center ">
               <img src={navLogo} alt="Nova Exams Logo" className="w-8 h-8" />
             </div>
-
             <DialogTitle className="font-display text-2xl text-center">
               Admin Login
             </DialogTitle>
@@ -162,7 +161,6 @@ export function Navbar({
               to log in.
             </DialogDescription>
           </DialogHeader>
-
           <form onSubmit={handleSubmit} className="space-y-4 mt-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
