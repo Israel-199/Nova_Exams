@@ -19,7 +19,8 @@ app.use("/api/exams", examRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/resources", resourceRoutes);
-app.use("/api/auth", adminRoutes);
+app.use("/api/admin", adminRoutes);
+
 
 const PORT = process.env.PORT || 5000;
 

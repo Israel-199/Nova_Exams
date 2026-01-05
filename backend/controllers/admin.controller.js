@@ -9,12 +9,16 @@ exports.loginAdmin = async (req, res) => {
 
     const admin = await prisma.admin.findUnique({ where: { email } });
     if (!admin) {
-      return res.status(401).json({ success: false, message: "Invalid credentials" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid credentials" });
     }
 
     const isMatch = await bcrypt.compare(password, admin.password);
     if (!isMatch) {
-      return res.status(401).json({ success: false, message: "Invalid credentials" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid credentials" });
     }
 
     const token = jwt.sign(
@@ -32,26 +36,51 @@ exports.loginAdmin = async (req, res) => {
 
     res.json({ success: true, message: "Login successful" });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Login failed", error: error.message });
+    res
+      .status(500)
+      .json({ success: false, message: "Login failed", error: error.message });
   }
 };
 
-// Logout Admin (clear cookie)
+exports.getSession = (req, res) => { 
+  const token = req.cookies.adminToken;
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    return res.json({ user: { id: decoded.id, email: decoded.email, isAdmin: decoded.isAdmin, }, });
+  } catch (err) {
+    return res.json({ user: null });
+  }
+};
+
 exports.logoutAdmin = async (req, res) => {
-  res.clearCookie("adminToken");
-  res.json({ success: true, message: "Logged out successfully" });
+  try {
+    res.clearCookie("adminToken");
+    return res
+      .status(200)
+      .json({ success: true, message: "Logged out successfully" });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: "Logout failed" });
+  }
 };
 
 // Get Admin Profile
 exports.getProfile = async (req, res) => {
   try {
-    const admin = await prisma.admin.findUnique({ where: { id: req.admin.id } });
+    const admin = await prisma.admin.findUnique({
+      where: { id: req.admin.id },
+    });
     res.json({
       success: true,
       data: { id: admin.id, name: admin.name, email: admin.email },
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Failed to fetch profile", error: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Failed to fetch profile",
+        error: error.message,
+      });
   }
 };
 
@@ -68,10 +97,20 @@ exports.updateProfile = async (req, res) => {
     res.json({
       success: true,
       message: "Profile updated successfully",
-      data: { id: updatedAdmin.id, name: updatedAdmin.name, email: updatedAdmin.email },
+      data: {
+        id: updatedAdmin.id,
+        name: updatedAdmin.name,
+        email: updatedAdmin.email,
+      },
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Failed to update profile", error: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Failed to update profile",
+        error: error.message,
+      });
   }
 };
 
@@ -80,11 +119,15 @@ exports.changePassword = async (req, res) => {
   try {
     const { oldPassword, newPassword } = req.body;
 
-    const admin = await prisma.admin.findUnique({ where: { id: req.admin.id } });
+    const admin = await prisma.admin.findUnique({
+      where: { id: req.admin.id },
+    });
 
     const isMatch = await bcrypt.compare(oldPassword, admin.password);
     if (!isMatch) {
-      return res.status(400).json({ success: false, message: "Old password is incorrect" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Old password is incorrect" });
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
@@ -96,6 +139,12 @@ exports.changePassword = async (req, res) => {
 
     res.json({ success: true, message: "Password changed successfully" });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Failed to change password", error: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Failed to change password",
+        error: error.message,
+      });
   }
 };
