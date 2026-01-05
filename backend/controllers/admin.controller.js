@@ -21,8 +21,14 @@ exports.loginAdmin = async (req, res) => {
         .json({ success: false, message: "Invalid credentials" });
     }
 
+    // ✅ Include name in the JWT payload
     const token = jwt.sign(
-      { id: admin.id, email: admin.email, isAdmin: true },
+      {
+        id: admin.id,
+        email: admin.email,
+        name: admin.name,   // added
+        isAdmin: true,
+      },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
@@ -42,15 +48,31 @@ exports.loginAdmin = async (req, res) => {
   }
 };
 
-exports.getSession = (req, res) => { 
+exports.getSession = (req, res) => {
   const token = req.cookies.adminToken;
+
+  if (!token) {
+    // no cookie set → not logged in
+    return res.json({ user: null });
+  }
+
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    return res.json({ user: { id: decoded.id, email: decoded.email, isAdmin: decoded.isAdmin, }, });
+
+    return res.json({
+      user: {
+        id: decoded.id,
+        email: decoded.email,
+        isAdmin: decoded.isAdmin,
+        name: decoded.name,
+      },
+    });
   } catch (err) {
+    // invalid or expired token → not logged in
     return res.json({ user: null });
   }
 };
+
 
 exports.logoutAdmin = async (req, res) => {
   try {
