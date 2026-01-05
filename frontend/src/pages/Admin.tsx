@@ -408,11 +408,15 @@ const Admin = () => {
   };
 
   // Logout
-  const handleLogoutClick = () => {
-    logout(); // clear session info (frontend only)
+ const handleLogoutClick = () => {
+  const confirmed = window.confirm("Are you sure you want to log out?");
+  if (confirmed) {
+    logout(); 
     toast({ title: "Logged out", description: "Session cleared" });
-    navigate("/"); // redirect home
-  };
+    navigate("/"); 
+  } else {
+  }
+};
 
   const pdfResources = resources.filter((r) => r.type === "pdf");
   const videoResources = resources.filter((r) => r.type === "video");
