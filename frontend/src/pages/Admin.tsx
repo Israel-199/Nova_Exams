@@ -48,6 +48,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useLogout } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import { useSession } from "@/hooks/useAuth";
 
 interface Resource {
   id: string;
@@ -420,6 +421,7 @@ const Admin = () => {
 
   const pdfResources = resources.filter((r) => r.type === "pdf");
   const videoResources = resources.filter((r) => r.type === "video");
+  const { data: user } = useSession();
 
   return (
     <div className="min-h-screen bg-background relative">
@@ -455,6 +457,11 @@ const Admin = () => {
             <h1 className="text-4xl font-display font-bold text-foreground mb-2">
               Admin Dashboard
             </h1>
+            {user && (
+          <p className="text-lg font-medium text-foreground">
+            Welcome back, {user.name || user.email}!
+          </p>
+        )}
             <p className="text-muted-foreground">
               Manage exams, testimonials, blog posts and resources
             </p>
