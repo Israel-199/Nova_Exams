@@ -35,7 +35,6 @@ import {
   Book,
   ArrowLeft,
 } from "lucide-react";
-import { toast } from "sonner";
 import img1 from "@/assets/student-1.jpg";
 import img2 from "@/assets/student-2.jpg";
 import img3 from "@/assets/student-3.jpg";
@@ -46,7 +45,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Link, redirect } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useLogout } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 
 interface Resource {
   id: string;
@@ -219,6 +220,10 @@ const Admin = () => {
   const [isTestimonialDialogOpen, setIsTestimonialDialogOpen] = useState(false);
   const [isBlogDialogOpen, setIsBlogDialogOpen] = useState(false);
 
+  const { toast } = useToast();
+  const logout = useLogout();
+  const navigate = useNavigate();
+
   const [resourceForm, setResourceForm] = useState({
     type: "pdf" as "pdf" | "video",
     title: "",
@@ -244,7 +249,7 @@ const Admin = () => {
 
   const handleAddExam = () => {
     if (!examForm.examType || !examForm.mentorship) {
-      toast.error("Please fill all fields");
+      toast({ title: "Please fill all fields", variant: "destructive" });
       return;
     }
     const newExam = {
@@ -255,21 +260,14 @@ const Admin = () => {
     };
 
     if (editingExam) {
-      setExams(
-        exams.map((e) => (e.id === editingExam.id ? { ...e, ...newExam } : e))
-      );
-      toast.success("Exam updated successfully");
+      setExams(exams.map((e) => (e.id === editingExam.id ? { ...e, ...newExam } : e)));
+      toast({ title: "Exam updated successfully" });
     } else {
       setExams([...exams, { id: Date.now().toString(), ...newExam }]);
-      toast.success("Exam added successfully");
+      toast({ title: "Exam added successfully" });
     }
 
-    setExamForm({
-      examType: "Duolingo",
-      mentorship: "",
-      examRoomService: "",
-      sum: "",
-    });
+    setExamForm({ examType: "Duolingo", mentorship: "", examRoomService: "", sum: "" });
     setEditingExam(null);
     setExamDialogOpen(false);
   };
@@ -287,36 +285,32 @@ const Admin = () => {
 
   const handleDeleteExam = (id: string) => {
     setExams(exams.filter((e) => e.id !== id));
-    toast.success("Exam deleted");
+    toast({ title: "Exam deleted" });
   };
 
   const handleVideoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Create a local URL for the video file
       const videoUrl = URL.createObjectURL(file);
       setResourceForm({ ...resourceForm, videoFile: file, url: videoUrl });
     }
   };
 
-  // Handle PDF file upload
   const handlePdfFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Create a local URL for the PDF file
       const pdfUrl = URL.createObjectURL(file);
       setResourceForm({ ...resourceForm, pdfFile: file, url: pdfUrl });
     }
   };
 
-  // Testimonial handlers
   const handleSaveTestimonial = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const testimonialData = {
       id: editingTestimonial?.id || Date.now(),
       name: formData.get("name") as string,
-      exam: formData.get("exam") as string,
+          exam: formData.get("exam") as string,
       score: formData.get("score") as string,
       content: formData.get("content") as string,
       image: formData.get("image") as string,
@@ -328,10 +322,10 @@ const Admin = () => {
           t.id === editingTestimonial.id ? testimonialData : t
         )
       );
-      toast.success("Testimonial updated successfully!");
+      toast({ title: "Testimonial updated successfully!" });
     } else {
       setTestimonials([...testimonials, testimonialData]);
-      toast.success("Testimonial added successfully!");
+      toast({ title: "Testimonial added successfully!" });
     }
     setEditingTestimonial(null);
     setIsTestimonialDialogOpen(false);
@@ -339,7 +333,7 @@ const Admin = () => {
 
   const handleDeleteTestimonial = (id: number) => {
     setTestimonials(testimonials.filter((t) => t.id !== id));
-    toast.success("Testimonial deleted successfully!");
+    toast({ title: "Testimonial deleted successfully!" });
   };
 
   // Blog handlers
@@ -358,10 +352,10 @@ const Admin = () => {
       setBlogPosts(
         blogPosts.map((b) => (b.id === editingBlog.id ? blogData : b))
       );
-      toast.success("Blog post updated successfully!");
+      toast({ title: "Blog post updated successfully!" });
     } else {
       setBlogPosts([...blogPosts, blogData]);
-      toast.success("Blog post added successfully!");
+      toast({ title: "Blog post added successfully!" });
     }
     setEditingBlog(null);
     setIsBlogDialogOpen(false);
@@ -369,12 +363,13 @@ const Admin = () => {
 
   const handleDeleteBlog = (id: number) => {
     setBlogPosts(blogPosts.filter((b) => b.id !== id));
-    toast.success("Blog post deleted successfully!");
+    toast({ title: "Blog post deleted successfully!" });
   };
 
+  // Resource handlers
   const handleAddResource = () => {
     if (!resourceForm.title || !resourceForm.description) {
-      toast.error("Please fill all fields");
+      toast({ title: "Please fill all fields", variant: "destructive" });
       return;
     }
 
@@ -384,14 +379,15 @@ const Admin = () => {
           r.id === editingResource.id ? { ...r, ...resourceForm } : r
         )
       );
-      toast.success("Resource updated successfully");
+      toast({ title: "Resource updated successfully" });
     } else {
       setResources([
         ...resources,
         { id: Date.now().toString(), ...resourceForm },
       ]);
-      toast.success("Resource added successfully");
+      toast({ title: "Resource added successfully" });
     }
+
     setResourceForm({
       type: "pdf",
       title: "",
@@ -405,9 +401,17 @@ const Admin = () => {
     setEditingResource(null);
     setResourceDialogOpen(false);
   };
+
   const handleDeleteResource = (id: string) => {
     setResources(resources.filter((r) => r.id !== id));
-    toast.success("Resource deleted");
+    toast({ title: "Resource deleted" });
+  };
+
+  // Logout
+  const handleLogoutClick = () => {
+    logout(); // clear session info (frontend only)
+    toast({ title: "Logged out", description: "Session cleared" });
+    navigate("/"); // redirect home
   };
 
   const pdfResources = resources.filter((r) => r.type === "pdf");
@@ -416,10 +420,21 @@ const Admin = () => {
   return (
     <div className="min-h-screen bg-background relative">
       <div className="absolute top-4 right-4">
-        <Button onClick={() => {}} variant="destructive">
-          Logout
-        </Button>
-      </div>
+<div className="absolute top-4 right-4 z-50">
+  <button
+    onClick={handleLogoutClick}
+    className="px-5 py-2 rounded-lg border border-red-700
+               bg-red-500 text-white font-medium
+               cursor-pointer transition-all duration-200
+               hover:bg-red-600 hover:shadow-lg
+               active:bg-red-700 active:scale-95
+               focus:outline-none focus:ring-2 focus:ring-red-400"
+  >
+    Logout
+  </button>
+</div>
+</div>
+
 
       <main>
         <div className="container mx-auto px-4 py-12 relative">

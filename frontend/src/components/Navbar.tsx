@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Menu, Shield, X } from "lucide-react";
 import navLogo from "@/assets/navlogo.png";
 import { Button } from "./ui/button";
@@ -13,9 +13,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { useNavigate } from "react-router-dom";
-import { useLogin } from "@/hooks/useAuth";
-
+import { useLogin, useSession } from "@/hooks/useAuth";
+import { useQueryClient } from "@tanstack/react-query";
 const navItems = [
   { label: "Home", path: "/" },
   { label: "About Us", path: "/about-us" },
@@ -36,15 +35,16 @@ export function Navbar({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
-const { mutateAsync: login, isPending } = useLogin();
+  const { mutateAsync: login, isPending } = useLogin();
+  const { data: user } = useSession();
+
+const queryClient = useQueryClient();
 
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
-
   try {
     const res = await login({ email, password });
     if (res.success) {
@@ -52,6 +52,14 @@ const handleSubmit = async (e: React.FormEvent) => {
       setIsLoginOpen(false);
       setEmail("");
       setPassword("");
+
+      // ✅ Optimistically set session cache so ProtectedRoute sees user
+      queryClient.setQueryData(["session"], {
+        id: res.user?.id,
+        email: res.user?.email,
+        isAdmin: true,
+      });
+
       navigate("/admin");
     } else {
       toast({
@@ -63,13 +71,22 @@ const handleSubmit = async (e: React.FormEvent) => {
   } catch (error: any) {
     toast({
       title: "Login failed",
-      description: error.response?.data?.message || "Unexpected server error.",
+      description:
+        error.response?.data?.message || "Unexpected server error.",
       variant: "destructive",
     });
   }
 };
 
 
+  // ✅ Handle login button click
+  const handleLoginClick = () => {
+    if (user) {
+      navigate("/admin"); // already logged in → go to admin
+    } else {
+      setIsLoginOpen(true); // not logged in → open dialog
+    }
+  };
 
   return (
     <nav
@@ -107,17 +124,17 @@ const handleSubmit = async (e: React.FormEvent) => {
 
         {/* Right Actions */}
         <div className="flex items-center gap-4">
-          {/* Desktop Log in */}
+          {/* ✅ Login button always visible */}
           <button
-            onClick={() => setIsLoginOpen(true)}
+            onClick={handleLoginClick}
             className="hidden lg:block px-5 py-2 rounded-lg border border-secondary-foreground/30
-                       bg-yellow-400 font-medium text-black
-                       transform transition-all duration-300
-                       hover:bg-yellow-400/90 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-lg
-                       focus-visible:-translate-y-1 focus-visible:-translate-x-1 focus-visible:shadow-lg
-                       active:translate-x-0 active:translate-y-0 active:shadow-md"
+               bg-yellow-400 font-medium text-black
+               transform transition-all duration-300
+               hover:bg-yellow-400/90 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-lg
+               focus-visible:-translate-y-1 focus-visible:-translate-x-1 focus-visible:shadow-lg
+               active:translate-x-0 active:translate-y-0 active:shadow-md"
           >
-            Log in
+            {user ? "Go to Dashboard" : "Log in"}
           </button>
 
           {/* Mobile Menu Toggle */}
@@ -153,89 +170,90 @@ const handleSubmit = async (e: React.FormEvent) => {
             </Link>
           ))}
           <button
-            onClick={() => setIsLoginOpen(true)}
+            onClick={handleLoginClick}
             className="mt-4 w-full px-5 py-2 rounded-lg border border-secondary-foreground/30
-                       bg-yellow-400 font-medium text-black
-                       transform transition-all duration-300
-                       hover:bg-yellow-400/90 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-lg
-                       focus-visible:-translate-y-1 focus-visible:-translate-x-1 focus-visible:shadow-lg
-                       active:translate-x-0 active:translate-y-0 active:shadow-md"
+                 bg-yellow-400 font-medium text-black
+                 transform transition-all duration-300
+                 hover:bg-yellow-400/90 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-lg
+                 focus-visible:-translate-y-1 focus-visible:-translate-x-1 focus-visible:shadow-lg
+                 active:translate-x-0 active:translate-y-0 active:shadow-md"
           >
-            Log in
+            {user ? "Go to Dashboard" : "Log in"}
           </button>
         </div>
       )}
-
-      {/* Admin Login Dialog */}
-      <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen}>
-        <DialogContent className="w-full max-w-sm sm:max-w-md sm:mx-0 bg-card border-border rounded-lg sm:rounded-xl">
-          <DialogHeader className="text-center">
-            <div className="mx-auto w-12 h-12 rounded-xl bg-gradient-secondary flex items-center justify-center ">
-              <img src={navLogo} alt="Nova Exams Logo" className="w-8 h-8" />
-            </div>
-            <DialogTitle className="font-display text-2xl text-center">
-              Admin Login
-            </DialogTitle>
-            <DialogDescription className="text-muted-foreground">
-              This login is for administrators only. Regular users do not need
-              to log in.
-            </DialogDescription>
-          </DialogHeader>
-          <form onSubmit={handleSubmit} className="space-y-4 mt-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="admin@novaexams.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="pr-10"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {showPassword ? (
-                    <EyeOff className="w-4 h-4" />
-                  ) : (
-                    <Eye className="w-4 h-4" />
-                  )}
-                </button>
+      {/* Admin Login Dialog (only if not logged in) */}
+      {!user && (
+        <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen}>
+          <DialogContent className="w-full max-w-sm sm:max-w-md sm:mx-0 bg-card border-border rounded-lg sm:rounded-xl">
+            <DialogHeader className="text-center">
+              <div className="mx-auto w-12 h-12 rounded-xl bg-gradient-secondary flex items-center justify-center ">
+                <img src={navLogo} alt="Nova Exams Logo" className="w-8 h-8" />
               </div>
-            </div>
-            <Button
-              type="submit"
-              variant="cta"
-              size="lg"
-              className="w-full"
-              disabled={isPending}
-            >
-              {isPending ? "Signing in..." : "Sign In"}
-            </Button>
+              <DialogTitle className="font-display text-2xl text-center">
+                Admin Login
+              </DialogTitle>
+              <DialogDescription className="text-muted-foreground">
+                This login is for administrators only. Regular users do not need
+                to log in.
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="admin@novaexams.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
 
-            <p className="text-center text-xs text-muted-foreground mt-4">
-              <Shield className="inline w-3 h-3 mr-1" />
-              Admin access only
-            </p>
-          </form>
-        </DialogContent>
-      </Dialog>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className="pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
+                  </button>
+                </div>
+              </div>
+              <Button
+                type="submit"
+                variant="cta"
+                size="lg"
+                className="w-full"
+                disabled={isPending}
+              >
+                {isPending ? "Signing in..." : "Sign In"}
+              </Button>
+
+              <p className="text-center text-xs text-muted-foreground mt-4">
+                <Shield className="inline w-3 h-3 mr-1" />
+                Admin access only
+              </p>
+            </form>
+          </DialogContent>
+        </Dialog>
+      )}
     </nav>
   );
 }
