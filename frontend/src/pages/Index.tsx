@@ -1,12 +1,11 @@
-
 import { HeroSection } from "@/components/HeroSection";
-import { ServicesSection } from "@/components/ServicesSection";
-import  ExamsSection  from "../components/admin/ExamSection";
+import  {ServicesSection}  from "@/components/ServicesSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { CTASection } from "@/components/CTASection";
 import { Footer } from "@/components/Footer";
 import { ChatBot } from "@/components/ChatBot";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { ExamsSection } from "@/components/ExamsSection";
 
 const Index = () => {
   return (
@@ -14,7 +13,7 @@ const Index = () => {
   <main className="w-full overflow-x-hidden">
     <HeroSection />
     <ServicesSection />
-    <ExamsSection />
+    <ExamsSection/>
     <TestimonialsSection />
     <CTASection />
   </main>
