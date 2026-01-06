@@ -4,19 +4,19 @@ const testimonialController = require("../controllers/testimonial.controller");
 const upload = require("../middleware/upload");
 
 router.post(
-  "/testimonials",
+  "/",
   upload.single("image"), 
   testimonialController.createTestimonial
 );
 
 router.patch(
-  "/testimonials/:id",
+  "/:id",
   upload.single("image"), 
   testimonialController.updateTestimonial
 );
 
-router.get("/testimonials", testimonialController.getTestimonials);   // ✅ fixed
-router.get("/testimonials/:id", testimonialController.getTestimonial);
-router.delete("/testimonials/:id", testimonialController.deleteTestimonial);
+router.get("/", testimonialController.getTestimonials);  
+router.get("/:id", testimonialController.getTestimonial);
+router.delete("/:id", testimonialController.deleteTestimonial);
 
 module.exports = router;
