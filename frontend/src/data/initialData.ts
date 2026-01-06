@@ -19,19 +19,19 @@ export const initialExams: Exam[] = [
 
 export const initialTestimonials: Testimonial[] = [
   {
-    id: 1,
-    name: "John Doe",
+    id: "1",
+    student: "John Doe",
     exam: "Duolingo",
     score: "130",
-    content: "Great experience with the mentorship program!",
+    testimonial: "Great experience with the mentorship program!",
     image: "",
   },
   {
-    id: 2,
-    name: "Jane Smith",
+    id: "2",
+    student: "Jane Smith",
     exam: "TOEFL",
     score: "110",
-    content: "The exam room service was excellent.",
+    testimonial: "The exam room service was excellent.",
     image: "",
   },
 ];

@@ -36,7 +36,7 @@ const TestimonialsSection = () => {
   const { toast } = useToast();
 
   // ✅ React Query hooks
-  const { data: testimonials = [] } = useTestimonials();
+  const { data: testimonials = [], isLoading ,error} = useTestimonials();
   const addTestimonial = useAddTestimonial();
   const updateTestimonial = useUpdateTestimonial();
   const deleteTestimonial = useDeleteTestimonial();
@@ -47,7 +47,7 @@ const TestimonialsSection = () => {
 
     if (editingTestimonial) {
       updateTestimonial.mutate(
-        { id: editingTestimonial?.id, formData },
+        { id: editingTestimonial.id, formData },
         {
           onSuccess: () => {
             toast({ title: "Testimonial updated successfully!" });
@@ -143,8 +143,14 @@ const TestimonialsSection = () => {
                 </Label>
                 <Input id="image" name="image" type="file" accept="image/*" />
               </div>
-              <Button type="submit" className="w-full">
-                Save Testimonial
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={addTestimonial.isPending || updateTestimonial.isPending}
+              >
+                {addTestimonial.isPending || updateTestimonial.isPending
+                  ? "Saving..."
+                  : "Save Testimonial"}
               </Button>
             </form>
           </DialogContent>
@@ -152,60 +158,75 @@ const TestimonialsSection = () => {
       </CardHeader>
 
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Image</TableHead>
-              <TableHead>Student</TableHead>
-              <TableHead>Exam</TableHead>
-              <TableHead>Score</TableHead>
-              <TableHead>Testimonial</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {testimonials.map((testimonial) => (
-              <TableRow key={testimonial.id}>
-                <TableCell>
-                  {testimonial.image ? (
-                    <img
-                      src={testimonial.image}
-                      alt={testimonial.student}
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-muted-foreground text-sm">No image</span>
-                  )}
-                </TableCell>
-                <TableCell className="font-medium">{testimonial.student}</TableCell>
-                <TableCell>{testimonial.exam}</TableCell>
-                <TableCell>{testimonial.score}</TableCell>
-                <TableCell className="max-w-xs truncate">{testimonial.testimonial}</TableCell>
-                <TableCell className="text-right">
-                  <div className="flex justify-end gap-2">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={() => {
-                        setEditingTestimonial(testimonial);
-                        setIsTestimonialDialogOpen(true);
-                      }}
-                    >
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="destructive"
-                      size="icon"
-                      onClick={() => handleDeleteTestimonial(testimonial.id)}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </TableCell>
+        {isLoading ? (
+          <p className="text-muted-foreground text-center">Loading testimonials...</p>
+        ) : error ? (
+            <p className="text-red-500 text-center py-6">Failed to load testimonials</p>
+          ) : testimonials.length === 0 ? (
+            <p className="text-muted-foreground text-center py-6">
+              No testimonials yet. Click “Add Testimonial” to create one.
+            </p>
+          ) : (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Image</TableHead>
+                <TableHead>Student</TableHead>
+                <TableHead>Exam</TableHead>
+                <TableHead>Score</TableHead>
+                <TableHead>Testimonial</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {testimonials.map((testimonial) => (
+                <TableRow key={testimonial.id}>
+                  <TableCell>
+                    {testimonial.image ? (
+                      <img
+                        src={testimonial.image}
+                        alt={testimonial.student}
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-muted-foreground text-sm">No image</span>
+                    )}
+                  </TableCell>
+                  <TableCell className="font-medium">{testimonial.student}</TableCell>
+                  <TableCell>{testimonial.exam}</TableCell>
+                  <TableCell>{testimonial.score}</TableCell>
+                  <TableCell className="max-w-xs truncate">{testimonial.testimonial}</TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex justify-end gap-2">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => {
+                          setEditingTestimonial(testimonial);
+                          setIsTestimonialDialogOpen(true);
+                        }}
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="destructive"
+                        size="icon"
+                        onClick={() => handleDeleteTestimonial(testimonial.id)}
+                        disabled={deleteTestimonial.isPending}
+                      >
+                        {deleteTestimonial.isPending ? (
+                          <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
+                        ) : (
+                          <Trash2 className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </CardContent>
     </Card>
   );

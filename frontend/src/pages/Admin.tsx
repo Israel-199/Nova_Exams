@@ -10,6 +10,7 @@ import BlogPostsSection from "../components/admin/BlogPostsSection";
 import ResourcesSection from "../components/admin/ResourceSection";
 import { useExams } from "../hooks/useExam";
 import { useLogout, useSession } from "../hooks/useAuth";
+import { useTestimonials } from "@/hooks/useTestimonial";
 
 const Admin = () => {
   const { toast } = useToast();
@@ -21,6 +22,13 @@ const Admin = () => {
     isLoading: isExamsLoading,
     error: examsError,
   } = useExams();
+
+   const {
+    data: testimonials = [],
+    isLoading: isTestimonialsLoading,
+    error: testimonialsError,
+  } = useTestimonials();
+
 
   const logout = useLogout();
   const { data: user } = useSession();
@@ -84,7 +92,7 @@ const Admin = () => {
           {/* Stats Cards */}
           <AdminStats
             examsCount={exams.length}
-            testimonialsCount={0}
+            testimonialsCount={testimonials.length}
             blogPostsCount={0}
             resourcesCount={0}
           />
