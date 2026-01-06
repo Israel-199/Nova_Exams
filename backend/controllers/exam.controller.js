@@ -2,6 +2,21 @@ const prisma = require("../prisma/client");
 
 // Create Exam
 exports.createExam = async (req, res) => {
+  const { examType, mentorship, examRoomService, sum } = req.body;
+
+  // Validation
+  if (
+    !examType ||
+    !mentorship ||
+    examRoomService === undefined ||
+    sum === undefined
+  ) {
+    return res.status(400).json({
+      success: false,
+      message: "All fields are required",
+    });
+  }
+
   try {
     const exam = await prisma.exam.create({ data: req.body });
     res.status(201).json({
@@ -40,7 +55,7 @@ exports.getExams = async (req, res) => {
 exports.getExam = async (req, res) => {
   try {
     const exam = await prisma.exam.findUnique({
-      where: { id: req.params.id }, 
+      where: { id: req.params.id },
     });
 
     if (!exam) {
@@ -67,7 +82,7 @@ exports.getExam = async (req, res) => {
 exports.updateExam = async (req, res) => {
   try {
     const exam = await prisma.exam.update({
-      where: { id: req.params.id }, 
+      where: { id: req.params.id },
       data: req.body,
     });
 
@@ -88,7 +103,7 @@ exports.updateExam = async (req, res) => {
 // Delete Exam
 exports.deleteExam = async (req, res) => {
   try {
-    await prisma.exam.delete({ where: { id: req.params.id } }); 
+    await prisma.exam.delete({ where: { id: req.params.id } });
     res.json({
       success: true,
       message: "Exam deleted successfully",
