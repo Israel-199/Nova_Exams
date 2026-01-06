@@ -22,48 +22,57 @@ import {
 import { Plus, Pencil, Trash2, Upload } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Testimonial } from "@/types/admin";
+import {
+  useTestimonials,
+  useAddTestimonial,
+  useUpdateTestimonial,
+  useDeleteTestimonial,
+} from "@/hooks/useTestimonial";
 
-interface TestimonialsSectionProps {
-  testimonials: Testimonial[];
-  setTestimonials: React.Dispatch<React.SetStateAction<Testimonial[]>>;
-}
-
-const TestimonialsSection = ({ testimonials, setTestimonials }: TestimonialsSectionProps) => {
+const TestimonialsSection = () => {
   const [isTestimonialDialogOpen, setIsTestimonialDialogOpen] = useState(false);
   const [editingTestimonial, setEditingTestimonial] = useState<Testimonial | null>(null);
 
   const { toast } = useToast();
 
+  // ✅ React Query hooks
+  const { data: testimonials = [] } = useTestimonials();
+  const addTestimonial = useAddTestimonial();
+  const updateTestimonial = useUpdateTestimonial();
+  const deleteTestimonial = useDeleteTestimonial();
+
   const handleSaveTestimonial = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const testimonialData = {
-      id: editingTestimonial?.id || Date.now(),
-      name: formData.get("name") as string,
-      exam: formData.get("exam") as string,
-      score: formData.get("score") as string,
-      content: formData.get("content") as string,
-      image: formData.get("image") as string,
-    };
 
     if (editingTestimonial) {
-      setTestimonials(
-        testimonials.map((t) =>
-          t.id === editingTestimonial.id ? testimonialData : t
-        )
+      updateTestimonial.mutate(
+        { id: editingTestimonial?.id, formData },
+        {
+          onSuccess: () => {
+            toast({ title: "Testimonial updated successfully!" });
+            setIsTestimonialDialogOpen(false);
+            setEditingTestimonial(null);
+          },
+          onError: () => toast({ title: "Failed to update testimonial" }),
+        }
       );
-      toast({ title: "Testimonial updated successfully!" });
     } else {
-      setTestimonials([...testimonials, testimonialData]);
-      toast({ title: "Testimonial added successfully!" });
+      addTestimonial.mutate(formData, {
+        onSuccess: () => {
+          toast({ title: "Testimonial added successfully!" });
+          setIsTestimonialDialogOpen(false);
+        },
+        onError: () => toast({ title: "Failed to add testimonial" }),
+      });
     }
-    setEditingTestimonial(null);
-    setIsTestimonialDialogOpen(false);
   };
 
-  const handleDeleteTestimonial = (id: number) => {
-    setTestimonials(testimonials.filter((t) => t.id !== id));
-    toast({ title: "Testimonial deleted successfully!" });
+  const handleDeleteTestimonial = (id: string) => {
+    deleteTestimonial.mutate(id, {
+      onSuccess: () => toast({ title: "Testimonial deleted successfully!" }),
+      onError: () => toast({ title: "Failed to delete testimonial" }),
+    });
   };
 
   return (
@@ -85,21 +94,16 @@ const TestimonialsSection = ({ testimonials, setTestimonials }: TestimonialsSect
           <DialogContent className="bg-card">
             <DialogHeader>
               <DialogTitle>
-                {editingTestimonial
-                  ? "Edit Testimonial"
-                  : "Add New Testimonial"}
+                {editingTestimonial ? "Edit Testimonial" : "Add New Testimonial"}
               </DialogTitle>
             </DialogHeader>
-            <form
-              onSubmit={handleSaveTestimonial}
-              className="space-y-4"
-            >
+            <form onSubmit={handleSaveTestimonial} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="t-name">Student Name</Label>
+                <Label htmlFor="student">Student Name</Label>
                 <Input
-                  id="t-name"
-                  name="name"
-                  defaultValue={editingTestimonial?.name}
+                  id="student"
+                  name="student"
+                  defaultValue={editingTestimonial?.student}
                   required
                 />
               </div>
@@ -124,34 +128,23 @@ const TestimonialsSection = ({ testimonials, setTestimonials }: TestimonialsSect
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="content">Testimonial</Label>
+                <Label htmlFor="testimonial">Testimonial</Label>
                 <Textarea
-                  id="content"
-                  name="content"
-                  defaultValue={editingTestimonial?.content}
+                  id="testimonial"
+                  name="testimonial"
+                  defaultValue={editingTestimonial?.testimonial}
                   required
                 />
               </div>
               <div className="space-y-2">
-                {" "}
-                <Label
-                  htmlFor="image"
-                  className="flex items-center gap-2"
-                >
-                  {" "}
-                  <Upload className="h-4 w-4 text-muted-foreground" />{" "}
+                <Label htmlFor="image" className="flex items-center gap-2">
+                  <Upload className="h-4 w-4 text-muted-foreground" />
                   Upload Image
-                </Label>{" "}
-                <Input
-                  id="image"
-                  name="image"
-                  type="file"
-                  accept="image/*"
-                />{" "}
-              </div>{" "}
+                </Label>
+                <Input id="image" name="image" type="file" accept="image/*" />
+              </div>
               <Button type="submit" className="w-full">
-                {" "}
-                Save Testimonial{" "}
+                Save Testimonial
               </Button>
             </form>
           </DialogContent>
@@ -177,24 +170,17 @@ const TestimonialsSection = ({ testimonials, setTestimonials }: TestimonialsSect
                   {testimonial.image ? (
                     <img
                       src={testimonial.image}
-                      alt={testimonial.name}
+                      alt={testimonial.student}
                       className="w-12 h-12 rounded-full object-cover"
                     />
                   ) : (
-                    <span className="text-muted-foreground text-sm">
-                      No image
-                    </span>
+                    <span className="text-muted-foreground text-sm">No image</span>
                   )}
                 </TableCell>
-
-                <TableCell className="font-medium">
-                  {testimonial.name}
-                </TableCell>
+                <TableCell className="font-medium">{testimonial.student}</TableCell>
                 <TableCell>{testimonial.exam}</TableCell>
                 <TableCell>{testimonial.score}</TableCell>
-                <TableCell className="max-w-xs truncate">
-                  {testimonial.content}
-                </TableCell>
+                <TableCell className="max-w-xs truncate">{testimonial.testimonial}</TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
                     <Button
@@ -210,9 +196,7 @@ const TestimonialsSection = ({ testimonials, setTestimonials }: TestimonialsSect
                     <Button
                       variant="destructive"
                       size="icon"
-                      onClick={() =>
-                        handleDeleteTestimonial(testimonial.id)
-                      }
+                      onClick={() => handleDeleteTestimonial(testimonial.id)}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>

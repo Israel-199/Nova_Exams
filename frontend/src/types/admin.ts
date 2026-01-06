@@ -7,13 +7,15 @@ export interface Exam {
 }
 
 export interface Testimonial {
-  id: number;
-  name: string;
+  id: string;          
+  student: string;
   exam: string;
   score: string;
-  content: string;
-  image: string;
+  testimonial: string;
+  image?: string;
+  created_at?: string;
 }
+
 
 export interface BlogPost {
   id: number;
