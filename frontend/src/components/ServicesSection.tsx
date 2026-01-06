@@ -22,6 +22,7 @@ export function ServicesSection() {
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
           className="text-center max-w-2xl mx-auto mb-16"
         >
           <span className="inline-block px-4 py-1 rounded-full bg-secondary/10 text-secondary font-medium text-sm mb-4">
@@ -45,6 +46,7 @@ export function ServicesSection() {
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.15 }}
+               viewport={{ once: true }}
             >
               <Card className="group bg-card border-border shadow-sm hover:shadow-lg transition-shadow duration-300">
                 <CardContent className="p-6">
@@ -69,6 +71,7 @@ export function ServicesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2}}
           className="text-center mt-12"
+           viewport={{ once: true }}
         >
           <Button variant="cta" size="lg" asChild>
             <Link to="/booking">Explore All Services</Link>

@@ -87,12 +87,17 @@ export function ExamsSection() {
           ))}
         </div>
 
-        {/* CTA */}
-        <div className="text-center mt-12">
+   <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2}}
+          className="text-center mt-12"
+           viewport={{ once: true }}
+        >
           <Button variant="hero" size="lg" asChild>
             <Link to="/booking">Book Your Exam</Link>
           </Button>
-        </div>
+          </motion.div>
       </div>
     </section>
   );
