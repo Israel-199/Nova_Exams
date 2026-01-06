@@ -106,8 +106,7 @@ const Admin = () => {
               ) : examsError ? (
                 <p className="text-red-500 text-center">Failed to load exams</p>
               ) : (
-                // ✅ ExamsSection now only needs exams, backend mutations handle updates
-                <ExamsSection exams={exams} />
+                <ExamsSection/>
               )}
             </TabsContent>
 

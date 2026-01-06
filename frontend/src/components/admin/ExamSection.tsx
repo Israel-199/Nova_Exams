@@ -20,8 +20,7 @@ const ExamsSection = () => {
   const [editingExam, setEditingExam] = useState<Exam | null>(null);
 
   const { toast } = useToast();
-
-  // ✅ fetch exams directly from backend
+  
   const { data: exams = [], isLoading, error } = useExams();
 
   const addExam = useAddExam();
@@ -62,7 +61,6 @@ const ExamsSection = () => {
       toast({ title: "Error deleting exam", variant: "destructive" });
     }
   };
-
   return (
     <Card className="bg-white">
       <CardContent className="p-6">
