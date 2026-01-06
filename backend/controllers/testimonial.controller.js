@@ -17,9 +17,11 @@ exports.createTestimonial = async (req, res) => {
 
     const testimonial = await prisma.testimonial.create({
       data: {
-        name: req.body.name,
-        message: req.body.message,
-        imageUrl,
+        student: req.body.student,       
+        exam: req.body.exam,              
+        score: req.body.score,           
+        testimonial: req.body.testimonial,
+        image: imageUrl,                  
       },
     });
 
@@ -88,7 +90,7 @@ exports.getTestimonial = async (req, res) => {
 // Update Testimonial
 exports.updateTestimonial = async (req, res) => {
   try {
-    let imageUrl = req.body.imageUrl || null;
+    let imageUrl = req.body.image || null;
 
     if (req.file) {
       const uploadResult = await uploadToCloudinary(
@@ -102,9 +104,11 @@ exports.updateTestimonial = async (req, res) => {
     const testimonial = await prisma.testimonial.update({
       where: { id: req.params.id },
       data: {
-        name: req.body.name,
-        message: req.body.message,
-        imageUrl,
+        student: req.body.student,
+        exam: req.body.exam,
+        score: req.body.score,
+        testimonial: req.body.testimonial,
+        image: imageUrl,
       },
     });
 
