@@ -1,18 +1,16 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 
-// Fetch all exams
 export function useExams() {
   return useQuery({
     queryKey: ["exams"],
     queryFn: async () => {
-      const res = await api.get("/api/exams"); // plural
-      return res.data.data; // actual array of exams
+      const res = await api.get("/exams"); 
+      return res.data.data; 
     },
   });
 }
 
-// Add exam
 export function useAddExam() {
   const queryClient = useQueryClient();
   return useMutation({
@@ -22,7 +20,7 @@ export function useAddExam() {
       examRoomService: number;
       sum: number;
     }) => {
-      const res = await api.post("/api/exams", exam);
+      const res = await api.post("/exams", exam);
       return res.data;
     },
     onSuccess: () => {
@@ -31,7 +29,6 @@ export function useAddExam() {
   });
 }
 
-// Update exam
 export function useUpdateExam() {
   const queryClient = useQueryClient();
   return useMutation({
@@ -42,7 +39,7 @@ export function useUpdateExam() {
       examRoomService: number;
       sum: number;
     }) => {
-      const res = await api.patch(`/api/exams/${exam.id}`, exam);
+      const res = await api.patch(`/exams/${exam.id}`, exam);
       return res.data;
     },
     onSuccess: () => {
@@ -51,12 +48,11 @@ export function useUpdateExam() {
   });
 }
 
-// Delete exam
 export function useDeleteExam() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (id: string) => {
-      const res = await api.delete(`/api/exams/${id}`); // ✅ plural
+      const res = await api.delete(`/exams/${id}`); 
       return res.data;
     },
     onSuccess: () => {

@@ -10,106 +10,69 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Exam } from "@/types/admin";
+import { useAddExam, useUpdateExam, useDeleteExam, useExams } from "@/hooks/useExam";
 
-interface ExamsSectionProps {
-  exams: Exam[];
-  setExams: React.Dispatch<React.SetStateAction<Exam[]>>;
-}
-
-const ExamsSection = ({ exams, setExams }: ExamsSectionProps) => {
-  const [examDialogOpen, setExamDialogOpen] = useState(false);
+const ExamsSection = () => {
+  const [isExamDialogOpen, setIsExamDialogOpen] = useState(false);
   const [editingExam, setEditingExam] = useState<Exam | null>(null);
-  const [examForm, setExamForm] = useState({
-    examType: "Duolingo" as
-      | "Duolingo"
-      | "TOEFL"
-      | "Pearson"
-      | "IELTS Home"
-      | "Others",
-    mentorship: "",
-    examRoomService: "",
-    sum: "",
-  });
 
   const { toast } = useToast();
 
-  const handleAddExam = () => {
-    if (!examForm.examType || !examForm.mentorship) {
-      toast({ title: "Please fill all fields", variant: "destructive" });
-      return;
-    }
-    const newExam = {
-      examType: examForm.examType,
-      mentorship: examForm.mentorship,
-      examRoomService: Number(examForm.examRoomService) || 0,
-      sum: Number(examForm.sum) || 0,
+  // ✅ fetch exams directly from backend
+  const { data: exams = [], isLoading, error } = useExams();
+
+  const addExam = useAddExam();
+  const updateExam = useUpdateExam();
+  const deleteExam = useDeleteExam();
+
+  const handleSaveExam = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    const payload = {
+      examType: formData.get("examType") as Exam["examType"],
+      mentorship: formData.get("mentorship") as string,
+      examRoomService: Number(formData.get("examRoomService")) || 0,
+      sum: Number(formData.get("sum")) || 0,
     };
 
-    if (editingExam) {
-      setExams(exams.map((e) => (e.id === editingExam.id ? { ...e, ...newExam } : e)));
-      toast({ title: "Exam updated successfully" });
-    } else {
-      setExams([...exams, { id: Date.now().toString(), ...newExam }]);
-      toast({ title: "Exam added successfully" });
+    try {
+      if (editingExam) {
+        await updateExam.mutateAsync({ id: editingExam.id, ...payload });
+        toast({ title: "Exam updated successfully" });
+      } else {
+        await addExam.mutateAsync(payload);
+        toast({ title: "Exam added successfully" });
+      }
+      setEditingExam(null);
+      setIsExamDialogOpen(false);
+    } catch {
+      toast({ title: "Error saving exam", variant: "destructive" });
     }
-
-    setExamForm({ examType: "Duolingo", mentorship: "", examRoomService: "", sum: "" });
-    setEditingExam(null);
-    setExamDialogOpen(false);
   };
 
-  const handleEditExam = (exam: Exam) => {
-    setEditingExam(exam);
-    setExamForm({
-      examType: exam.examType,
-      mentorship: exam.mentorship,
-      examRoomService: exam.examRoomService.toString(),
-      sum: exam.sum.toString(),
-    });
-    setExamDialogOpen(true);
-  };
-
-  const handleDeleteExam = (id: string) => {
-    setExams(exams.filter((e) => e.id !== id));
-    toast({ title: "Exam deleted" });
+  const handleDeleteExam = async (id: string) => {
+    try {
+      await deleteExam.mutateAsync(id);
+      toast({ title: "Exam deleted" });
+    } catch {
+      toast({ title: "Error deleting exam", variant: "destructive" });
+    }
   };
 
   return (
     <Card className="bg-white">
       <CardContent className="p-6">
+        {/* Header with Add button */}
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-semibold text-neutral-dark">
-            Manage Exam Prices
-          </h2>
-          <Dialog
-            open={examDialogOpen}
-            onOpenChange={setExamDialogOpen}
-          >
+          <h2 className="text-xl font-semibold text-neutral-dark">Manage Exam Prices</h2>
+          <Dialog open={isExamDialogOpen} onOpenChange={setIsExamDialogOpen}>
             <DialogTrigger asChild>
-              <Button
-                className="gap-2"
-                onClick={() => {
-                  setEditingExam(null);
-                  setExamForm({
-                    examType: "Duolingo",
-                    mentorship: "",
-                    examRoomService: "",
-                    sum: "",
-                  });
-                }}
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Add Exam
+              <Button onClick={() => setEditingExam(null)} className="gap-2">
+                <Plus className="h-4 w-4" /> Add Exam
               </Button>
             </DialogTrigger>
             <DialogContent className="bg-card">
@@ -118,138 +81,100 @@ const ExamsSection = ({ exams, setExams }: ExamsSectionProps) => {
                   {editingExam ? "Edit Exam" : "Add New Exam"}
                 </DialogTitle>
               </DialogHeader>
-              <div className="space-y-4 mt-4">
-                <div>
-                  <Label>Exam Type</Label>
-                  <Select
-                    value={examForm.examType}
-                    onValueChange={(
-                      value:
-                        | "Duolingo"
-                        | "TOEFL"
-                        | "Pearson"
-                        | "IELTS Home"
-                        | "Others"
-                    ) =>
-                      setExamForm({ ...examForm, examType: value })
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select exam type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Duolingo">
-                        Duolingo
-                      </SelectItem>
-                      <SelectItem value="TOEFL">TOEFL</SelectItem>
-                      <SelectItem value="Pearson">Pearson</SelectItem>
-                      <SelectItem value="IELTS Home">
-                        IELTS Home
-                      </SelectItem>
-                      <SelectItem value="Others">Others</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label>Mentorship</Label>
+              <form onSubmit={handleSaveExam} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="examType">Exam Type</Label>
                   <Input
-                    value={examForm.mentorship}
-                    onChange={(e) =>
-                      setExamForm({
-                        ...examForm,
-                        mentorship: e.target.value,
-                      })
-                    }
-                    placeholder="e.g., 2 days (in person)"
+                    id="examType"
+                    name="examType"
+                    defaultValue={editingExam?.examType}
+                    required
                   />
                 </div>
-                <div>
-                  <Label>Exam Room Service (ETB)</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="mentorship">Mentorship</Label>
                   <Input
-                    type="number"
-                    value={examForm.examRoomService}
-                    onChange={(e) =>
-                      setExamForm({
-                        ...examForm,
-                        examRoomService: e.target.value,
-                      })
-                    }
-                    placeholder="e.g., 5000"
+                    id="mentorship"
+                    name="mentorship"
+                    defaultValue={editingExam?.mentorship}
+                    required
                   />
                 </div>
-                <div>
-                  <Label>Sum (ETB)</Label>
-                  <Input
-                    type="number"
-                    value={examForm.sum}
-                    onChange={(e) =>
-                      setExamForm({
-                        ...examForm,
-                        sum: e.target.value,
-                      })
-                    }
-                    placeholder="e.g., 8000"
-                  />
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="examRoomService">Exam Room Service (ETB)</Label>
+                    <Input
+                      id="examRoomService"
+                      name="examRoomService"
+                      type="number"
+                      defaultValue={editingExam?.examRoomService}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="sum">Sum (ETB)</Label>
+                    <Input
+                      id="sum"
+                      name="sum"
+                      type="number"
+                      defaultValue={editingExam?.sum}
+                      required
+                    />
+                  </div>
                 </div>
-                <Button onClick={handleAddExam} className="w-full">
-                  {editingExam ? "Update Exam" : "Add Exam"}
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={addExam.isPending || updateExam.isPending}
+                >
+                  {(addExam.isPending || updateExam.isPending) ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    "Save Exam"
+                  )}
                 </Button>
-              </div>
+              </form>
             </DialogContent>
           </Dialog>
         </div>
 
+        {/* Table */}
         <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b">
-                <th className="text-left py-3 px-4 text-muted-foreground font-medium">
-                  Exam Type
-                </th>
-                <th className="text-left py-3 px-4 text-muted-foreground font-medium">
-                  Mentorship
-                </th>
-                <th className="text-left py-3 px-4 text-muted-foreground font-medium">
-                  Exam Room Service
-                </th>
-                <th className="text-left py-3 px-4 text-muted-foreground font-medium">
-                  Sum
-                </th>
-                <th className="text-right py-3 px-4 text-muted-foreground font-medium">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {exams.map((exam) => (
-                <tr
-                  key={exam.id}
-                  className="border-b hover:bg-muted/5"
-                >
-                  <td className="py-4 px-4 font-medium text-neutral-dark">
-                    {exam.examType}
-                  </td>
-                  <td className="py-4 px-4 text-neutral-dark">
-                    {exam.mentorship}
-                  </td>
-                  <td className="py-4 px-4 text-neutral-dark">
-                    {exam.examType === "Others"
-                      ? "-"
-                      : exam.examRoomService.toLocaleString() +
-                        " ETB"}
-                  </td>
-                  <td className="py-4 px-4 text-neutral-dark">
-                    {exam.examType === "Others"
-                      ? "-"
-                      : exam.sum.toLocaleString() + " ETB"}
-                  </td>
-                  <td className="py-4 px-4">
-                    <div className="flex justify-end gap-2">
+          {isLoading ? (
+            <p className="text-center py-6">Loading exams...</p>
+          ) : error ? (
+            <p className="text-red-500 text-center py-6">Failed to load exams</p>
+          ) : exams.length === 0 ? (
+            <p className="text-muted-foreground text-center py-6">
+              No exams yet. Click “Add Exam” to create one.
+            </p>
+          ) : (
+            <table className="w-full">
+              <thead>
+                <tr className="border-b">
+                  <th className="text-left py-3 px-4">Exam Type</th>
+                  <th className="text-left py-3 px-4">Mentorship</th>
+                  <th className="text-left py-3 px-4">Exam Room Service</th>
+                  <th className="text-left py-3 px-4">Sum</th>
+                  <th className="text-right py-3 px-4">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {exams.map((exam) => (
+                  <tr key={exam.id} className="border-b hover:bg-muted/5">
+                    <td className="py-4 px-4">{exam.examType}</td>
+                    <td className="py-4 px-4">{exam.mentorship}</td>
+                    <td className="py-4 px-4">{exam.examRoomService} ETB</td>
+                    <td className="py-4 px-4">{exam.sum} ETB</td>
+                    <td className="py-4 px-4 text-right">
                       <Button
                         variant="outline"
                         size="icon"
-                        onClick={() => handleEditExam(exam)}
-                        className="h-8 w-8"
+                        onClick={() => {
+                          setEditingExam(exam);
+                          setIsExamDialogOpen(true);
+                        }}
+                        className="h-8 w-8 mr-2"
                       >
                         <Pencil className="w-4 h-4" />
                       </Button>
@@ -257,16 +182,21 @@ const ExamsSection = ({ exams, setExams }: ExamsSectionProps) => {
                         variant="destructive"
                         size="icon"
                         onClick={() => handleDeleteExam(exam.id)}
-                        className="h-8 w-8 border-destructive/30 hover:bg-destructive/10"
+                        className="h-8 w-8"
+                        disabled={deleteExam.isPending}
                       >
-                        <Trash2 className="w-4 h-4" />
+                        {deleteExam.isPending ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <Trash2 className="w-4 h-4" />
+                        )}
                       </Button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </CardContent>
     </Card>

@@ -8,23 +8,29 @@ import ExamsSection from "../components/admin/ExamSection";
 import TestimonialsSection from "../components/admin/TestimonialSection";
 import BlogPostsSection from "../components/admin/BlogPostsSection";
 import ResourcesSection from "../components/admin/ResourceSection";
-import { useExams } from "../hooks/useExam"; 
-import { useLogout, useSession } from "../hooks/useAuth"; 
+import { useExams } from "../hooks/useExam";
+import { useLogout, useSession } from "../hooks/useAuth";
 
 const Admin = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const { data: exams = [], isLoading: isExamsLoading, error: examsError } = useExams();
-  const logout = useLogout(); // ✅ hook returns a function
-  const { data: user } = useSession(); // ✅ get current user
+  // ✅ React Query fetches exams from backend
+  const {
+    data: exams = [],
+    isLoading: isExamsLoading,
+    error: examsError,
+  } = useExams();
+
+  const logout = useLogout();
+  const { data: user } = useSession();
 
   const handleLogoutClick = async () => {
     const confirmed = window.confirm("Are you sure you want to log out?");
     if (confirmed) {
-      await logout(); // ✅ call backend + clear session
+      await logout();
       toast({ title: "Logged out", description: "Session cleared" });
-      navigate("/login"); // or navigate("/") if you want home
+      navigate("/login");
     }
   };
 
@@ -98,9 +104,10 @@ const Admin = () => {
                   <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
                 </div>
               ) : examsError ? (
-                <p className="text-red-500">Failed to load exams</p>
+                <p className="text-red-500 text-center">Failed to load exams</p>
               ) : (
-                <ExamsSection exams={exams} setExams={() => {}} />
+                // ✅ ExamsSection now only needs exams, backend mutations handle updates
+                <ExamsSection exams={exams} />
               )}
             </TabsContent>
 
