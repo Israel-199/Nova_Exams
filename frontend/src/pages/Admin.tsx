@@ -119,7 +119,7 @@ const Admin = () => {
             </TabsContent>
 
             <TabsContent value="testimonials">
-              <TestimonialsSection testimonials={[]} setTestimonials={() => {}} />
+              <TestimonialsSection/>
             </TabsContent>
 
             <TabsContent value="blog">
