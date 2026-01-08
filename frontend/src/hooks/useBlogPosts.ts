@@ -7,20 +7,17 @@ export function useBlogPosts() {
   return useQuery<BlogPost[], Error>({
     queryKey: ["blogs"],
     queryFn: async () => {
-      const res = await api.get("/blogs"); // ✅ baseURL already includes /api
+      const res = await api.get("/blogs"); 
       return res.data.data;
     },
   });
 }
 
-// Add blog
 export function useAddBlogPost() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (formData: FormData) => {
-      const res = await api.post("/blogs", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+    mutationFn: async (blogData: Partial<BlogPost>) => {
+      const res = await api.post("/blogs", blogData); 
       return res.data.data;
     },
     onSuccess: () => {
@@ -29,14 +26,11 @@ export function useAddBlogPost() {
   });
 }
 
-// Update blog
 export function useUpdateBlogPost() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, formData }: { id: string; formData: FormData }) => {
-      const res = await api.patch(`/blogs/${id}`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+    mutationFn: async ({ id, blogData }: { id: string; blogData: Partial<BlogPost> }) => {
+      const res = await api.patch(`/blogs/${id}`, blogData); 
       return res.data.data;
     },
     onSuccess: () => {
@@ -44,6 +38,7 @@ export function useUpdateBlogPost() {
     },
   });
 }
+
 
 // Delete blog
 export function useDeleteBlogPost() {

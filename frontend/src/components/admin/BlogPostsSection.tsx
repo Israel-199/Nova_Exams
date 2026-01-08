@@ -44,9 +44,16 @@ const BlogPostsSection = () => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
+    // ✅ Build JSON payload instead of FormData
+    const blogData = {
+      title: formData.get("title") as string,
+      excerpt: formData.get("excerpt") as string,
+      date: new Date(formData.get("date") as string).toISOString(), // ISO format
+    };
+
     if (editingBlog) {
       updateBlogPost.mutate(
-        { id: editingBlog.id, formData },
+        { id: editingBlog.id, blogData },
         {
           onSuccess: () => {
             toast({ title: "Blog post updated successfully!" });
@@ -57,7 +64,7 @@ const BlogPostsSection = () => {
         }
       );
     } else {
-      addBlogPost.mutate(formData, {
+      addBlogPost.mutate(blogData, {
         onSuccess: () => {
           toast({ title: "Blog post added successfully!" });
           setIsBlogDialogOpen(false);
@@ -108,9 +115,7 @@ const BlogPostsSection = () => {
                   type="date"
                   defaultValue={
                     editingBlog
-                      ? new Date(editingBlog.date)
-                          .toISOString()
-                          .split("T")[0]
+                      ? new Date(editingBlog.date).toISOString().split("T")[0]
                       : ""
                   }
                   required
