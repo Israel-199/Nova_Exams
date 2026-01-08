@@ -11,6 +11,7 @@ import ResourcesSection from "../components/admin/ResourceSection";
 import { useExams } from "../hooks/useExam";
 import { useLogout, useSession } from "../hooks/useAuth";
 import { useTestimonials } from "@/hooks/useTestimonial";
+import { useBlogPosts } from "@/hooks/useBlogPosts";
 
 const Admin = () => {
   const { toast } = useToast();
@@ -25,10 +26,11 @@ const Admin = () => {
 
    const {
     data: testimonials = [],
-    isLoading: isTestimonialsLoading,
-    error: testimonialsError,
   } = useTestimonials();
 
+  const {
+    data: blogPosts = [],
+  } = useBlogPosts();
 
   const logout = useLogout();
   const { data: user } = useSession();
@@ -93,7 +95,7 @@ const Admin = () => {
           <AdminStats
             examsCount={exams.length}
             testimonialsCount={testimonials.length}
-            blogPostsCount={0}
+            blogPostsCount={blogPosts.length}
             resourcesCount={0}
           />
 
@@ -123,7 +125,7 @@ const Admin = () => {
             </TabsContent>
 
             <TabsContent value="blog">
-              <BlogPostsSection blogPosts={[]} setBlogPosts={() => {}} />
+              <BlogPostsSection />
             </TabsContent>
 
             <TabsContent value="resources">
