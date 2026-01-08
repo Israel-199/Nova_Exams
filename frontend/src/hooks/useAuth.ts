@@ -38,3 +38,20 @@ export function useLogout() {
   };
 }
 
+export function useUpdateProfile() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data: {
+      name?: string;
+      email?: string;
+      oldPassword?: string;
+      newPassword?: string;
+    }) => {
+      const res = await api.patch("/admin/update-profile", data);
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["session"] });
+    },
+  });
+}

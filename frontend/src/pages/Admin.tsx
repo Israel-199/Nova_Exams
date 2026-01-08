@@ -12,25 +12,22 @@ import { useExams } from "../hooks/useExam";
 import { useLogout, useSession } from "../hooks/useAuth";
 import { useTestimonials } from "@/hooks/useTestimonial";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const Admin = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  // ✅ React Query fetches exams from backend
   const {
     data: exams = [],
     isLoading: isExamsLoading,
     error: examsError,
   } = useExams();
 
-   const {
-    data: testimonials = [],
-  } = useTestimonials();
-
-  const {
-    data: blogPosts = [],
-  } = useBlogPosts();
+  const { data: testimonials = [] } = useTestimonials();
+  const { data: blogPosts = [] } = useBlogPosts();
 
   const logout = useLogout();
   const { data: user } = useSession();
@@ -42,6 +39,48 @@ const Admin = () => {
       toast({ title: "Logged out", description: "Session cleared" });
       navigate("/login");
     }
+  };
+
+  // ✅ Profile form state
+  const [profileForm, setProfileForm] = useState({
+    name: user?.name || "",
+    email: user?.email || "",
+    oldPassword: "",
+    newPassword: "",
+  });
+
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  const handleProfileUpdate = async () => {
+    try {
+      setIsUpdating(true);
+
+      const res = await fetch("/api/admin/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(profileForm),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        toast({ title: "Profile updated successfully" });
+      } else {
+        toast({ title: "Failed to update profile", description: data.message });
+      }
+    } catch (error) {
+      toast({ title: "Error", description: "Something went wrong" });
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const handleCancelUpdate = () => {
+    setProfileForm({
+      name: user?.name || "",
+      email: user?.email || "",
+      oldPassword: "",
+      newPassword: "",
+    });
   };
 
   return (
@@ -90,7 +129,6 @@ const Admin = () => {
               Manage exams, testimonials, blog posts and resources
             </p>
           </div>
-
           {/* Stats Cards */}
           <AdminStats
             examsCount={exams.length}
@@ -116,12 +154,12 @@ const Admin = () => {
               ) : examsError ? (
                 <p className="text-red-500 text-center">Failed to load exams</p>
               ) : (
-                <ExamsSection/>
+                <ExamsSection />
               )}
             </TabsContent>
 
             <TabsContent value="testimonials">
-              <TestimonialsSection/>
+              <TestimonialsSection />
             </TabsContent>
 
             <TabsContent value="blog">
@@ -129,10 +167,64 @@ const Admin = () => {
             </TabsContent>
 
             <TabsContent value="resources">
-              <ResourcesSection resources={[]} setResources={() => {}} />
+              <ResourcesSection />
             </TabsContent>
           </Tabs>
         </div>
+         {/* Profile Update Section */}
+          <div className="mb-10 p-6 border rounded-lg bg-card shadow-sm">
+            <h2 className="text-xl font-semibold mb-4">Update Profile</h2>
+            <div className="space-y-4">
+              <Input
+                placeholder="Name"
+                value={profileForm.name}
+                onChange={(e) =>
+                  setProfileForm({ ...profileForm, name: e.target.value })
+                }
+              />
+              <Input
+                placeholder="Email"
+                type="email"
+                value={profileForm.email}
+                onChange={(e) =>
+                  setProfileForm({ ...profileForm, email: e.target.value })
+                }
+              />
+              <Input
+                placeholder="Old Password"
+                type="password"
+                value={profileForm.oldPassword}
+                onChange={(e) =>
+                  setProfileForm({ ...profileForm, oldPassword: e.target.value })
+                }
+              />
+              <Input
+                placeholder="New Password"
+                type="password"
+                value={profileForm.newPassword}
+                onChange={(e) =>
+                  setProfileForm({ ...profileForm, newPassword: e.target.value })
+                }
+              />
+
+              <div className="flex gap-3">
+                <Button
+                  onClick={handleProfileUpdate}
+                  disabled={isUpdating}
+                  className="bg-primary text-white"
+                >
+                  {isUpdating ? "Updating..." : "Update Profile"}
+                </Button>
+                <Button
+                  onClick={handleCancelUpdate}
+                  variant="outline"
+                  className="border-gray-400"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          </div>
       </main>
     </div>
   );

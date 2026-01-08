@@ -31,8 +31,7 @@ export interface Resource {
   title: string;
   description: string;
   url: string;
-  videoType?: "youtube" | "social" | "upload";
-  videoFile?: File | null;
-  pdfFile?: File | null;
-  pdfUploadMode?: "url" | "upload";
+  videoType?: "youtube" | "vimeo" | "social" | "upload";
+  pdfUploadMode?: "url" | "file" | "upload";
 }
+
