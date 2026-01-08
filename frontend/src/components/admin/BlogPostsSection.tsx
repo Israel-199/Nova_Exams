@@ -22,45 +22,57 @@ import {
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { BlogPost } from "@/types/admin";
+import {
+  useBlogPosts,
+  useAddBlogPost,
+  useUpdateBlogPost,
+  useDeleteBlogPost,
+} from "@/hooks/useBlogPosts";
 
-interface BlogPostsSectionProps {
-  blogPosts: BlogPost[];
-  setBlogPosts: React.Dispatch<React.SetStateAction<BlogPost[]>>;
-}
-
-const BlogPostsSection = ({ blogPosts, setBlogPosts }: BlogPostsSectionProps) => {
+const BlogPostsSection = () => {
   const [isBlogDialogOpen, setIsBlogDialogOpen] = useState(false);
   const [editingBlog, setEditingBlog] = useState<BlogPost | null>(null);
 
   const { toast } = useToast();
 
+  // ✅ React Query hooks
+  const { data: blogPosts = [], isLoading } = useBlogPosts();
+  const addBlogPost = useAddBlogPost();
+  const updateBlogPost = useUpdateBlogPost();
+  const deleteBlogPost = useDeleteBlogPost();
+
   const handleSaveBlog = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const blogData = {
-      id: editingBlog?.id || Date.now(),
-      title: formData.get("title") as string,
-      category: formData.get("category") as string,
-      excerpt: formData.get("excerpt") as string,
-      date: formData.get("date") as string,
-    };
 
     if (editingBlog) {
-      setBlogPosts(
-        blogPosts.map((b) => (b.id === editingBlog.id ? blogData : b))
+      updateBlogPost.mutate(
+        { id: editingBlog.id, formData },
+        {
+          onSuccess: () => {
+            toast({ title: "Blog post updated successfully!" });
+            setIsBlogDialogOpen(false);
+            setEditingBlog(null);
+          },
+          onError: () => toast({ title: "Failed to update blog post" }),
+        }
       );
-      toast({ title: "Blog post updated successfully!" });
     } else {
-      setBlogPosts([...blogPosts, blogData]);
-      toast({ title: "Blog post added successfully!" });
+      addBlogPost.mutate(formData, {
+        onSuccess: () => {
+          toast({ title: "Blog post added successfully!" });
+          setIsBlogDialogOpen(false);
+        },
+        onError: () => toast({ title: "Failed to add blog post" }),
+      });
     }
-    setEditingBlog(null);
-    setIsBlogDialogOpen(false);
   };
 
-  const handleDeleteBlog = (id: number) => {
-    setBlogPosts(blogPosts.filter((b) => b.id !== id));
-    toast({ title: "Blog post deleted successfully!" });
+  const handleDeleteBlog = (id: string) => {
+    deleteBlogPost.mutate(id, {
+      onSuccess: () => toast({ title: "Blog post deleted successfully!" }),
+      onError: () => toast({ title: "Failed to delete blog post" }),
+    });
   };
 
   return (
@@ -125,60 +137,71 @@ const BlogPostsSection = ({ blogPosts, setBlogPosts }: BlogPostsSectionProps) =>
                   required
                 />
               </div>
-              <Button type="submit" className="w-full">
-                Save Post
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={addBlogPost.isPending || updateBlogPost.isPending}
+              >
+                {addBlogPost.isPending || updateBlogPost.isPending
+                  ? "Saving..."
+                  : "Save Post"}
               </Button>
             </form>
           </DialogContent>
         </Dialog>
       </CardHeader>
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Title</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead>Date</TableHead>
-              <TableHead>Excerpt</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {blogPosts.map((post) => (
-              <TableRow key={post.id}>
-                <TableCell className="font-medium">
-                  {post.title}
-                </TableCell>
-                <TableCell>{post.category}</TableCell>
-                <TableCell>{post.date}</TableCell>
-                <TableCell className="max-w-xs truncate">
-                  {post.excerpt}
-                </TableCell>
-                <TableCell className="text-right">
-                  <div className="flex justify-end gap-2">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={() => {
-                        setEditingBlog(post);
-                        setIsBlogDialogOpen(true);
-                      }}
-                    >
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="destructive"
-                      size="icon"
-                      onClick={() => handleDeleteBlog(post.id)}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </TableCell>
+        {isLoading ? (
+          <p className="text-muted-foreground text-center">Loading blog posts...</p>
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Title</TableHead>
+                <TableHead>Category</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead>Excerpt</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {blogPosts.map((post) => (
+                <TableRow key={post.id}>
+                  <TableCell className="font-medium">{post.title}</TableCell>
+                  <TableCell>{post.category}</TableCell>
+                  <TableCell>{post.date}</TableCell>
+                  <TableCell className="max-w-xs truncate">{post.excerpt}</TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex justify-end gap-2">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => {
+                          setEditingBlog(post);
+                          setIsBlogDialogOpen(true);
+                        }}
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="destructive"
+                        size="icon"
+                        onClick={() => handleDeleteBlog(post.id)}
+                        disabled={deleteBlogPost.isPending}
+                      >
+                        {deleteBlogPost.isPending ? (
+                          <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
+                        ) : (
+                          <Trash2 className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </CardContent>
     </Card>
   );

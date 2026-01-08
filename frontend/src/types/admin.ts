@@ -18,7 +18,7 @@ export interface Testimonial {
 
 
 export interface BlogPost {
-  id: number;
+  id: string;
   title: string;
   category: string;
   excerpt: string;
