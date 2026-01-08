@@ -4,7 +4,7 @@ import { BlogPost } from "@/types/admin";
 
 export function useBlogPosts() {
   return useQuery<BlogPost[], Error>({
-    queryKey: ["blogPosts"],
+    queryKey: ["blogs"],
     queryFn: async () => {
       const res = await api.get("/blogs");
       return res.data.data; 
