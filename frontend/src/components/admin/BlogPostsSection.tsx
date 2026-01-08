@@ -144,12 +144,12 @@ const BlogPostsSection = () => {
       </CardHeader>
       <CardContent>
         {isLoading ? (
-          <p className="text-muted-foreground text-center">Loading testimonials...</p>
+          <p className="text-muted-foreground text-center">Loading Blogs...</p>
         ) : error ? (
-            <p className="text-red-500 text-center py-6">Failed to load testimonials</p>
+            <p className="text-red-500 text-center py-6">Failed to load BlogPosts</p>
           ) : blogPosts.length === 0 ? (
             <p className="text-muted-foreground text-center py-6">
-              No testimonials yet. Click “Add Testimonial” to create one.
+              No testimonials yet. Click “Add Post” to create one.
             </p>
           ) : (
           <Table>
