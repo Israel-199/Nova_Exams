@@ -10,6 +10,5 @@ router.get("/session", adminController.getSession);
 // Protected routes
 router.get("/profile", authenticateAdmin, adminController.getProfile);
 router.patch("/update-profile", authenticateAdmin, adminController.updateProfile);
-router.patch("/change-password", authenticateAdmin, adminController.changePassword);
 
 module.exports = router;

@@ -26,7 +26,7 @@ exports.loginAdmin = async (req, res) => {
       {
         id: admin.id,
         email: admin.email,
-        name: admin.name,   // added
+        name: admin.name, // added
         isAdmin: true,
       },
       process.env.JWT_SECRET,
@@ -73,7 +73,6 @@ exports.getSession = (req, res) => {
   }
 };
 
-
 exports.logoutAdmin = async (req, res) => {
   try {
     res.clearCookie("adminToken");
@@ -96,26 +95,38 @@ exports.getProfile = async (req, res) => {
       data: { id: admin.id, name: admin.name, email: admin.email },
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Failed to fetch profile",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch profile",
+      error: error.message,
+    });
   }
 };
 
 // Update Admin Profile (name, email)
 exports.updateProfile = async (req, res) => {
   try {
-    const { name, email } = req.body;
-
+    const { name, email, oldPassword, newPassword } = req.body;
+    const updateData = {};
+    if (name) updateData.name = name;
+    if (email) updateData.email = email;
+    if (oldPassword && newPassword) {
+      const admin = await prisma.admin.findUnique({
+        where: { id: req.admin.id },
+      });
+      const isMatch = await bcrypt.compare(oldPassword, admin.password);
+      if (!isMatch) {
+        return res
+          .status(400)
+          .json({ success: false, message: "Old password is incorrect" });
+      }
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      updateData.password = hashedPassword;
+    }
     const updatedAdmin = await prisma.admin.update({
       where: { id: req.admin.id },
-      data: { name, email },
+      data: updateData,
     });
-
     res.json({
       success: true,
       message: "Profile updated successfully",
@@ -131,41 +142,6 @@ exports.updateProfile = async (req, res) => {
       .json({
         success: false,
         message: "Failed to update profile",
-        error: error.message,
-      });
-  }
-};
-
-// Change Password
-exports.changePassword = async (req, res) => {
-  try {
-    const { oldPassword, newPassword } = req.body;
-
-    const admin = await prisma.admin.findUnique({
-      where: { id: req.admin.id },
-    });
-
-    const isMatch = await bcrypt.compare(oldPassword, admin.password);
-    if (!isMatch) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Old password is incorrect" });
-    }
-
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-    await prisma.admin.update({
-      where: { id: req.admin.id },
-      data: { password: hashedPassword },
-    });
-
-    res.json({ success: true, message: "Password changed successfully" });
-  } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Failed to change password",
         error: error.message,
       });
   }
