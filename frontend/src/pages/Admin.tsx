@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-
+import { Eye, EyeOff } from "lucide-react";
 import AdminStats from "@/components/admin/AdminStats";
 import ExamsSection from "../components/admin/ExamSection";
 import TestimonialsSection from "../components/admin/TestimonialSection";
@@ -19,6 +19,8 @@ import { Button } from "@/components/ui/button";
 const Admin = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
 
   const {
     data: exams = [],
@@ -41,8 +43,6 @@ const Admin = () => {
       navigate("/login");
     }
   };
-
-  // ✅ Profile form state
   const [profileForm, setProfileForm] = useState({
     name: "",
     email: "",
@@ -50,7 +50,6 @@ const Admin = () => {
     newPassword: "",
   });
 
-  // Sync form with user data when session loads
   useEffect(() => {
     if (user) {
       setProfileForm({
@@ -131,7 +130,9 @@ const Admin = () => {
                 Welcome back, {user.name || user.email}!
               </p>
             ) : (
-              <p className="text-lg font-medium text-foreground">Not logged in</p>
+              <p className="text-lg font-medium text-foreground">
+                Not logged in
+              </p>
             )}
             <p className="text-muted-foreground">
               Manage exams, testimonials, blog posts and resources
@@ -179,60 +180,95 @@ const Admin = () => {
             </TabsContent>
           </Tabs>
         </div>
-         {/* Profile Update Section */}
-          <div className="mb-10 p-6 border rounded-lg bg-card shadow-sm">
-            <h2 className="text-xl font-semibold mb-4">Update Profile</h2>
-            <div className="space-y-4">
-              <Input
-                placeholder="Name"
-                value={profileForm.name}
-                onChange={(e) =>
-                  setProfileForm({ ...profileForm, name: e.target.value })
-                }
-              />
-              <Input
-                placeholder="Email"
-                type="email"
-                value={profileForm.email}
-                onChange={(e) =>
-                  setProfileForm({ ...profileForm, email: e.target.value })
-                }
-              />
+        {/* Profile Update Section */}
+        <div className="mb-10 p-6 border rounded-lg bg-card shadow-sm">
+          <h2 className="text-xl font-semibold mb-4">Update Profile</h2>
+          <div className="space-y-4">
+            <Input
+              placeholder="Name"
+              value={profileForm.name}
+              onChange={(e) =>
+                setProfileForm({ ...profileForm, name: e.target.value })
+              }
+            />
+            <Input
+              placeholder="Email"
+              type="email"
+              value={profileForm.email}
+              onChange={(e) =>
+                setProfileForm({ ...profileForm, email: e.target.value })
+              }
+            />
+            {/* Old Password */}
+            <div className="relative">
               <Input
                 placeholder="Old Password"
-                type="password"
+                type={showOldPassword ? "text" : "password"}
                 value={profileForm.oldPassword}
                 onChange={(e) =>
-                  setProfileForm({ ...profileForm, oldPassword: e.target.value })
+                  setProfileForm({
+                    ...profileForm,
+                    oldPassword: e.target.value,
+                  })
                 }
               />
+              <button
+                type="button"
+                onClick={() => setShowOldPassword(!showOldPassword)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground"
+              >
+                {showOldPassword ? (
+                  <EyeOff className="w-5 h-5" />
+                ) : (
+                  <Eye className="w-5 h-5" />
+                )}
+              </button>
+            </div>
+
+            {/* New Password */}
+            <div className="relative">
               <Input
                 placeholder="New Password"
-                type="password"
+                type={showNewPassword ? "text" : "password"}
                 value={profileForm.newPassword}
                 onChange={(e) =>
-                  setProfileForm({ ...profileForm, newPassword: e.target.value })
+                  setProfileForm({
+                    ...profileForm,
+                    newPassword: e.target.value,
+                  })
                 }
               />
+              <button
+                type="button"
+                onClick={() => setShowNewPassword(!showNewPassword)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground"
+              >
+                {showNewPassword ? (
+                  <EyeOff className="w-5 h-5" />
+                ) : (
+                  <Eye className="w-5 h-5" />
+                )}
+              </button>
+            </div>
 
-              <div className="flex gap-3">
-                <Button
-                  onClick={handleProfileUpdate}
-                  disabled={updateProfile.isPending}
-                  className="bg-primary"
-                >
-                  {updateProfile.isPending ? "Updating..." : "Update Profile"}
-                </Button>
-                <Button
-                  onClick={handleCancelUpdate}
-                  variant="outline"
-                  className="border-gray-400"
-                >
-                  Cancel
-                </Button>
-              </div>
+            <div className="flex gap-3">
+              <Button
+                onClick={handleProfileUpdate}
+                disabled={updateProfile.isPending}
+                className="bg-primary"
+              >
+                {updateProfile.isPending ? "Updating..." : "Update Profile"}
+              </Button>
+              <Button
+                onClick={handleCancelUpdate}
+                variant="outline"
+                className="border-gray-400"
+              >
+                Cancel
+              </Button>
             </div>
           </div>
+        </div>
       </main>
     </div>
   );
