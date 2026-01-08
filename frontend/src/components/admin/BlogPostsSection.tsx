@@ -35,7 +35,6 @@ const BlogPostsSection = () => {
 
   const { toast } = useToast();
 
-  // ✅ React Query hooks
   const { data: blogPosts = [], isLoading } = useBlogPosts();
   const addBlogPost = useAddBlogPost();
   const updateBlogPost = useUpdateBlogPost();
@@ -79,15 +78,9 @@ const BlogPostsSection = () => {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>Manage Blog Posts</CardTitle>
-        <Dialog
-          open={isBlogDialogOpen}
-          onOpenChange={setIsBlogDialogOpen}
-        >
+        <Dialog open={isBlogDialogOpen} onOpenChange={setIsBlogDialogOpen}>
           <DialogTrigger asChild>
-            <Button
-              onClick={() => setEditingBlog(null)}
-              className="gap-2"
-            >
+            <Button onClick={() => setEditingBlog(null)} className="gap-2">
               <Plus className="h-4 w-4" /> Add Post
             </Button>
           </DialogTrigger>
@@ -107,33 +100,28 @@ const BlogPostsSection = () => {
                   required
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="category">Category</Label>
-                  <Input
-                    id="category"
-                    name="category"
-                    defaultValue={editingBlog?.category}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="date">Date</Label>
-                  <Input
-                    id="date"
-                    name="date"
-                    type="date"
-                    defaultValue={editingBlog?.date}
-                    required
-                  />
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="date">Date</Label>
+                <Input
+                  id="date"
+                  name="date"
+                  type="date"
+                  defaultValue={
+                    editingBlog
+                      ? new Date(editingBlog.date)
+                          .toISOString()
+                          .split("T")[0]
+                      : ""
+                  }
+                  required
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="excerpt">Excerpt</Label>
                 <Textarea
                   id="excerpt"
                   name="excerpt"
-                  defaultValue={editingBlog?.excerpt}
+                  defaultValue={editingBlog?.excerpt || ""}
                   required
                 />
               </div>
@@ -152,13 +140,14 @@ const BlogPostsSection = () => {
       </CardHeader>
       <CardContent>
         {isLoading ? (
-          <p className="text-muted-foreground text-center">Loading blog posts...</p>
+          <p className="text-muted-foreground text-center">
+            Loading blog posts...
+          </p>
         ) : (
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Title</TableHead>
-                <TableHead>Category</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead>Excerpt</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
@@ -168,9 +157,12 @@ const BlogPostsSection = () => {
               {blogPosts.map((post) => (
                 <TableRow key={post.id}>
                   <TableCell className="font-medium">{post.title}</TableCell>
-                  <TableCell>{post.category}</TableCell>
-                  <TableCell>{post.date}</TableCell>
-                  <TableCell className="max-w-xs truncate">{post.excerpt}</TableCell>
+                  <TableCell>
+                    {new Date(post.date).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell className="max-w-xs truncate">
+                    {post.excerpt}
+                  </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
                       <Button

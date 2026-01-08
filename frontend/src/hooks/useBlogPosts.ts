@@ -2,16 +2,18 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { BlogPost } from "@/types/admin";
 
+// Fetch all blogs
 export function useBlogPosts() {
   return useQuery<BlogPost[], Error>({
     queryKey: ["blogs"],
     queryFn: async () => {
-      const res = await api.get("/blogs");
-      return res.data.data; 
+      const res = await api.get("/blogs"); // ✅ baseURL already includes /api
+      return res.data.data;
     },
   });
 }
 
+// Add blog
 export function useAddBlogPost() {
   const queryClient = useQueryClient();
   return useMutation({
@@ -27,6 +29,7 @@ export function useAddBlogPost() {
   });
 }
 
+// Update blog
 export function useUpdateBlogPost() {
   const queryClient = useQueryClient();
   return useMutation({
@@ -42,6 +45,7 @@ export function useUpdateBlogPost() {
   });
 }
 
+// Delete blog
 export function useDeleteBlogPost() {
   const queryClient = useQueryClient();
   return useMutation({
