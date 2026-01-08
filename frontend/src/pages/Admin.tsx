@@ -9,10 +9,10 @@ import TestimonialsSection from "../components/admin/TestimonialSection";
 import BlogPostsSection from "../components/admin/BlogPostsSection";
 import ResourcesSection from "../components/admin/ResourceSection";
 import { useExams } from "../hooks/useExam";
-import { useLogout, useSession } from "../hooks/useAuth";
+import { useLogout, useSession, useUpdateProfile } from "../hooks/useAuth";
 import { useTestimonials } from "@/hooks/useTestimonial";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -31,6 +31,7 @@ const Admin = () => {
 
   const logout = useLogout();
   const { data: user } = useSession();
+  const updateProfile = useUpdateProfile();
 
   const handleLogoutClick = async () => {
     const confirmed = window.confirm("Are you sure you want to log out?");
@@ -43,35 +44,42 @@ const Admin = () => {
 
   // ✅ Profile form state
   const [profileForm, setProfileForm] = useState({
-    name: user?.name || "",
-    email: user?.email || "",
+    name: "",
+    email: "",
     oldPassword: "",
     newPassword: "",
   });
 
-  const [isUpdating, setIsUpdating] = useState(false);
-
-  const handleProfileUpdate = async () => {
-    try {
-      setIsUpdating(true);
-
-      const res = await fetch("/api/admin/profile", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(profileForm),
+  // Sync form with user data when session loads
+  useEffect(() => {
+    if (user) {
+      setProfileForm({
+        name: user.name || "",
+        email: user.email || "",
+        oldPassword: "",
+        newPassword: "",
       });
-
-      const data = await res.json();
-      if (data.success) {
-        toast({ title: "Profile updated successfully" });
-      } else {
-        toast({ title: "Failed to update profile", description: data.message });
-      }
-    } catch (error) {
-      toast({ title: "Error", description: "Something went wrong" });
-    } finally {
-      setIsUpdating(false);
     }
+  }, [user]);
+
+  const handleProfileUpdate = () => {
+    updateProfile.mutate(profileForm, {
+      onSuccess: () => {
+        toast({ title: "Profile updated successfully" });
+        setProfileForm({
+          name: user?.name || "",
+          email: user?.email || "",
+          oldPassword: "",
+          newPassword: "",
+        });
+      },
+      onError: (error: any) => {
+        toast({
+          title: "Failed to update profile",
+          description: error?.response?.data?.message || "Something went wrong",
+        });
+      },
+    });
   };
 
   const handleCancelUpdate = () => {
@@ -210,10 +218,10 @@ const Admin = () => {
               <div className="flex gap-3">
                 <Button
                   onClick={handleProfileUpdate}
-                  disabled={isUpdating}
-                  className="bg-primary text-white"
+                  disabled={updateProfile.isPending}
+                  className="bg-primary"
                 >
-                  {isUpdating ? "Updating..." : "Update Profile"}
+                  {updateProfile.isPending ? "Updating..." : "Update Profile"}
                 </Button>
                 <Button
                   onClick={handleCancelUpdate}

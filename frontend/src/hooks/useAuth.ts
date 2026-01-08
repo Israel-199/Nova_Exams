@@ -40,6 +40,7 @@ export function useLogout() {
 
 export function useUpdateProfile() {
   const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: async (data: {
       name?: string;
@@ -50,7 +51,15 @@ export function useUpdateProfile() {
       const res = await api.patch("/admin/update-profile", data);
       return res.data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      queryClient.setQueryData(["session"], (old: any) => {
+        if (!old) return old;
+        return {
+          ...old,
+          name: data?.data?.name ?? old.name,
+          email: data?.data?.email ?? old.email,
+        };
+      });
       queryClient.invalidateQueries({ queryKey: ["session"] });
     },
   });
