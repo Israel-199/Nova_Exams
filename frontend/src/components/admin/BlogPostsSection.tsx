@@ -35,7 +35,7 @@ const BlogPostsSection = () => {
 
   const { toast } = useToast();
 
-  const { data: blogPosts = [], isLoading } = useBlogPosts();
+  const { data: blogPosts = [], isLoading ,error} = useBlogPosts();
   const addBlogPost = useAddBlogPost();
   const updateBlogPost = useUpdateBlogPost();
   const deleteBlogPost = useDeleteBlogPost();
@@ -44,7 +44,6 @@ const BlogPostsSection = () => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    // ✅ Build JSON payload instead of FormData
     const blogData = {
       title: formData.get("title") as string,
       excerpt: formData.get("excerpt") as string,
@@ -145,10 +144,14 @@ const BlogPostsSection = () => {
       </CardHeader>
       <CardContent>
         {isLoading ? (
-          <p className="text-muted-foreground text-center">
-            Loading blog posts...
-          </p>
-        ) : (
+          <p className="text-muted-foreground text-center">Loading testimonials...</p>
+        ) : error ? (
+            <p className="text-red-500 text-center py-6">Failed to load testimonials</p>
+          ) : blogPosts.length === 0 ? (
+            <p className="text-muted-foreground text-center py-6">
+              No testimonials yet. Click “Add Testimonial” to create one.
+            </p>
+          ) : (
           <Table>
             <TableHeader>
               <TableRow>
