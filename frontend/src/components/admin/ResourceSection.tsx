@@ -43,7 +43,7 @@ const ResourcesSection = () => {
 
   const { toast } = useToast();
 
-  const { data: resources = [], isLoading } = useResources();
+  const { data: resources = [], isLoading ,error} = useResources();
   const addResource = useAddResource();
   const updateResource = useUpdateResource();
   const deleteResource = useDeleteResource();
@@ -180,10 +180,14 @@ const ResourcesSection = () => {
       </CardHeader>
       <CardContent>
         {isLoading ? (
-          <p className="text-muted-foreground text-center">
-            Loading resources...
-          </p>
-        ) : (
+          <p className="text-muted-foreground text-center">Loading Resources...</p>
+        ) : error ? (
+            <p className="text-red-500 text-center py-6">Failed to load resource</p>
+          ) :  resources.length === 0 ? (
+            <p className="text-muted-foreground text-center py-6">
+              No resources yet. Click “Add Resource” to create one.
+            </p>
+          ) : (
           <div className="space-y-6">
             {/* PDF Resources */}
             <div>

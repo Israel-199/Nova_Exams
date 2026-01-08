@@ -149,7 +149,7 @@ const BlogPostsSection = () => {
             <p className="text-red-500 text-center py-6">Failed to load BlogPosts</p>
           ) : blogPosts.length === 0 ? (
             <p className="text-muted-foreground text-center py-6">
-              No testimonials yet. Click “Add Post” to create one.
+              No Blog yet. Click “Add Post” to create one.
             </p>
           ) : (
           <Table>
