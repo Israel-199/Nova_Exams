@@ -38,6 +38,7 @@ model BlogPost {
   updated_at DateTime @updatedAt
 }
 
+
 model Resource {
   id          String   @id @default(uuid())
   type        String   
