@@ -15,6 +15,7 @@ import { useBlogPosts } from "@/hooks/useBlogPosts";
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useResources } from "@/hooks/useResources";
 
 const Admin = () => {
   const { toast } = useToast();
@@ -31,6 +32,8 @@ const Admin = () => {
 
   const { data: testimonials = [] } = useTestimonials();
   const { data: blogPosts = [] } = useBlogPosts();
+  const { data: resource = [] } = useResources();
+
 
   const logout = useLogout();
   const { data: user } = useSession();
@@ -145,7 +148,7 @@ const Admin = () => {
             examsCount={exams.length}
             testimonialsCount={testimonials.length}
             blogPostsCount={blogPosts.length}
-            resourcesCount={0}
+            resourcesCount={resource.length}
           />
 
           {/* Tabs */}
