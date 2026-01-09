@@ -7,18 +7,18 @@ const upload = require("../middleware/upload");
 router.get("/", resourceController.getResources);
 router.get("/:id", resourceController.getResource);
 
-// Admin-only routes
 router.post(
   "/",
-  upload.single("file"), 
+  upload.fields([{ name: "pdfFile" }, { name: "videoFile" }]),
   resourceController.createResource
 );
 
 router.patch(
   "/:id",
-  upload.single("file"),
+  upload.fields([{ name: "pdfFile" }, { name: "videoFile" }]),
   resourceController.updateResource
 );
+
 
 router.delete("/:id", resourceController.deleteResource);
 
