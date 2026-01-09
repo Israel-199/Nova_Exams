@@ -63,36 +63,40 @@ exports.updateResource = async (req, res) => {
   try {
     const { type, title, description, pdfUploadMode, videoType } = req.body;
 
-    let sourceUrl = req.body.url || null;
-    let sourceType = "url";
+    // Build update data dynamically
+    const updateData = {};
+
+    if (type) updateData.type = type;
+    if (title) updateData.title = title;
+    if (description) updateData.description = description;
+    if (pdfUploadMode && type === "pdf") updateData.pdfUploadMode = pdfUploadMode;
+    if (videoType && type === "video") updateData.videoType = videoType;
+
+    // Handle URL if provided
+    if (req.body.url) {
+      updateData.sourceUrl = req.body.url;
+      updateData.sourceType = "url";
+    }
 
     // Handle PDF upload
     if (req.files?.pdfFile) {
       const file = req.files.pdfFile[0];
       const uploadResult = await uploadToCloudinary(file.buffer, file.mimetype, "lib/pdf");
-      sourceUrl = uploadResult.secure_url;
-      sourceType = "upload";
+      updateData.sourceUrl = uploadResult.secure_url;
+      updateData.sourceType = "upload";
     }
 
     // Handle Video upload
     if (req.files?.videoFile) {
       const file = req.files.videoFile[0];
       const uploadResult = await uploadToCloudinary(file.buffer, file.mimetype, "lib/video");
-      sourceUrl = uploadResult.secure_url;
-      sourceType = "upload";
+      updateData.sourceUrl = uploadResult.secure_url;
+      updateData.sourceType = "upload";
     }
 
     const resource = await prisma.resource.update({
       where: { id: req.params.id },
-      data: {
-        type,
-        title,
-        description,
-        sourceType,
-        sourceUrl,
-        pdfUploadMode: type === "pdf" ? pdfUploadMode || "url" : null,
-        videoType: type === "video" ? videoType || "youtube" : null,
-      },
+      data: updateData,
     });
 
     res.json({
@@ -108,6 +112,7 @@ exports.updateResource = async (req, res) => {
     });
   }
 };
+
 
 // Get All Resources
 exports.getResources = async (req, res) => {
