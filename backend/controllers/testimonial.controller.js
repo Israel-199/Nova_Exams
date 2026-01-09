@@ -2,7 +2,6 @@ const prisma = require("../prisma/client");
 const uploadToCloudinary = require("../utils/cloudinaryUpload");
 
 // Create Testimonial
-// Create Testimonial
 exports.createTestimonial = async (req, res) => {
   try {
     let imageUrl;
@@ -20,9 +19,9 @@ exports.createTestimonial = async (req, res) => {
       data: {
         student: req.body.student,
         exam: req.body.exam,
-        score: req.body.score,
+        rating: parseInt(req.body.rating, 10), // ⭐ save rating as number
         testimonial: req.body.testimonial,
-        ...(imageUrl && { image: imageUrl }), // ✅ only set if file uploaded
+        ...(imageUrl && { image: imageUrl }),
       },
     });
 
@@ -77,11 +76,11 @@ exports.updateTestimonial = async (req, res) => {
     const testimonial = await prisma.testimonial.update({
       where: { id: req.params.id },
       data: {
-        student: req.body.student,
-        exam: req.body.exam,
-        score: req.body.score,
-        testimonial: req.body.testimonial,
-        ...(imageUrl ? { image: imageUrl } : {}), // ✅ keep old image if none uploaded
+        ...(req.body.student && { student: req.body.student }),
+        ...(req.body.exam && { exam: req.body.exam }),
+        ...(req.body.rating && { rating: parseInt(req.body.rating, 10) }), // ⭐ update rating if provided
+        ...(req.body.testimonial && { testimonial: req.body.testimonial }),
+        ...(imageUrl ? { image: imageUrl } : {}),
       },
     });
 
@@ -90,7 +89,6 @@ exports.updateTestimonial = async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 };
-
 
 // Get All Testimonials
 exports.getTestimonials = async (req, res) => {

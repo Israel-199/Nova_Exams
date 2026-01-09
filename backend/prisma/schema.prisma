@@ -22,11 +22,13 @@ model Testimonial {
   id          String   @id @default(uuid())
   student     String  
   exam        String  
-  score       String   
+  rating      Int      @default(5) 
   testimonial String   
   image       String?  
   created_at  DateTime @default(now())
 }
+
+
 
 
 model BlogPost {
