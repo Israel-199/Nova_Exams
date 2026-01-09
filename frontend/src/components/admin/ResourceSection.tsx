@@ -1,8 +1,5 @@
 import { useState } from "react";
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -20,7 +17,15 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus, Upload, Pencil, Trash2, FileText, Video, Loader2 } from "lucide-react";
+import {
+  Plus,
+  Upload,
+  Pencil,
+  Trash2,
+  FileText,
+  Video,
+  Loader2,
+} from "lucide-react";
 import {
   useResources,
   useAddResource,
@@ -80,8 +85,10 @@ const ResourcesPage = () => {
       title: resourceForm.title,
       description: resourceForm.description,
       url: resourceForm.url,
-      videoType: resourceForm.type === "video" ? resourceForm.videoType : undefined,
-      pdfUploadMode: resourceForm.type === "pdf" ? resourceForm.pdfUploadMode : undefined,
+      videoType:
+        resourceForm.type === "video" ? resourceForm.videoType : undefined,
+      pdfUploadMode:
+        resourceForm.type === "pdf" ? resourceForm.pdfUploadMode : undefined,
       pdfFile: resourceForm.pdfFile ?? undefined,
       videoFile: resourceForm.videoFile ?? undefined,
     };
@@ -149,11 +156,16 @@ const ResourcesPage = () => {
       <Card className="bg-card border-border">
         <CardContent className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-semibold text-foreground">Manage Resources</h2>
-            <Dialog open={resourceDialogOpen} onOpenChange={(open) => {
-              setResourceDialogOpen(open);
-              if (!open) resetForm();
-            }}>
+            <h2 className="text-xl font-semibold text-foreground">
+              Manage Resources
+            </h2>
+            <Dialog
+              open={resourceDialogOpen}
+              onOpenChange={(open) => {
+                setResourceDialogOpen(open);
+                if (!open) resetForm();
+              }}
+            >
               <DialogTrigger asChild>
                 <Button
                   className="bg-primary text-primary-foreground hover:bg-primary/90"
@@ -194,7 +206,12 @@ const ResourcesPage = () => {
                     <Label className="text-foreground">Title</Label>
                     <Input
                       value={resourceForm.title}
-                      onChange={(e) => setResourceForm({ ...resourceForm, title: e.target.value })}
+                      onChange={(e) =>
+                        setResourceForm({
+                          ...resourceForm,
+                          title: e.target.value,
+                        })
+                      }
                       placeholder="Resource title"
                       className="bg-background border-input"
                     />
@@ -205,7 +222,12 @@ const ResourcesPage = () => {
                     <Label className="text-foreground">Description</Label>
                     <Input
                       value={resourceForm.description}
-                      onChange={(e) => setResourceForm({ ...resourceForm, description: e.target.value })}
+                      onChange={(e) =>
+                        setResourceForm({
+                          ...resourceForm,
+                          description: e.target.value,
+                        })
+                      }
                       placeholder="Brief description"
                       className="bg-background border-input"
                     />
@@ -218,7 +240,10 @@ const ResourcesPage = () => {
                       <Select
                         value={resourceForm.pdfUploadMode}
                         onValueChange={(value: "url" | "upload") =>
-                          setResourceForm({ ...resourceForm, pdfUploadMode: value })
+                          setResourceForm({
+                            ...resourceForm,
+                            pdfUploadMode: value,
+                          })
                         }
                       >
                         <SelectTrigger className="bg-background border-input">
@@ -233,7 +258,8 @@ const ResourcesPage = () => {
                   )}
 
                   {/* PDF Conditional Upload or URL */}
-                  {resourceForm.type === "pdf" && resourceForm.pdfUploadMode === "upload" ? (
+                  {resourceForm.type === "pdf" &&
+                  resourceForm.pdfUploadMode === "upload" ? (
                     <div>
                       <Label className="text-foreground">Upload PDF File</Label>
                       <div className="mt-2">
@@ -241,13 +267,20 @@ const ResourcesPage = () => {
                           <div className="flex flex-col items-center justify-center pt-5 pb-6">
                             <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
                             {resourceForm.pdfFile ? (
-                              <p className="text-sm text-primary font-medium">{resourceForm.pdfFile.name}</p>
+                              <p className="text-sm text-primary font-medium">
+                                {resourceForm.pdfFile.name}
+                              </p>
                             ) : (
                               <>
                                 <p className="mb-1 text-sm text-muted-foreground">
-                                  <span className="font-semibold">Click to upload</span> or drag and drop
+                                  <span className="font-semibold">
+                                    Click to upload
+                                  </span>{" "}
+                                  or drag and drop
                                 </p>
-                                <p className="text-xs text-muted-foreground">PDF files only (MAX. 50MB)</p>
+                                <p className="text-xs text-muted-foreground">
+                                  PDF files only (MAX. 50MB)
+                                </p>
                               </>
                             )}
                           </div>
@@ -260,12 +293,18 @@ const ResourcesPage = () => {
                         </label>
                       </div>
                     </div>
-                  ) : resourceForm.type === "pdf" && resourceForm.pdfUploadMode === "url" ? (
+                  ) : resourceForm.type === "pdf" &&
+                    resourceForm.pdfUploadMode === "url" ? (
                     <div>
                       <Label className="text-foreground">PDF URL</Label>
                       <Input
                         value={resourceForm.url}
-                        onChange={(e) => setResourceForm({ ...resourceForm, url: e.target.value })}
+                        onChange={(e) =>
+                          setResourceForm({
+                            ...resourceForm,
+                            url: e.target.value,
+                          })
+                        }
                         placeholder="https://example.com/file.pdf"
                         className="bg-background border-input"
                       />
@@ -278,7 +317,9 @@ const ResourcesPage = () => {
                       <Label className="text-foreground">Video Source</Label>
                       <Select
                         value={resourceForm.videoType}
-                        onValueChange={(value: "youtube" | "social" | "upload") =>
+                        onValueChange={(
+                          value: "youtube" | "social" | "upload"
+                        ) =>
                           setResourceForm({ ...resourceForm, videoType: value })
                         }
                       >
@@ -287,7 +328,9 @@ const ResourcesPage = () => {
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="youtube">YouTube Link</SelectItem>
-                          <SelectItem value="social">Social Media Link</SelectItem>
+                          <SelectItem value="social">
+                            Social Media Link
+                          </SelectItem>
                           <SelectItem value="upload">Upload File</SelectItem>
                         </SelectContent>
                       </Select>
@@ -295,9 +338,12 @@ const ResourcesPage = () => {
                   )}
 
                   {/* Video Conditional Upload or URL */}
-                  {resourceForm.type === "video" && resourceForm.videoType === "upload" ? (
+                  {resourceForm.type === "video" &&
+                  resourceForm.videoType === "upload" ? (
                     <div>
-                      <Label className="text-foreground">Upload Video File</Label>
+                      <Label className="text-foreground">
+                        Upload Video File
+                      </Label>
                       <div className="mt-2">
                         <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-muted-foreground/30 rounded-lg cursor-pointer hover:bg-muted/50 transition-colors">
                           <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -309,7 +355,10 @@ const ResourcesPage = () => {
                             ) : (
                               <>
                                 <p className="mb-1 text-sm text-muted-foreground">
-                                  <span className="font-semibold">Click to upload</span> or drag and drop
+                                  <span className="font-semibold">
+                                    Click to upload
+                                  </span>{" "}
+                                  or drag and drop
                                 </p>
                                 <p className="text-xs text-muted-foreground">
                                   MP4, WebM, MOV (MAX. 100MB)
@@ -349,7 +398,9 @@ const ResourcesPage = () => {
                     className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
                     disabled={isSaving}
                   >
-                    {isSaving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                    {isSaving && (
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    )}
                     {editingResource ? "Update Resource" : "Add Resource"}
                   </Button>
                 </div>
@@ -362,29 +413,49 @@ const ResourcesPage = () => {
             {/* PDF Table */}
             <div>
               <h3 className="text-lg font-medium mb-4 flex items-center gap-2 text-foreground">
-                <FileText className="w-5 h-5 text-primary" /> PDF Documents ({pdfResources.length})
+                <FileText className="w-5 h-5 text-primary" /> PDF Documents (
+                {pdfResources.length})
               </h3>
               {pdfResources.length === 0 ? (
-                <p className="text-muted-foreground text-sm py-4">No PDF documents yet. Add your first one!</p>
+                <p className="text-muted-foreground text-sm py-4">
+                  No PDF documents yet. Add your first one!
+                </p>
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full border-collapse">
                     <thead>
                       <tr className="border-b border-border">
-                        <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Title</th>
-                        <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Description</th>
-                        <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Source</th>
-                        <th className="text-right py-3 px-4 text-sm font-medium text-muted-foreground">Actions</th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                          Title
+                        </th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                          Description
+                        </th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                          Source
+                        </th>
+                        <th className="text-right py-3 px-4 text-sm font-medium text-muted-foreground">
+                          Actions
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       {pdfResources.map((r) => (
-                        <tr key={r.id} className="border-b border-border hover:bg-muted/50 transition-colors">
-                          <td className="py-3 px-4 text-foreground font-medium">{r.title}</td>
-                          <td className="py-3 px-4 text-muted-foreground">{r.description || "-"}</td>
+                        <tr
+                          key={r.id}
+                          className="border-b border-border hover:bg-muted/50 transition-colors"
+                        >
+                          <td className="py-3 px-4 text-foreground font-medium">
+                            {r.title}
+                          </td>
+                          <td className="py-3 px-4 text-muted-foreground">
+                            {r.description || "-"}
+                          </td>
                           <td className="py-3 px-4">
                             <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground">
-                              {r.pdfUploadMode === "upload" ? "Uploaded" : "URL"}
+                              {r.pdfUploadMode === "upload"
+                                ? "Uploaded"
+                                : "URL"}
                             </span>
                           </td>
                           <td className="py-3 px-4">
@@ -417,7 +488,11 @@ const ResourcesPage = () => {
                                 disabled={deleteResource.isPending}
                                 className="h-8 w-8"
                               >
-                                <Trash2 className="w-4 h-4" />
+                                {deleteResource.isPending ? (
+                                  <Loader2 className="h-4 w-4 animate-spin" />
+                                ) : (
+                                  <Trash2 className="w-4 h-4" />
+                                )}
                               </Button>
                             </div>
                           </td>
@@ -432,26 +507,44 @@ const ResourcesPage = () => {
             {/* Video Table */}
             <div>
               <h3 className="text-lg font-medium mb-4 flex items-center gap-2 text-foreground">
-                <Video className="w-5 h-5 text-primary" /> Videos ({videoResources.length})
+                <Video className="w-5 h-5 text-primary" /> Videos (
+                {videoResources.length})
               </h3>
               {videoResources.length === 0 ? (
-                <p className="text-muted-foreground text-sm py-4">No videos yet. Add your first one!</p>
+                <p className="text-muted-foreground text-sm py-4">
+                  No videos yet. Add your first one!
+                </p>
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full border-collapse">
                     <thead>
                       <tr className="border-b border-border">
-                        <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Title</th>
-                        <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Description</th>
-                        <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Source</th>
-                        <th className="text-right py-3 px-4 text-sm font-medium text-muted-foreground">Actions</th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                          Title
+                        </th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                          Description
+                        </th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">
+                          Source
+                        </th>
+                        <th className="text-right py-3 px-4 text-sm font-medium text-muted-foreground">
+                          Actions
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       {videoResources.map((r) => (
-                        <tr key={r.id} className="border-b border-border hover:bg-muted/50 transition-colors">
-                          <td className="py-3 px-4 text-foreground font-medium">{r.title}</td>
-                          <td className="py-3 px-4 text-muted-foreground">{r.description || "-"}</td>
+                        <tr
+                          key={r.id}
+                          className="border-b border-border hover:bg-muted/50 transition-colors"
+                        >
+                          <td className="py-3 px-4 text-foreground font-medium">
+                            {r.title}
+                          </td>
+                          <td className="py-3 px-4 text-muted-foreground">
+                            {r.description || "-"}
+                          </td>
                           <td className="py-3 px-4">
                             <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground capitalize">
                               {r.videoType}
