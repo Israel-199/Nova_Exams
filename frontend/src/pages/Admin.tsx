@@ -127,18 +127,18 @@ const Admin = () => {
             <h1 className="text-4xl font-display font-bold text-foreground mb-2">
               Admin Dashboard
             </h1>
+            <p className="text-muted-foreground mb-5">
+              Manage exams, testimonials, blog posts and resources
+            </p>
             {user ? (
-              <p className="text-lg font-medium text-foreground">
-                Welcome back, {user.name || user.email}!
+              <p className="text-[20px] font-medium text-foreground">
+                Welcome back👋, {user.name || user.email}!
               </p>
             ) : (
               <p className="text-lg font-medium text-foreground">
                 Not logged in
               </p>
             )}
-            <p className="text-muted-foreground">
-              Manage exams, testimonials, blog posts and resources
-            </p>
           </div>
           {/* Stats Cards */}
           <AdminStats
