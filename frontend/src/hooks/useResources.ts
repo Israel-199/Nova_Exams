@@ -13,12 +13,48 @@ export function useResources() {
   });
 }
 
+// Helper: build FormData if files are present
+function buildResourcePayload(resourceData: Partial<Resource>) {
+  const formData = new FormData();
+
+  formData.append("type", resourceData.type!);
+  formData.append("title", resourceData.title!);
+  formData.append("description", resourceData.description!);
+
+  if (resourceData.type === "pdf") {
+    formData.append("pdfUploadMode", resourceData.pdfUploadMode!);
+    if (resourceData.pdfUploadMode === "upload" && resourceData.pdfFile) {
+      formData.append("pdfFile", resourceData.pdfFile);
+    } else if (resourceData.url) {
+      formData.append("url", resourceData.url);
+    }
+  }
+
+  if (resourceData.type === "video") {
+    formData.append("videoType", resourceData.videoType!);
+    if (resourceData.videoType === "upload" && resourceData.videoFile) {
+      formData.append("videoFile", resourceData.videoFile);
+    } else if (resourceData.url) {
+      formData.append("url", resourceData.url);
+    }
+  }
+
+  return formData;
+}
+
 // Add resource
 export function useAddResource() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (resourceData: Partial<Resource>) => {
-      const res = await api.post("/resources", resourceData);
+      const payload =
+        resourceData.pdfFile || resourceData.videoFile
+          ? buildResourcePayload(resourceData)
+          : resourceData;
+
+      const res = await api.post("/resources", payload, {
+        headers: payload instanceof FormData ? { "Content-Type": "multipart/form-data" } : {},
+      });
       return res.data.data;
     },
     onSuccess: () => {
@@ -32,7 +68,14 @@ export function useUpdateResource() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ id, resourceData }: { id: string; resourceData: Partial<Resource> }) => {
-      const res = await api.patch(`/resources/${id}`, resourceData);
+      const payload =
+        resourceData.pdfFile || resourceData.videoFile
+          ? buildResourcePayload(resourceData)
+          : resourceData;
+
+      const res = await api.patch(`/resources/${id}`, payload, {
+        headers: payload instanceof FormData ? { "Content-Type": "multipart/form-data" } : {},
+      });
       return res.data.data;
     },
     onSuccess: () => {

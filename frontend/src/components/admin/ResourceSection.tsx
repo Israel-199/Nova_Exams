@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -26,7 +29,7 @@ import {
 } from "@/hooks/useResources";
 import { Resource } from "@/types/admin";
 
-const ResourcesSection = () => {
+const ResourcesPage = () => {
   const { data: resources = [], isLoading } = useResources();
   const addResource = useAddResource();
   const updateResource = useUpdateResource();
@@ -71,10 +74,10 @@ const ResourcesSection = () => {
       title: resourceForm.title,
       description: resourceForm.description,
       url: resourceForm.url,
-      videoType:
-        resourceForm.type === "video" ? resourceForm.videoType : undefined,
-      pdfUploadMode:
-        resourceForm.type === "pdf" ? resourceForm.pdfUploadMode : undefined,
+      videoType: resourceForm.type === "video" ? resourceForm.videoType : undefined,
+      pdfUploadMode: resourceForm.type === "pdf" ? resourceForm.pdfUploadMode : undefined,
+      pdfFile: resourceForm.pdfFile ?? undefined,
+      videoFile: resourceForm.videoFile ?? undefined,
     };
 
     if (editingResource) {
@@ -83,9 +86,7 @@ const ResourcesSection = () => {
         { onSuccess: () => setResourceDialogOpen(false) }
       );
     } else {
-      addResource.mutate(payload, {
-        onSuccess: () => setResourceDialogOpen(false),
-      });
+      addResource.mutate(payload, { onSuccess: () => setResourceDialogOpen(false) });
     }
   };
 
@@ -100,13 +101,8 @@ const ResourcesSection = () => {
     <Card className="bg-white">
       <CardContent className="p-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-semibold text-neutral-dark">
-            Manage Resources
-          </h2>
-          <Dialog
-            open={resourceDialogOpen}
-            onOpenChange={setResourceDialogOpen}
-          >
+          <h2 className="text-xl font-semibold text-neutral-dark">Manage Resources</h2>
+          <Dialog open={resourceDialogOpen} onOpenChange={setResourceDialogOpen}>
             <DialogTrigger asChild>
               <Button
                 className="bg-accent text-accent-foreground hover:bg-accent/90"
@@ -130,11 +126,8 @@ const ResourcesSection = () => {
             </DialogTrigger>
             <DialogContent className="bg-white">
               <DialogHeader>
-                <DialogTitle>
-                  {editingResource ? "Edit Resource" : "Add New Resource"}
-                </DialogTitle>
+                <DialogTitle>{editingResource ? "Edit Resource" : "Add New Resource"}</DialogTitle>
               </DialogHeader>
-
               <div className="space-y-4 mt-4">
                 {/* Resource Type */}
                 <div>
@@ -160,12 +153,7 @@ const ResourcesSection = () => {
                   <Label>Title</Label>
                   <Input
                     value={resourceForm.title}
-                    onChange={(e) =>
-                      setResourceForm({
-                        ...resourceForm,
-                        title: e.target.value,
-                      })
-                    }
+                    onChange={(e) => setResourceForm({ ...resourceForm, title: e.target.value })}
                     placeholder="Resource title"
                   />
                 </div>
@@ -175,12 +163,7 @@ const ResourcesSection = () => {
                   <Label>Description</Label>
                   <Input
                     value={resourceForm.description}
-                    onChange={(e) =>
-                      setResourceForm({
-                        ...resourceForm,
-                        description: e.target.value,
-                      })
-                    }
+                    onChange={(e) => setResourceForm({ ...resourceForm, description: e.target.value })}
                     placeholder="Brief description"
                   />
                 </div>
@@ -192,10 +175,7 @@ const ResourcesSection = () => {
                     <Select
                       value={resourceForm.pdfUploadMode}
                       onValueChange={(value: "url" | "upload") =>
-                        setResourceForm({
-                          ...resourceForm,
-                          pdfUploadMode: value,
-                        })
+                        setResourceForm({ ...resourceForm, pdfUploadMode: value })
                       }
                     >
                       <SelectTrigger>
@@ -210,8 +190,7 @@ const ResourcesSection = () => {
                 )}
 
                 {/* PDF Conditional Upload or URL */}
-                {resourceForm.type === "pdf" &&
-                resourceForm.pdfUploadMode === "upload" ? (
+                {resourceForm.type === "pdf" && resourceForm.pdfUploadMode === "upload" ? (
                   <div>
                     <Label>Upload PDF File</Label>
                     <div className="mt-2">
@@ -219,20 +198,13 @@ const ResourcesSection = () => {
                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
                           <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
                           {resourceForm.pdfFile ? (
-                            <p className="text-sm text-primary font-medium">
-                              {resourceForm.pdfFile.name}
-                            </p>
+                            <p className="text-sm text-primary font-medium">{resourceForm.pdfFile.name}</p>
                           ) : (
                             <>
                               <p className="mb-1 text-sm text-muted-foreground">
-                                <span className="font-semibold">
-                                  Click to upload
-                                </span>{" "}
-                                or drag and drop
+                                <span className="font-semibold">Click to upload</span> or drag and drop
                               </p>
-                              <p className="text-xs text-muted-foreground">
-                                PDF files only (MAX. 50MB)
-                              </p>
+                              <p className="text-xs text-muted-foreground">PDF files only (MAX. 50MB)</p>
                             </>
                           )}
                         </div>
@@ -245,18 +217,12 @@ const ResourcesSection = () => {
                       </label>
                     </div>
                   </div>
-                ) : resourceForm.type === "pdf" &&
-                  resourceForm.pdfUploadMode === "url" ? (
+                ) : resourceForm.type === "pdf" && resourceForm.pdfUploadMode === "url" ? (
                   <div>
                     <Label>PDF URL</Label>
                     <Input
                       value={resourceForm.url}
-                      onChange={(e) =>
-                        setResourceForm({
-                          ...resourceForm,
-                          url: e.target.value,
-                        })
-                      }
+                      onChange={(e) => setResourceForm({ ...resourceForm, url: e.target.value })}
                       placeholder="https://example.com/file.pdf"
                     />
                   </div>
@@ -277,18 +243,15 @@ const ResourcesSection = () => {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="youtube">YouTube Link</SelectItem>
-                        <SelectItem value="social">
-                          Social Media Link
-                        </SelectItem>
+                        <SelectItem value="social">Social Media Link</SelectItem>
                         <SelectItem value="upload">Upload File</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                 )}
 
-                {/* Video Conditional Upload or URL */}
-                {resourceForm.type === "video" &&
-                resourceForm.videoType === "upload" ? (
+                               {/* Video Conditional Upload or URL */}
+                {resourceForm.type === "video" && resourceForm.videoType === "upload" ? (
                   <div>
                     <Label>Upload Video File</Label>
                     <div className="mt-2">
@@ -302,10 +265,7 @@ const ResourcesSection = () => {
                           ) : (
                             <>
                               <p className="mb-1 text-sm text-muted-foreground">
-                                <span className="font-semibold">
-                                  Click to upload
-                                </span>{" "}
-                                or drag and drop
+                                <span className="font-semibold">Click to upload</span> or drag and drop
                               </p>
                               <p className="text-xs text-muted-foreground">
                                 MP4, WebM, MOV (MAX. 100MB)
@@ -352,8 +312,7 @@ const ResourcesSection = () => {
           {/* PDF Table */}
           <div>
             <h3 className="text-lg font-medium mb-3 flex items-center gap-2">
-              <FileText className="w-5 h-5" /> PDF Documents (
-              {pdfResources.length})
+              <FileText className="w-5 h-5" /> PDF Documents ({pdfResources.length})
             </h3>
             <table className="w-full">
               <tbody>
@@ -453,4 +412,4 @@ const ResourcesSection = () => {
   );
 };
 
-export default ResourcesSection;
+export default ResourcesPage;
