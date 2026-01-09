@@ -10,7 +10,7 @@ export interface Testimonial {
   id: string;          
   student: string;
   exam: string;
-  score: string;
+  rating: number;       // ⭐ replaces score, numeric 1–5
   testimonial: string;
   image?: string;
   created_at?: string;

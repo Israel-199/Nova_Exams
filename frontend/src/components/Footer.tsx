@@ -4,7 +4,7 @@ import {
   Phone,
   MapPin,
   Facebook,
-  Twitter,
+  Youtube,
   Instagram,
   Linkedin,
 } from "lucide-react";
@@ -111,7 +111,7 @@ export function Footer() {
             </ul>
             {/* Social Links */}
             <div className="flex items-center gap-4 mt-6">
-              {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
+              {[Facebook, Youtube, Instagram, Linkedin].map((Icon, i) => (
                 <a
                   key={i}
                   href="#"

@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Plus, Pencil, Trash2, Upload, Loader2 } from "lucide-react";
+import { Plus, Pencil, Trash2, Upload, Loader2, Star } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Testimonial } from "@/types/admin";
 import {
@@ -32,26 +32,27 @@ import {
 const TestimonialsSection = () => {
   const [isTestimonialDialogOpen, setIsTestimonialDialogOpen] = useState(false);
   const [editingTestimonial, setEditingTestimonial] = useState<Testimonial | null>(null);
+  const [rating, setRating] = useState<number>(editingTestimonial?.rating || 0);
 
   const { toast } = useToast();
 
-
-  const { data: testimonials = [], isLoading ,error} = useTestimonials();
+  const { data: testimonials = [], isLoading, error } = useTestimonials();
   const addTestimonial = useAddTestimonial();
   const updateTestimonial = useUpdateTestimonial();
   const deleteTestimonial = useDeleteTestimonial();
 
-   if (isLoading) {
-      return (
-        <div className="flex items-center justify-center min-h-[400px]">
-          <Loader2 className="w-8 h-8 animate-spin text-secondary" />
-        </div>
-      );
-    }
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader2 className="w-8 h-8 animate-spin text-secondary" />
+      </div>
+    );
+  }
 
   const handleSaveTestimonial = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    formData.append("rating", rating.toString()); // 👈 include rating
 
     if (editingTestimonial) {
       updateTestimonial.mutate(
@@ -93,7 +94,10 @@ const TestimonialsSection = () => {
         >
           <DialogTrigger asChild>
             <Button
-              onClick={() => setEditingTestimonial(null)}
+              onClick={() => {
+                setEditingTestimonial(null);
+                setRating(0);
+              }}
               className="gap-2"
             >
               <Plus className="h-4 w-4" /> Add Testimonial
@@ -115,24 +119,28 @@ const TestimonialsSection = () => {
                   required
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="exam">Exam</Label>
-                  <Input
-                    id="exam"
-                    name="exam"
-                    defaultValue={editingTestimonial?.exam}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="score">Score</Label>
-                  <Input
-                    id="score"
-                    name="score"
-                    defaultValue={editingTestimonial?.score}
-                    required
-                  />
+              <div className="space-y-2">
+                <Label htmlFor="exam">Exam</Label>
+                <Input
+                  id="exam"
+                  name="exam"
+                  defaultValue={editingTestimonial?.exam}
+                  required
+                />
+              </div>
+              {/* ⭐ Rating Selector */}
+              <div className="space-y-2">
+                <Label>Rating</Label>
+                <div className="flex gap-2">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star
+                      key={i}
+                      className={`h-6 w-6 cursor-pointer ${
+                        i < rating ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"
+                      }`}
+                      onClick={() => setRating(i + 1)}
+                    />
+                  ))}
                 </div>
               </div>
               <div className="space-y-2">
@@ -169,48 +177,60 @@ const TestimonialsSection = () => {
         {isLoading ? (
           <p className="text-muted-foreground text-center">Loading testimonials...</p>
         ) : error ? (
-            <p className="text-red-500 text-center py-6">Failed to load testimonials</p>
-          ) : testimonials.length === 0 ? (
-            <p className="text-muted-foreground text-center py-6">
-              No testimonials yet. Click “Add Testimonial” to create one.
-            </p>
-          ) : (
+          <p className="text-red-500 text-center py-6">Failed to load testimonials</p>
+        ) : testimonials.length === 0 ? (
+          <p className="text-muted-foreground text-center py-6">
+            No testimonials yet. Click “Add Testimonial” to create one.
+          </p>
+        ) : (
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Image</TableHead>
                 <TableHead>Student</TableHead>
                 <TableHead>Exam</TableHead>
-                <TableHead>Score</TableHead>
+                <TableHead>Rating</TableHead>
                 <TableHead>Testimonial</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {testimonials.map((testimonial) => (
-                <TableRow key={testimonial.id}>
+              {testimonials.map((t) => (
+                <TableRow key={t.id}>
                   <TableCell>
-                    {testimonial.image ? (
+                    {t.image ? (
                       <img
-                        src={testimonial.image}
-                        alt={testimonial.student}
+                        src={t.image}
+                        alt={t.student}
                         className="w-12 h-12 rounded-full object-cover"
                       />
                     ) : (
                       <span className="text-muted-foreground text-sm">No image</span>
                     )}
                   </TableCell>
-                  <TableCell className="font-medium">{testimonial.student}</TableCell>
-                  <TableCell>{testimonial.exam}</TableCell>
-                  <TableCell>{testimonial.score}</TableCell>
-                  <TableCell className="max-w-xs truncate">{testimonial.testimonial}</TableCell>
+                  <TableCell className="font-medium">{t.student}</TableCell>
+                  <TableCell>{t.exam}</TableCell>
+                  <TableCell>
+                    <div className="flex">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <Star
+                          key={i}
+                          className={`h-4 w-4 ${
+                            i < t.rating ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </TableCell>
+                  <TableCell className="max-w-xs truncate">{t.testimonial}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
                       <Button
                         variant="outline"
                         size="icon"
                         onClick={() => {
-                          setEditingTestimonial(testimonial);
+                          setEditingTestimonial(t);
+                          setRating(t.rating || 0);
                           setIsTestimonialDialogOpen(true);
                         }}
                       >
@@ -219,7 +239,7 @@ const TestimonialsSection = () => {
                       <Button
                         variant="destructive"
                         size="icon"
-                        onClick={() => handleDeleteTestimonial(testimonial.id)}
+                        onClick={() => handleDeleteTestimonial(t.id)}
                         disabled={deleteTestimonial.isPending}
                       >
                         {deleteTestimonial.isPending ? (
@@ -227,7 +247,7 @@ const TestimonialsSection = () => {
                         ) : (
                           <Trash2 className="h-4 w-4" />
                         )}
-                      </Button>
+                                           </Button>
                     </div>
                   </TableCell>
                 </TableRow>

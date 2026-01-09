@@ -2,82 +2,53 @@ import { useState, useEffect, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import img1 from "@/assets/student-1.jpg";
-import img2 from "@/assets/student-2.jpg";
-import img3 from "@/assets/student-3.jpg";
-
-const testimonials = [
-  {
-    id: 1,
-    name: "Meron Tadesse",
-    role: "IELTS Student",
-    content:
-      "Nova Exams made my IELTS booking process incredibly smooth. The mentorship program helped me achieve a band score of 8.0!",
-    rating: 5,
-    image: img1,
-  },
-  {
-    id: 2,
-    name: "Dawit Haile",
-    role: "TOEFL Student",
-    content:
-      "The exam room facilities were top-notch. Professional environment and excellent support throughout my TOEFL exam.",
-    rating: 5,
-    image: img2,
-  },
-  {
-    id: 3,
-    name: "Sara Alemayehu",
-    role: "Duolingo Student",
-    content:
-      "I was nervous about taking my Duolingo exam, but Nova Exams guided me every step of the way. Highly recommend!",
-    rating: 5,
-    image: img3,
-  },
-  {
-    id: 4,
-    name: "Yohannes Bekele",
-    role: "TOLC Student",
-    content:
-      "Best exam service in Ethiopia. The team is professional, responsive, and genuinely cares about student success.",
-    rating: 5,
-    image: img2,
-  },
-];
+import { useTestimonials } from "@/hooks/useTestimonial"; // 👈 your hook
 
 export function TestimonialsSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
+  // Fetch testimonials from backend
+  const { data: testimonials = [], isLoading, error } = useTestimonials();
+
   const next = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-  }, []);
+    if (testimonials.length > 0) {
+      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+    }
+  }, [testimonials]);
 
   const prev = useCallback(() => {
-    setCurrentIndex(
-      (prev) => (prev - 1 + testimonials.length) % testimonials.length
-    );
-  }, []);
+    if (testimonials.length > 0) {
+      setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    }
+  }, [testimonials]);
 
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || testimonials.length === 0) return;
     const interval = setInterval(next, 3000);
     return () => clearInterval(interval);
-  }, [isPaused, next]);
+  }, [isPaused, next, testimonials]);
 
   const getVisibleIndices = () => {
-    const prevIndex =
-      (currentIndex - 1 + testimonials.length) % testimonials.length;
+    if (testimonials.length === 0) return [];
+    const prevIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
     const nextIndex = (currentIndex + 1) % testimonials.length;
     return [prevIndex, currentIndex, nextIndex];
   };
 
   const visibleIndices = getVisibleIndices();
 
+  if (isLoading) {
+    return <div className="text-center py-24">Loading testimonials...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center py-24 text-red-500">Failed to load testimonials</div>;
+  }
+
   return (
-    <section className="py-24 bg-background  min-h-screen flex items-center justify-center">
+    <section className="py-24 bg-background min-h-screen flex items-center justify-center">
       <div className="bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] p-8 md:p-12">
-        {/* Testimonials Carousel */}
         <div className="container mx-auto px-4">
           {/* Section Header */}
           <div className="text-center max-w-2xl mx-auto mb-20 relative">
@@ -97,8 +68,7 @@ export function TestimonialsSection() {
             </div>
           </div>
 
-          {/* Outer White Box */}
-
+          {/* Carousel */}
           <div
             className="relative max-w-6xl mx-auto items-center justify-center flex flex-col"
             onMouseEnter={() => setIsPaused(true)}
@@ -120,10 +90,10 @@ export function TestimonialsSection() {
               <ChevronRight className="w-5 h-5" />
             </button>
 
-            {/* Cards Container */}
+            {/* Cards */}
             <div className="flex items-center justify-center gap-4 md:gap-6 px-12 md:px-16">
               {visibleIndices.map((index, position) => {
-                const testimonial = testimonials[index];
+                const t = testimonials[index];
                 const isCenter = position === 1;
 
                 return (
@@ -137,44 +107,38 @@ export function TestimonialsSection() {
                     )}
                   >
                     <CardContent className="p-6 md:p-8 min-h-[150px] md:min-h-[200px]">
-                      <div key={testimonial.id} className="animate-fade-in">
+                      <div key={t.id} className="animate-fade-in">
                         <div className="flex items-center gap-3 mb-5">
-                          {/* Avatar image */}
                           <img
-                            src={testimonial.image}
-                            alt={testimonial.name}
+                            src={t.image || "/placeholder.png"}
+                            alt={t.student}
                             className="w-12 h-12 rounded-full object-cover shadow-lg"
                           />
-
                           <div>
                             <h4 className="font-semibold text-foreground text-base font-display">
-                              {testimonial.name}
+                              {t.student}
                             </h4>
-                            <p className="text-secondary text-sm">
-                              {testimonial.role}
-                            </p>
+                            <p className="text-secondary text-sm">{t.exam}</p>
                           </div>
                         </div>
 
                         {/* Rating stars */}
                         <div className="flex items-center mb-4">
-                          {Array.from({ length: testimonial.rating }).map(
-                            (_, i) => (
-                              <svg
-                                key={i}
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
-                                className="w-5 h-5 text-yellow-400"
-                              >
-                                <path d="M12 .587l3.668 7.431 8.2 1.193-5.934 5.782 1.402 8.174L12 18.896l-7.336 3.871 1.402-8.174L.132 9.211l8.2-1.193z" />
-                              </svg>
-                            )
-                          )}
+                          {Array.from({ length: t.rating }).map((_, i) => (
+                            <svg
+                              key={i}
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                              className="w-5 h-5 text-yellow-400"
+                            >
+                              <path d="M12 .587l3.668 7.431 8.2 1.193-5.934 5.782 1.402 8.174L12 18.896l-7.336 3.871 1.402-8.174L.132 9.211l8.2-1.193z" />
+                            </svg>
+                          ))}
                         </div>
 
                         <p className="text-muted-foreground leading-relaxed text-base">
-                          {testimonial.content}
+                          {t.testimonial}
                         </p>
                       </div>
                     </CardContent>
