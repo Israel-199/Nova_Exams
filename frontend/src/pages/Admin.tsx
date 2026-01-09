@@ -22,6 +22,7 @@ const Admin = () => {
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
 
+
   const {
     data: exams = [],
     isLoading: isExamsLoading,
@@ -34,6 +35,7 @@ const Admin = () => {
   const logout = useLogout();
   const { data: user } = useSession();
   const updateProfile = useUpdateProfile();
+
 
   const handleLogoutClick = async () => {
     const confirmed = window.confirm("Are you sure you want to log out?");
@@ -176,8 +178,9 @@ const Admin = () => {
             </TabsContent>
 
             <TabsContent value="resources">
-              <ResourcesSection />
-            </TabsContent>
+  <ResourcesSection  />
+</TabsContent>
+
           </Tabs>
         </div>
         {/* Profile Update Section */}

@@ -30,8 +30,11 @@ export interface Resource {
   type: "pdf" | "video";
   title: string;
   description: string;
-  url: string;
-  videoType?: "youtube" | "vimeo" | "social" | "upload";
-  pdfUploadMode?: "url" | "file" | "upload";
+  url: string; // for external links (YouTube, Vimeo, PDF URL)
+  videoType?: "youtube" | "social" | "upload"; // upload = file
+  videoFile?: File | null; // actual uploaded video file
+  pdfFile?: File | null;   // actual uploaded PDF file
+  pdfUploadMode?: "url" | "upload"; // url = external link, upload = file
 }
+
 
