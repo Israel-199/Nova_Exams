@@ -1,8 +1,19 @@
 const prisma = require("../prisma/client");
 
+// Create Blog Post
 exports.createBlogPost = async (req, res) => {
   try {
-    const blogPost = await prisma.blogPost.create({ data: req.body });
+    const blogPost = await prisma.blogPost.create({
+      data: {
+        title: req.body.title,
+        excerpt: req.body.excerpt,
+        category: req.body.category,
+        author: req.body.author,
+        date: req.body.date ? new Date(req.body.date) : new Date(),
+        readTime: req.body.readTime,
+      },
+    });
+
     res.status(201).json({
       success: true,
       message: "Blog post created successfully",
@@ -17,11 +28,11 @@ exports.createBlogPost = async (req, res) => {
   }
 };
 
-
+// Get All Blog Posts
 exports.getBlogPosts = async (req, res) => {
   try {
     const blogPosts = await prisma.blogPost.findMany({
-      orderBy: { date: "desc" }, 
+      orderBy: { date: "desc" },
     });
     res.json({
       success: true,
@@ -37,11 +48,11 @@ exports.getBlogPosts = async (req, res) => {
   }
 };
 
-
+// Get Single Blog Post
 exports.getBlogPost = async (req, res) => {
   try {
     const blogPost = await prisma.blogPost.findUnique({
-      where: { id: req.params.id }, 
+      where: { id: req.params.id },
     });
 
     if (!blogPost) {
@@ -65,13 +76,21 @@ exports.getBlogPost = async (req, res) => {
   }
 };
 
-
+// Update Blog Post
 exports.updateBlogPost = async (req, res) => {
   try {
     const blogPost = await prisma.blogPost.update({
       where: { id: req.params.id },
-      data: req.body,
+      data: {
+        title: req.body.title,
+        excerpt: req.body.excerpt,
+        category: req.body.category,
+        author: req.body.author,
+        date: req.body.date ? new Date(req.body.date) : undefined,
+        readTime: req.body.readTime,
+      },
     });
+
     res.json({
       success: true,
       message: "Blog post updated successfully",
@@ -86,7 +105,7 @@ exports.updateBlogPost = async (req, res) => {
   }
 };
 
-
+// Delete Blog Post
 exports.deleteBlogPost = async (req, res) => {
   try {
     await prisma.blogPost.delete({ where: { id: req.params.id } });
