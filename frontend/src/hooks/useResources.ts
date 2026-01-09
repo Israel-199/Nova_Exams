@@ -2,18 +2,18 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { Resource } from "@/types/admin";
 
-// Fetch all resources
+
 export function useResources() {
   return useQuery<Resource[], Error>({
     queryKey: ["resources"],
     queryFn: async () => {
       const res = await api.get("/resources");
-      return res.data.data; // backend returns { success, data: [...] }
+      return res.data.data;
     },
   });
 }
 
-// Helper: build FormData if files are present
+
 function buildResourcePayload(resourceData: Partial<Resource>) {
   const formData = new FormData();
 
@@ -42,7 +42,6 @@ function buildResourcePayload(resourceData: Partial<Resource>) {
   return formData;
 }
 
-// Add resource
 export function useAddResource() {
   const queryClient = useQueryClient();
   return useMutation({
@@ -63,7 +62,6 @@ export function useAddResource() {
   });
 }
 
-// Update resource
 export function useUpdateResource() {
   const queryClient = useQueryClient();
   return useMutation({
@@ -84,7 +82,6 @@ export function useUpdateResource() {
   });
 }
 
-// Delete resource
 export function useDeleteResource() {
   const queryClient = useQueryClient();
   return useMutation({
