@@ -4,7 +4,7 @@ const uploadToCloudinary = require("../utils/cloudinaryUpload");
 // Create Resource
 exports.createResource = async (req, res) => {
   try {
-    const { type, title, description } = req.body;
+    const { type, title, description, pdfUploadMode, videoType } = req.body;
 
     if (!type || !title || !description) {
       return res.status(400).json({
@@ -13,14 +13,15 @@ exports.createResource = async (req, res) => {
       });
     }
 
-    let sourceUrl = req.body.sourceUrl || null;
-    let sourceType = req.body.sourceType || "url";
+    let sourceUrl = req.body.url || null;
+    let sourceType = "url";
 
+    // Handle file upload
     if (req.file) {
       const uploadResult = await uploadToCloudinary(
         req.file.buffer,
         req.file.mimetype,
-        type === "Video" ? "lib/video" : "lib/pdf"
+        type === "video" ? "lib/video" : "lib/pdf"
       );
       sourceUrl = uploadResult.secure_url;
       sourceType = "upload";
@@ -28,11 +29,13 @@ exports.createResource = async (req, res) => {
 
     const resource = await prisma.resource.create({
       data: {
-        type,
+        type, // "pdf" or "video"
         title,
         description,
-        sourceType,
+        sourceType, // "url" or "upload"
         sourceUrl,
+        pdfUploadMode: type === "pdf" ? pdfUploadMode || "url" : null,
+        videoType: type === "video" ? videoType || "youtube" : null,
       },
     });
 
@@ -45,6 +48,51 @@ exports.createResource = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Failed to create resource",
+      error: error.message,
+    });
+  }
+};
+
+// Update Resource
+exports.updateResource = async (req, res) => {
+  try {
+    const { type, title, description, pdfUploadMode, videoType } = req.body;
+
+    let sourceUrl = req.body.url || null;
+    let sourceType = "url";
+
+    if (req.file) {
+      const uploadResult = await uploadToCloudinary(
+        req.file.buffer,
+        req.file.mimetype,
+        type === "video" ? "lib/video" : "lib/pdf"
+      );
+      sourceUrl = uploadResult.secure_url;
+      sourceType = "upload";
+    }
+
+    const resource = await prisma.resource.update({
+      where: { id: req.params.id },
+      data: {
+        type,
+        title,
+        description,
+        sourceType,
+        sourceUrl,
+        pdfUploadMode: type === "pdf" ? pdfUploadMode || "url" : null,
+        videoType: type === "video" ? videoType || "youtube" : null,
+      },
+    });
+
+    res.json({
+      success: true,
+      message: "Resource updated successfully",
+      data: resource,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to update resource",
       error: error.message,
     });
   }
@@ -98,46 +146,6 @@ exports.getResource = async (req, res) => {
   }
 };
 
-// Update Resource
-exports.updateResource = async (req, res) => {
-  try {
-    let sourceUrl = req.body.sourceUrl || null;
-    let sourceType = req.body.sourceType || "url";
-
-    if (req.file) {
-      const uploadResult = await uploadToCloudinary(
-        req.file.buffer,
-        req.file.mimetype,
-        req.body.type === "Video" ? "lib/video" : "lib/pdf"
-      );
-      sourceUrl = uploadResult.secure_url;
-      sourceType = "upload";
-    }
-
-    const resource = await prisma.resource.update({
-      where: { id: req.params.id },
-      data: {
-        type: req.body.type,
-        title: req.body.title,
-        description: req.body.description,
-        sourceType,
-        sourceUrl,
-      },
-    });
-
-    res.json({
-      success: true,
-      message: "Resource updated successfully",
-      data: resource,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to update resource",
-      error: error.message,
-    });
-  }
-};
 
 // Delete Resource
 exports.deleteResource = async (req, res) => {
