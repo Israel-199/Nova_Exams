@@ -16,13 +16,18 @@ exports.createResource = async (req, res) => {
     let sourceUrl = req.body.url || null;
     let sourceType = "url";
 
-    // Handle file upload
-    if (req.file) {
-      const uploadResult = await uploadToCloudinary(
-        req.file.buffer,
-        req.file.mimetype,
-        type === "video" ? "lib/video" : "lib/pdf"
-      );
+    // Handle PDF upload
+    if (req.files?.pdfFile) {
+      const file = req.files.pdfFile[0];
+      const uploadResult = await uploadToCloudinary(file.buffer, file.mimetype, "lib/pdf");
+      sourceUrl = uploadResult.secure_url;
+      sourceType = "upload";
+    }
+
+    // Handle Video upload
+    if (req.files?.videoFile) {
+      const file = req.files.videoFile[0];
+      const uploadResult = await uploadToCloudinary(file.buffer, file.mimetype, "lib/video");
       sourceUrl = uploadResult.secure_url;
       sourceType = "upload";
     }
@@ -61,12 +66,18 @@ exports.updateResource = async (req, res) => {
     let sourceUrl = req.body.url || null;
     let sourceType = "url";
 
-    if (req.file) {
-      const uploadResult = await uploadToCloudinary(
-        req.file.buffer,
-        req.file.mimetype,
-        type === "video" ? "lib/video" : "lib/pdf"
-      );
+    // Handle PDF upload
+    if (req.files?.pdfFile) {
+      const file = req.files.pdfFile[0];
+      const uploadResult = await uploadToCloudinary(file.buffer, file.mimetype, "lib/pdf");
+      sourceUrl = uploadResult.secure_url;
+      sourceType = "upload";
+    }
+
+    // Handle Video upload
+    if (req.files?.videoFile) {
+      const file = req.files.videoFile[0];
+      const uploadResult = await uploadToCloudinary(file.buffer, file.mimetype, "lib/video");
       sourceUrl = uploadResult.secure_url;
       sourceType = "upload";
     }
@@ -145,7 +156,6 @@ exports.getResource = async (req, res) => {
     });
   }
 };
-
 
 // Delete Resource
 exports.deleteResource = async (req, res) => {
