@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { BlogPost } from "@/types/admin";
 import {
@@ -35,18 +35,18 @@ const BlogPostsSection = () => {
 
   const { toast } = useToast();
 
-  const { data: blogPosts = [], isLoading ,error} = useBlogPosts();
+  const { data: blogPosts = [], isLoading, error } = useBlogPosts();
   const addBlogPost = useAddBlogPost();
   const updateBlogPost = useUpdateBlogPost();
   const deleteBlogPost = useDeleteBlogPost();
 
-   if (isLoading) {
-      return (
-        <div className="flex items-center justify-center min-h-[400px]">
-          <Loader2 className="w-8 h-8 animate-spin text-secondary" />
-        </div>
-      );
-    }
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader2 className="w-8 h-8 animate-spin text-secondary" />
+      </div>
+    );
+  }
 
   const handleSaveBlog = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -55,7 +55,10 @@ const BlogPostsSection = () => {
     const blogData = {
       title: formData.get("title") as string,
       excerpt: formData.get("excerpt") as string,
-      date: new Date(formData.get("date") as string).toISOString(), // ISO format
+      category: formData.get("category") as string,
+      author: formData.get("author") as string,
+      readTime: formData.get("readTime") as string,
+      date: new Date(formData.get("date") as string).toISOString(),
     };
 
     if (editingBlog) {
@@ -115,6 +118,24 @@ const BlogPostsSection = () => {
                 />
               </div>
               <div className="space-y-2">
+                <Label htmlFor="category">Category</Label>
+                <Input
+                  id="category"
+                  name="category"
+                  defaultValue={editingBlog?.category}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="author">Author</Label>
+                <Input
+                  id="author"
+                  name="author"
+                  defaultValue={editingBlog?.author}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
                 <Label htmlFor="date">Date</Label>
                 <Input
                   id="date"
@@ -126,6 +147,15 @@ const BlogPostsSection = () => {
                       : ""
                   }
                   required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="readTime">Read Time</Label>
+                <Input
+                  id="readTime"
+                  name="readTime"
+                  defaultValue={editingBlog?.readTime || ""}
+                  placeholder="e.g. 6 min read"
                 />
               </div>
               <div className="space-y-2">
@@ -151,20 +181,21 @@ const BlogPostsSection = () => {
         </Dialog>
       </CardHeader>
       <CardContent>
-        {isLoading ? (
-          <p className="text-muted-foreground text-center">Loading Blogs...</p>
-        ) : error ? (
-            <p className="text-red-500 text-center py-6">Failed to load BlogPosts</p>
-          ) : blogPosts.length === 0 ? (
-            <p className="text-muted-foreground text-center py-6">
-              No Blog yet. Click “Add Post” to create one.
-            </p>
-          ) : (
+        {error ? (
+          <p className="text-red-500 text-center py-6">Failed to load BlogPosts</p>
+        ) : blogPosts.length === 0 ? (
+          <p className="text-muted-foreground text-center py-6">
+            No Blog yet. Click “Add Post” to create one.
+          </p>
+        ) : (
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Title</TableHead>
+                <TableHead>Category</TableHead>
+                <TableHead>Author</TableHead>
                 <TableHead>Date</TableHead>
+                <TableHead>Read Time</TableHead>
                 <TableHead>Excerpt</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
@@ -173,12 +204,11 @@ const BlogPostsSection = () => {
               {blogPosts.map((post) => (
                 <TableRow key={post.id}>
                   <TableCell className="font-medium">{post.title}</TableCell>
-                  <TableCell>
-                    {new Date(post.date).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell className="max-w-xs truncate">
-                    {post.excerpt}
-                  </TableCell>
+                  <TableCell>{post.category}</TableCell>
+                  <TableCell>{post.author}</TableCell>
+                  <TableCell>{new Date(post.date).toLocaleDateString()}</TableCell>
+                  <TableCell>{post.readTime}</TableCell>
+                  <TableCell className="max-w-xs truncate">{post.excerpt}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
                       <Button

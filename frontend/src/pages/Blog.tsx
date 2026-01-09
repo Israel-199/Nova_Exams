@@ -11,49 +11,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 
-/* -------------------- DATA -------------------- */
-const posts = [
-  {
-    id: 1,
-    title: "10 Tips to Ace Your IELTS Speaking Test",
-    excerpt:
-      "Master the IELTS speaking section with these proven strategies from our expert mentors.",
-    category: "IELTS",
-    author: "Yonas Tesfaye",
-    date: "Dec 10, 2024",
-    readTime: "5 min read",
-  },
-  {
-    id: 2,
-    title: "Duolingo vs TOEFL: Which Test Is Right for You?",
-    excerpt:
-      "A comprehensive comparison to help you choose the best English proficiency test for your goals.",
-    category: "Guides",
-    author: "Tigist Hailu",
-    date: "Dec 5, 2024",
-    readTime: "8 min read",
-  },
-  {
-    id: 3,
-    title: "How to Prepare for TOLC in 30 Days",
-    excerpt:
-      "A structured study plan to help you prepare effectively for the Italian university admission test.",
-    category: "TOLC",
-    author: "Abebe Kebede",
-    date: "Nov 28, 2024",
-    readTime: "6 min read",
-  },
-  {
-    id: 4,
-    title: "Understanding GRE Score Requirements",
-    excerpt:
-      "What scores do top universities really look for? We break down the numbers.",
-    category: "GRE",
-    author: "Yonas Tesfaye",
-    date: "Nov 20, 2024",
-    readTime: "7 min read",
-  },
-];
+import { useBlogPosts } from "@/hooks/useBlogPosts"; // 👈 fetch from backend
 
 const categories = ["All", "IELTS", "TOEFL", "Duolingo", "TOLC", "GRE", "Guides"];
 
@@ -75,6 +33,9 @@ const cardVariants = {
 const Blog = () => {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+
+  // ✅ Fetch posts from backend
+  const { data: posts = [], isLoading, error } = useBlogPosts();
 
   const filteredPosts = posts.filter((post) => {
     const matchesSearch = post.title.toLowerCase().includes(search.toLowerCase());
@@ -151,55 +112,61 @@ const Blog = () => {
           </motion.div>
 
           {/* Posts */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="flex flex-col gap-5 max-w-3xl mx-auto"
-          >
-            <AnimatePresence>
-              {filteredPosts.map((post) => (
-                <motion.div
-                  key={post.id}
-                  variants={cardVariants}
-                  layout
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Card className="rounded-2xl hover:shadow-lg transition-shadow">
-                    <CardContent className="p-6 space-y-3">
-                      <div className="flex items-center gap-3">
-                        <Badge>{post.category}</Badge>
-                        <span className="text-xs text-muted-foreground flex items-center gap-1">
-                          <Clock className="w-3 h-3" />
-                          {post.readTime}
-                        </span>
-                      </div>
-
-                      <h3 className="text-xl font-bold">{post.title}</h3>
-                      <p className="text-sm text-muted-foreground">{post.excerpt}</p>
-
-                      <div className="flex justify-between items-center pt-2">
-                        <div className="flex gap-4 text-xs text-muted-foreground">
-                          <span className="flex items-center gap-1">
-                            <User className="w-3 h-3" />
-                            {post.author}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Calendar className="w-3 h-3" />
-                            {post.date}
+          {isLoading ? (
+            <p className="text-center text-muted-foreground">Loading posts...</p>
+          ) : error ? (
+            <p className="text-center text-red-500">Failed to load posts</p>
+          ) : (
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              className="flex flex-col gap-5 max-w-3xl mx-auto"
+            >
+              <AnimatePresence>
+                {filteredPosts.map((post) => (
+                  <motion.div
+                    key={post.id}
+                    variants={cardVariants}
+                    layout
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Card className="rounded-2xl hover:shadow-lg transition-shadow">
+                      <CardContent className="p-6 space-y-3">
+                        <div className="flex items-center gap-3">
+                          <Badge>{post.category}</Badge>
+                          <span className="text-xs text-muted-foreground flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            {post.readTime}
                           </span>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
+
+                        <h3 className="text-xl font-bold">{post.title}</h3>
+                        <p className="text-sm text-muted-foreground">{post.excerpt}</p>
+
+                        <div className="flex justify-between items-center pt-2">
+                          <div className="flex gap-4 text-xs text-muted-foreground">
+                            <span className="flex items-center gap-1">
+                              <User className="w-3 h-3" />
+                              {post.author}
+                            </span>
+                            <span className="flex items-center gap-1">
+                              <Calendar className="w-3 h-3" />
+                              {new Date(post.date).toLocaleDateString()}
+                            </span>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          )}
 
           {/* Empty State */}
-          {filteredPosts.length === 0 && (
+          {filteredPosts.length === 0 && !isLoading && !error && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

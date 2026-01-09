@@ -10,7 +10,7 @@ export interface Testimonial {
   id: string;          
   student: string;
   exam: string;
-  rating: number;       // ⭐ replaces score, numeric 1–5
+  rating: number;       
   testimonial: string;
   image?: string;
   created_at?: string;
@@ -20,21 +20,24 @@ export interface Testimonial {
 export interface BlogPost {
   id: string;
   title: string;
-  category: string;
-  excerpt: string;
-  date: string;
+  category: string;   
+  author: string;    
+  excerpt: string;   
+  date: string;       
+  readTime?: string;  
 }
+
 
 export interface Resource {
   id: string;
   type: "pdf" | "video";
   title: string;
   description: string;
-  url: string; // for external links (YouTube, Vimeo, PDF URL)
-  videoType?: "youtube" | "social" | "upload"; // upload = file
-  videoFile?: File | null; // actual uploaded video file
-  pdfFile?: File | null;   // actual uploaded PDF file
-  pdfUploadMode?: "url" | "upload"; // url = external link, upload = file
+  url: string; 
+  videoType?: "youtube" | "social" | "upload"; 
+  videoFile?: File | null; 
+  pdfFile?: File | null;   
+  pdfUploadMode?: "url" | "upload"; 
 }
 
 
