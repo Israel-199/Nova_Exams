@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus, Upload, Pencil, Trash2, FileText, Video } from "lucide-react";
+import { Plus, Upload, Pencil, Trash2, FileText, Video, Loader2 } from "lucide-react";
 import {
   useResources,
   useAddResource,
@@ -28,6 +28,7 @@ import {
   useDeleteResource,
 } from "@/hooks/useResources";
 import { Resource } from "@/types/admin";
+import { toast } from "sonner";
 
 const ResourcesPage = () => {
   const { data: resources = [], isLoading } = useResources();
@@ -69,6 +70,11 @@ const ResourcesPage = () => {
   };
 
   const handleSaveResource = () => {
+    if (!resourceForm.title.trim()) {
+      toast.error("Please enter a title");
+      return;
+    }
+
     const payload: Partial<Resource> = {
       type: resourceForm.type,
       title: resourceForm.title,
@@ -83,332 +89,419 @@ const ResourcesPage = () => {
     if (editingResource) {
       updateResource.mutate(
         { id: editingResource.id, resourceData: payload },
-        { onSuccess: () => setResourceDialogOpen(false) }
+        {
+          onSuccess: () => {
+            setResourceDialogOpen(false);
+            toast.success("Resource updated successfully");
+            resetForm();
+          },
+          onError: () => toast.error("Failed to update resource"),
+        }
       );
     } else {
-      addResource.mutate(payload, { onSuccess: () => setResourceDialogOpen(false) });
+      addResource.mutate(payload, {
+        onSuccess: () => {
+          setResourceDialogOpen(false);
+          toast.success("Resource added successfully");
+          resetForm();
+        },
+        onError: () => toast.error("Failed to add resource"),
+      });
     }
   };
 
   const handleDeleteResource = (id: string) => {
-    deleteResource.mutate(id);
+    deleteResource.mutate(id, {
+      onSuccess: () => toast.success("Resource deleted"),
+      onError: () => toast.error("Failed to delete resource"),
+    });
+  };
+
+  const resetForm = () => {
+    setEditingResource(null);
+    setResourceForm({
+      type: "pdf",
+      title: "",
+      description: "",
+      url: "",
+      videoType: "youtube",
+      videoFile: null,
+      pdfFile: null,
+      pdfUploadMode: "url",
+    });
   };
 
   const pdfResources = resources.filter((r) => r.type === "pdf");
   const videoResources = resources.filter((r) => r.type === "video");
 
+  const isSaving = addResource.isPending || updateResource.isPending;
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
   return (
-    <Card className="bg-white">
-      <CardContent className="p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-semibold text-neutral-dark">Manage Resources</h2>
-          <Dialog open={resourceDialogOpen} onOpenChange={setResourceDialogOpen}>
-            <DialogTrigger asChild>
-              <Button
-                className="bg-accent text-accent-foreground hover:bg-accent/90"
-                onClick={() => {
-                  setEditingResource(null);
-                  setResourceForm({
-                    type: "pdf",
-                    title: "",
-                    description: "",
-                    url: "",
-                    videoType: "youtube",
-                    videoFile: null,
-                    pdfFile: null,
-                    pdfUploadMode: "url",
-                  });
-                }}
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Add Resource
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="bg-white">
-              <DialogHeader>
-                <DialogTitle>{editingResource ? "Edit Resource" : "Add New Resource"}</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4 mt-4">
-                {/* Resource Type */}
-                <div>
-                  <Label>Resource Type</Label>
-                  <Select
-                    value={resourceForm.type}
-                    onValueChange={(value: "pdf" | "video") =>
-                      setResourceForm({ ...resourceForm, type: value })
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="pdf">PDF Document</SelectItem>
-                      <SelectItem value="video">Video</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Title */}
-                <div>
-                  <Label>Title</Label>
-                  <Input
-                    value={resourceForm.title}
-                    onChange={(e) => setResourceForm({ ...resourceForm, title: e.target.value })}
-                    placeholder="Resource title"
-                  />
-                </div>
-
-                {/* Description */}
-                <div>
-                  <Label>Description</Label>
-                  <Input
-                    value={resourceForm.description}
-                    onChange={(e) => setResourceForm({ ...resourceForm, description: e.target.value })}
-                    placeholder="Brief description"
-                  />
-                </div>
-
-                {/* PDF Source Selector */}
-                {resourceForm.type === "pdf" && (
-                  <div>
-                    <Label>PDF Source</Label>
-                    <Select
-                      value={resourceForm.pdfUploadMode}
-                      onValueChange={(value: "url" | "upload") =>
-                        setResourceForm({ ...resourceForm, pdfUploadMode: value })
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="url">URL Link</SelectItem>
-                        <SelectItem value="upload">Upload File</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                )}
-
-                {/* PDF Conditional Upload or URL */}
-                {resourceForm.type === "pdf" && resourceForm.pdfUploadMode === "upload" ? (
-                  <div>
-                    <Label>Upload PDF File</Label>
-                    <div className="mt-2">
-                      <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-muted-foreground/30 rounded-lg cursor-pointer hover:bg-muted/10 transition-colors">
-                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                          <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
-                          {resourceForm.pdfFile ? (
-                            <p className="text-sm text-primary font-medium">{resourceForm.pdfFile.name}</p>
-                          ) : (
-                            <>
-                              <p className="mb-1 text-sm text-muted-foreground">
-                                <span className="font-semibold">Click to upload</span> or drag and drop
-                              </p>
-                              <p className="text-xs text-muted-foreground">PDF files only (MAX. 50MB)</p>
-                            </>
-                          )}
-                        </div>
-                        <input
-                          type="file"
-                          className="hidden"
-                          accept=".pdf,application/pdf"
-                          onChange={handlePdfFileChange}
-                        />
-                      </label>
-                    </div>
-                  </div>
-                ) : resourceForm.type === "pdf" && resourceForm.pdfUploadMode === "url" ? (
-                  <div>
-                    <Label>PDF URL</Label>
-                    <Input
-                      value={resourceForm.url}
-                      onChange={(e) => setResourceForm({ ...resourceForm, url: e.target.value })}
-                      placeholder="https://example.com/file.pdf"
-                    />
-                  </div>
-                ) : null}
-
-                {/* Video Source Selector */}
-                {resourceForm.type === "video" && (
-                  <div>
-                    <Label>Video Source</Label>
-                    <Select
-                      value={resourceForm.videoType}
-                      onValueChange={(value: "youtube" | "social" | "upload") =>
-                        setResourceForm({ ...resourceForm, videoType: value })
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="youtube">YouTube Link</SelectItem>
-                        <SelectItem value="social">Social Media Link</SelectItem>
-                        <SelectItem value="upload">Upload File</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                )}
-
-                               {/* Video Conditional Upload or URL */}
-                {resourceForm.type === "video" && resourceForm.videoType === "upload" ? (
-                  <div>
-                    <Label>Upload Video File</Label>
-                    <div className="mt-2">
-                      <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-muted-foreground/30 rounded-lg cursor-pointer hover:bg-muted/10 transition-colors">
-                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                          <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
-                          {resourceForm.videoFile ? (
-                            <p className="text-sm text-primary font-medium">
-                              {resourceForm.videoFile.name}
-                            </p>
-                          ) : (
-                            <>
-                              <p className="mb-1 text-sm text-muted-foreground">
-                                <span className="font-semibold">Click to upload</span> or drag and drop
-                              </p>
-                              <p className="text-xs text-muted-foreground">
-                                MP4, WebM, MOV (MAX. 100MB)
-                              </p>
-                            </>
-                          )}
-                        </div>
-                        <input
-                          type="file"
-                          className="hidden"
-                          accept="video/*"
-                          onChange={handleVideoFileChange}
-                        />
-                      </label>
-                    </div>
-                  </div>
-                ) : resourceForm.type === "video" ? (
-                  <div>
-                    <Label>Video URL</Label>
-                    <Input
-                      value={resourceForm.url}
-                      onChange={(e) =>
-                        setResourceForm({
-                          ...resourceForm,
-                          url: e.target.value,
-                        })
-                      }
-                      placeholder="https://youtube.com/watch?v=..."
-                    />
-                  </div>
-                ) : null}
-
-                {/* Save Button */}
-                <Button onClick={handleSaveResource} className="w-full">
-                  {editingResource ? "Update Resource" : "Add Resource"}
+    <div className="min-h-screen bg-background p-6">
+      <Card className="bg-card border-border">
+        <CardContent className="p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-semibold text-foreground">Manage Resources</h2>
+            <Dialog open={resourceDialogOpen} onOpenChange={(open) => {
+              setResourceDialogOpen(open);
+              if (!open) resetForm();
+            }}>
+              <DialogTrigger asChild>
+                <Button
+                  className="bg-primary text-primary-foreground hover:bg-primary/90"
+                  onClick={resetForm}
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Resource
                 </Button>
-              </div>
-            </DialogContent>
-          </Dialog>
-        </div>
+              </DialogTrigger>
+              <DialogContent className="bg-card border-border">
+                <DialogHeader>
+                  <DialogTitle className="text-foreground">
+                    {editingResource ? "Edit Resource" : "Add New Resource"}
+                  </DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4 mt-4">
+                  {/* Resource Type */}
+                  <div>
+                    <Label className="text-foreground">Resource Type</Label>
+                    <Select
+                      value={resourceForm.type}
+                      onValueChange={(value: "pdf" | "video") =>
+                        setResourceForm({ ...resourceForm, type: value })
+                      }
+                    >
+                      <SelectTrigger className="bg-background border-input">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="pdf">PDF Document</SelectItem>
+                        <SelectItem value="video">Video</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-        {/* Tables */}
-        <div className="space-y-6">
-          {/* PDF Table */}
-          <div>
-            <h3 className="text-lg font-medium mb-3 flex items-center gap-2">
-              <FileText className="w-5 h-5" /> PDF Documents ({pdfResources.length})
-            </h3>
-            <table className="w-full">
-              <tbody>
-                {pdfResources.map((r) => (
-                  <tr key={r.id}>
-                    <td>{r.title}</td>
-                    <td>{r.description}</td>
-                    <td>{r.pdfUploadMode}</td>
-                    <td>
-                      <Button
-                        size="icon"
-                        variant="outline"
-                        onClick={() => {
-                          setEditingResource(r);
+                  {/* Title */}
+                  <div>
+                    <Label className="text-foreground">Title</Label>
+                    <Input
+                      value={resourceForm.title}
+                      onChange={(e) => setResourceForm({ ...resourceForm, title: e.target.value })}
+                      placeholder="Resource title"
+                      className="bg-background border-input"
+                    />
+                  </div>
+
+                  {/* Description */}
+                  <div>
+                    <Label className="text-foreground">Description</Label>
+                    <Input
+                      value={resourceForm.description}
+                      onChange={(e) => setResourceForm({ ...resourceForm, description: e.target.value })}
+                      placeholder="Brief description"
+                      className="bg-background border-input"
+                    />
+                  </div>
+
+                  {/* PDF Source Selector */}
+                  {resourceForm.type === "pdf" && (
+                    <div>
+                      <Label className="text-foreground">PDF Source</Label>
+                      <Select
+                        value={resourceForm.pdfUploadMode}
+                        onValueChange={(value: "url" | "upload") =>
+                          setResourceForm({ ...resourceForm, pdfUploadMode: value })
+                        }
+                      >
+                        <SelectTrigger className="bg-background border-input">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="url">URL Link</SelectItem>
+                          <SelectItem value="upload">Upload File</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
+
+                  {/* PDF Conditional Upload or URL */}
+                  {resourceForm.type === "pdf" && resourceForm.pdfUploadMode === "upload" ? (
+                    <div>
+                      <Label className="text-foreground">Upload PDF File</Label>
+                      <div className="mt-2">
+                        <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-muted-foreground/30 rounded-lg cursor-pointer hover:bg-muted/50 transition-colors">
+                          <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                            <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
+                            {resourceForm.pdfFile ? (
+                              <p className="text-sm text-primary font-medium">{resourceForm.pdfFile.name}</p>
+                            ) : (
+                              <>
+                                <p className="mb-1 text-sm text-muted-foreground">
+                                  <span className="font-semibold">Click to upload</span> or drag and drop
+                                </p>
+                                <p className="text-xs text-muted-foreground">PDF files only (MAX. 50MB)</p>
+                              </>
+                            )}
+                          </div>
+                          <input
+                            type="file"
+                            className="hidden"
+                            accept=".pdf,application/pdf"
+                            onChange={handlePdfFileChange}
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  ) : resourceForm.type === "pdf" && resourceForm.pdfUploadMode === "url" ? (
+                    <div>
+                      <Label className="text-foreground">PDF URL</Label>
+                      <Input
+                        value={resourceForm.url}
+                        onChange={(e) => setResourceForm({ ...resourceForm, url: e.target.value })}
+                        placeholder="https://example.com/file.pdf"
+                        className="bg-background border-input"
+                      />
+                    </div>
+                  ) : null}
+
+                  {/* Video Source Selector */}
+                  {resourceForm.type === "video" && (
+                    <div>
+                      <Label className="text-foreground">Video Source</Label>
+                      <Select
+                        value={resourceForm.videoType}
+                        onValueChange={(value: "youtube" | "social" | "upload") =>
+                          setResourceForm({ ...resourceForm, videoType: value })
+                        }
+                      >
+                        <SelectTrigger className="bg-background border-input">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="youtube">YouTube Link</SelectItem>
+                          <SelectItem value="social">Social Media Link</SelectItem>
+                          <SelectItem value="upload">Upload File</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
+
+                  {/* Video Conditional Upload or URL */}
+                  {resourceForm.type === "video" && resourceForm.videoType === "upload" ? (
+                    <div>
+                      <Label className="text-foreground">Upload Video File</Label>
+                      <div className="mt-2">
+                        <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-muted-foreground/30 rounded-lg cursor-pointer hover:bg-muted/50 transition-colors">
+                          <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                            <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
+                            {resourceForm.videoFile ? (
+                              <p className="text-sm text-primary font-medium">
+                                {resourceForm.videoFile.name}
+                              </p>
+                            ) : (
+                              <>
+                                <p className="mb-1 text-sm text-muted-foreground">
+                                  <span className="font-semibold">Click to upload</span> or drag and drop
+                                </p>
+                                <p className="text-xs text-muted-foreground">
+                                  MP4, WebM, MOV (MAX. 100MB)
+                                </p>
+                              </>
+                            )}
+                          </div>
+                          <input
+                            type="file"
+                            className="hidden"
+                            accept="video/*"
+                            onChange={handleVideoFileChange}
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  ) : resourceForm.type === "video" ? (
+                    <div>
+                      <Label className="text-foreground">Video URL</Label>
+                      <Input
+                        value={resourceForm.url}
+                        onChange={(e) =>
                           setResourceForm({
-                            type: r.type,
-                            title: r.title,
-                            description: r.description,
-                            url: r.url,
-                            videoType: r.videoType || "youtube",
-                            videoFile: null,
-                            pdfFile: null,
-                            pdfUploadMode: r.pdfUploadMode || "url",
-                          });
-                          setResourceDialogOpen(true);
-                        }}
-                        className="h-8 w-8"
-                      >
-                        <Pencil className="w-4 h-4" />
-                      </Button>
-                      <Button
-                        variant="destructive"
-                        size="icon"
-                        onClick={() => handleDeleteResource(r.id)}
-                        className="h-8 w-8"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                            ...resourceForm,
+                            url: e.target.value,
+                          })
+                        }
+                        placeholder="https://youtube.com/watch?v=..."
+                        className="bg-background border-input"
+                      />
+                    </div>
+                  ) : null}
+
+                  {/* Save Button */}
+                  <Button
+                    onClick={handleSaveResource}
+                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+                    disabled={isSaving}
+                  >
+                    {isSaving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                    {editingResource ? "Update Resource" : "Add Resource"}
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
 
-          {/* Video Table */}
-          <div>
-            <h3 className="text-lg font-medium mb-3 flex items-center gap-2">
-              <Video className="w-5 h-5" /> Videos ({videoResources.length})
-            </h3>
-            <table className="w-full">
-              <tbody>
-                {videoResources.map((r) => (
-                  <tr key={r.id}>
-                    <td>{r.title}</td>
-                    <td>{r.description}</td>
-                    <td>{r.videoType}</td>
-                    <td>
-                      <Button
-                        size="icon"
-                        variant="outline"
-                        onClick={() => {
-                          setEditingResource(r);
-                          setResourceForm({
-                            type: r.type,
-                            title: r.title,
-                            description: r.description,
-                            url: r.url,
-                            videoType: r.videoType || "youtube",
-                            videoFile: null,
-                            pdfFile: null,
-                            pdfUploadMode: "url",
-                          });
-                          setResourceDialogOpen(true);
-                        }}
-                        className="h-8 w-8"
-                      >
-                        <Pencil className="w-4 h-4" />
-                      </Button>
-                      <Button
-                        size="icon"
-                        variant="destructive"
-                        onClick={() => handleDeleteResource(r.id)}
-                        className="h-8 w-8"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          {/* Tables */}
+          <div className="space-y-8">
+            {/* PDF Table */}
+            <div>
+              <h3 className="text-lg font-medium mb-4 flex items-center gap-2 text-foreground">
+                <FileText className="w-5 h-5 text-primary" /> PDF Documents ({pdfResources.length})
+              </h3>
+              {pdfResources.length === 0 ? (
+                <p className="text-muted-foreground text-sm py-4">No PDF documents yet. Add your first one!</p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="border-b border-border">
+                        <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Title</th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Description</th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Source</th>
+                        <th className="text-right py-3 px-4 text-sm font-medium text-muted-foreground">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {pdfResources.map((r) => (
+                        <tr key={r.id} className="border-b border-border hover:bg-muted/50 transition-colors">
+                          <td className="py-3 px-4 text-foreground font-medium">{r.title}</td>
+                          <td className="py-3 px-4 text-muted-foreground">{r.description || "-"}</td>
+                          <td className="py-3 px-4">
+                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground">
+                              {r.pdfUploadMode === "upload" ? "Uploaded" : "URL"}
+                            </span>
+                          </td>
+                          <td className="py-3 px-4">
+                            <div className="flex justify-end gap-2">
+                              <Button
+                                size="icon"
+                                variant="outline"
+                                onClick={() => {
+                                  setEditingResource(r);
+                                  setResourceForm({
+                                    type: r.type,
+                                    title: r.title,
+                                    description: r.description,
+                                    url: r.url,
+                                    videoType: r.videoType || "youtube",
+                                    videoFile: null,
+                                    pdfFile: null,
+                                    pdfUploadMode: r.pdfUploadMode || "url",
+                                  });
+                                  setResourceDialogOpen(true);
+                                }}
+                                className="h-8 w-8"
+                              >
+                                <Pencil className="w-4 h-4" />
+                              </Button>
+                              <Button
+                                variant="destructive"
+                                size="icon"
+                                onClick={() => handleDeleteResource(r.id)}
+                                disabled={deleteResource.isPending}
+                                className="h-8 w-8"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+
+            {/* Video Table */}
+            <div>
+              <h3 className="text-lg font-medium mb-4 flex items-center gap-2 text-foreground">
+                <Video className="w-5 h-5 text-primary" /> Videos ({videoResources.length})
+              </h3>
+              {videoResources.length === 0 ? (
+                <p className="text-muted-foreground text-sm py-4">No videos yet. Add your first one!</p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="border-b border-border">
+                        <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Title</th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Description</th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-muted-foreground">Source</th>
+                        <th className="text-right py-3 px-4 text-sm font-medium text-muted-foreground">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {videoResources.map((r) => (
+                        <tr key={r.id} className="border-b border-border hover:bg-muted/50 transition-colors">
+                          <td className="py-3 px-4 text-foreground font-medium">{r.title}</td>
+                          <td className="py-3 px-4 text-muted-foreground">{r.description || "-"}</td>
+                          <td className="py-3 px-4">
+                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground capitalize">
+                              {r.videoType}
+                            </span>
+                          </td>
+                          <td className="py-3 px-4">
+                            <div className="flex justify-end gap-2">
+                              <Button
+                                size="icon"
+                                variant="outline"
+                                onClick={() => {
+                                  setEditingResource(r);
+                                  setResourceForm({
+                                    type: r.type,
+                                    title: r.title,
+                                    description: r.description,
+                                    url: r.url,
+                                    videoType: r.videoType || "youtube",
+                                    videoFile: null,
+                                    pdfFile: null,
+                                    pdfUploadMode: "url",
+                                  });
+                                  setResourceDialogOpen(true);
+                                }}
+                                className="h-8 w-8"
+                              >
+                                <Pencil className="w-4 h-4" />
+                              </Button>
+                              <Button
+                                size="icon"
+                                variant="destructive"
+                                onClick={() => handleDeleteResource(r.id)}
+                                disabled={deleteResource.isPending}
+                                className="h-8 w-8"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
