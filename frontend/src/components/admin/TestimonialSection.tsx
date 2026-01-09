@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Plus, Pencil, Trash2, Upload } from "lucide-react";
+import { Plus, Pencil, Trash2, Upload, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Testimonial } from "@/types/admin";
 import {
@@ -35,11 +35,19 @@ const TestimonialsSection = () => {
 
   const { toast } = useToast();
 
-  // ✅ React Query hooks
+
   const { data: testimonials = [], isLoading ,error} = useTestimonials();
   const addTestimonial = useAddTestimonial();
   const updateTestimonial = useUpdateTestimonial();
   const deleteTestimonial = useDeleteTestimonial();
+
+   if (isLoading) {
+      return (
+        <div className="flex items-center justify-center min-h-[400px]">
+          <Loader2 className="w-8 h-8 animate-spin text-secondary" />
+        </div>
+      );
+    }
 
   const handleSaveTestimonial = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
