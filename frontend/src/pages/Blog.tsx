@@ -180,7 +180,6 @@ const Blog = () => {
           )}
         </div>
       </main>
-
       <Footer />
       <ChatBot />
       <WhatsAppButton />
