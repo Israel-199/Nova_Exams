@@ -212,15 +212,16 @@ const Booking = () => {
                           you find the right solution.
                         </p>
                         <Button
-  variant="hero"
-  size="lg"
-  className="ml-auto"
-  onClick={() => (window.location.href = "tel:+251946002612")}
->
-  <Phone className="w-5 h-5 mr-2" />
-  Contact the Center
-</Button>
-
+                          variant="hero"
+                          size="lg"
+                          className="ml-auto"
+                          onClick={() =>
+                            (window.location.href = "tel:+251946002612")
+                          }
+                        >
+                          <Phone className="w-5 h-5 mr-2" />
+                          Contact the Center
+                        </Button>
                       </CardContent>
                     </Card>
                   ) : (
