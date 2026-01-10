@@ -4,7 +4,13 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, MessageCircle, Phone, CreditCard, Loader2 } from "lucide-react";
+import {
+  CheckCircle,
+  MessageCircle,
+  Phone,
+  CreditCard,
+  Loader2,
+} from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useExams } from "../hooks/useExam";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -71,13 +77,7 @@ const Booking = () => {
       });
     }
   };
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <Loader2 className="w-8 h-8 animate-spin text-secondary" />
-      </div>
-    );
-  }
+
   if (isError)
     return <p className="text-center text-red-500">Failed to load exams</p>;
 
@@ -145,47 +145,51 @@ const Booking = () => {
                     Choose Your Exam
                   </h2>
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {exams.map((exam: Exam) => (
-                      <Card
-                        key={exam.id}
-                        className={`cursor-pointer transition-all ${
-                          selectedExam === exam.id
-                            ? "border-secondary ring-2 ring-secondary"
-                            : "border-border hover:border-secondary/50"
-                        }`}
-                        onClick={() => {
-                          setSelectedExam(exam.id);
-                        }}
-                      >
-                        <CardHeader className="pb-2">
-                          <div className="flex items-center justify-between">
-                            <Badge className="bg-primary text-primary-foreground">
-                              {exam.examType}
-                            </Badge>
-                            {selectedExam === exam.id && (
-                              <CheckCircle className="w-5 h-5 text-secondary" />
-                            )}
-                          </div>
-                          <CardTitle className="text-lg font-display">
-                            {exam.name} Exam
-                          </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-sm text-muted-foreground mb-3">
-                            {exam.mentorship}
-                          </p>
-                          <p className="font-bold text-foreground">
-                            {exam.examType.toLowerCase().includes("other")
-                              ? "Contact for details"
-                              : exam.sum != null
-                              ? `${exam.sum.toLocaleString()} ETB`
-                              : exam.basePrice != null
-                              ? `${exam.basePrice.toLocaleString()} ETB`
-                              : ""}
-                          </p>
-                        </CardContent>
-                      </Card>
-                    ))}
+                    {isLoading ? (
+                      <div className="flex items-center justify-center min-h-[400px] col-span-full">
+                        <Loader2 className="w-8 h-8 animate-spin text-secondary" />
+                      </div>
+                    ) : (
+                      exams.map((exam: Exam) => (
+                        <Card
+                          key={exam.id}
+                          className={`cursor-pointer transition-all ${
+                            selectedExam === exam.id
+                              ? "border-secondary ring-2 ring-secondary"
+                              : "border-border hover:border-secondary/50"
+                          }`}
+                          onClick={() => setSelectedExam(exam.id)}
+                        >
+                          <CardHeader className="pb-2">
+                            <div className="flex items-center justify-between">
+                              <Badge className="bg-primary text-primary-foreground">
+                                {exam.examType}
+                              </Badge>
+                              {selectedExam === exam.id && (
+                                <CheckCircle className="w-5 h-5 text-secondary" />
+                              )}
+                            </div>
+                            <CardTitle className="text-lg font-display">
+                              {exam.name} Exam
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <p className="text-sm text-muted-foreground mb-3">
+                              {exam.mentorship}
+                            </p>
+                            <p className="font-bold text-foreground">
+                              {exam.examType.toLowerCase().includes("other")
+                                ? "Contact for details"
+                                : exam.sum != null
+                                ? `${exam.sum.toLocaleString()} ETB`
+                                : exam.basePrice != null
+                                ? `${exam.basePrice.toLocaleString()} ETB`
+                                : ""}
+                            </p>
+                          </CardContent>
+                        </Card>
+                      ))
+                    )}
                   </div>
                 </div>
               )}
