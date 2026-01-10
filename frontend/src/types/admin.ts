@@ -33,11 +33,14 @@ export interface Resource {
   type: "pdf" | "video";
   title: string;
   description: string;
-  url: string; 
-  videoType?: "youtube" | "social" | "upload"; 
-  videoFile?: File | null; 
-  pdfFile?: File | null;   
-  pdfUploadMode?: "url" | "upload"; 
+  sourceUrl: string;            
+  sourceType: "upload" | "url";  
+  videoType?: "youtube" | "social" | "upload" | null;
+  pdfUploadMode?: "url" | "upload" | null;
+  videoFile?: File | null;
+  pdfFile?: File | null;
+  created_at?: string;
 }
+
 
 

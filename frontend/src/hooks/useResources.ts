@@ -25,8 +25,8 @@ function buildResourcePayload(resourceData: Partial<Resource>) {
     formData.append("pdfUploadMode", resourceData.pdfUploadMode!);
     if (resourceData.pdfUploadMode === "upload" && resourceData.pdfFile) {
       formData.append("pdfFile", resourceData.pdfFile);
-    } else if (resourceData.url) {
-      formData.append("url", resourceData.url);
+    } else if (resourceData.sourceUrl) {
+      formData.append("sourceUrl", resourceData.sourceUrl);
     }
   }
 
@@ -34,13 +34,14 @@ function buildResourcePayload(resourceData: Partial<Resource>) {
     formData.append("videoType", resourceData.videoType!);
     if (resourceData.videoType === "upload" && resourceData.videoFile) {
       formData.append("videoFile", resourceData.videoFile);
-    } else if (resourceData.url) {
-      formData.append("url", resourceData.url);
+    } else if (resourceData.sourceUrl) {
+      formData.append("sourceUrl", resourceData.sourceUrl);
     }
   }
 
   return formData;
 }
+
 
 export function useAddResource() {
   const queryClient = useQueryClient();

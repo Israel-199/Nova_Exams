@@ -4,24 +4,33 @@ import { ChatBot } from "@/components/ChatBot";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, Video, ExternalLink, Download } from "lucide-react";
+import { FileText, Video, Download } from "lucide-react";
 import { motion } from "framer-motion";
+import { api } from "@/lib/api";
 
-const guides = [
-  { title: "IELTS Preparation Guide", description: "Complete study guide with tips and strategies", type: "PDF" },
-  { title: "TOEFL Speaking Templates", description: "Ready-to-use templates for all speaking tasks", type: "PDF" },
-  { title: "Duolingo Quick Tips", description: "Essential tips for the Duolingo English Test", type: "PDF" },
-  { title: "GRE Vocabulary List", description: "1000 most common GRE words", type: "PDF" },
-];
-
-const videos = [
-  { title: "IELTS Writing Task 2 Masterclass", channel: "Nova Exams", url: "#" },
-  { title: "How to Score 120 on TOEFL", channel: "Nova Exams", url: "#" },
-  { title: "Duolingo Test Walkthrough", channel: "Nova Exams", url: "#" },
-  { title: "TOLC Preparation Tips", channel: "Nova Exams", url: "#" },
-];
+import { useResources } from "@/hooks/useResources";
+import { Resource } from "@/types/admin";
 
 const Resources = () => {
+  const { data: resources = [], isLoading, error } = useResources();
+
+  const guides = resources.filter((r: Resource) => r.type === "pdf");
+  const videos = resources.filter((r: Resource) => r.type === "video");
+
+  const API_BASE = api.defaults.baseURL;
+
+  const isYouTube = (url?: string) =>
+    !!url && (url.includes("youtube.com") || url.includes("youtu.be"));
+
+  const toEmbedUrl = (url: string) => {
+    if (url.includes("watch?v=")) return url.replace("watch?v=", "embed/");
+    if (url.includes("youtu.be")) {
+      const id = url.split("youtu.be/")[1]?.split("?")[0];
+      return `https://www.youtube.com/embed/${id}`;
+    }
+    return url;
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar bgColor="bg-gradient-secondary" />
@@ -66,36 +75,56 @@ const Resources = () => {
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-6">
-              {guides.map((guide, i) => (
-                <motion.div
-                  key={guide.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
-                >
-                  <Card className="bg-card border-border shadow-sm hover:shadow-lg transition-shadow">
-                    <CardContent className="p-6 flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-gradient-secondary flex items-center justify-center flex-shrink-0">
-                        <FileText className="w-6 h-6 text-secondary-foreground" />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-display font-semibold text-foreground">
-                          {guide.title}
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          {guide.description}
-                        </p>
-                      </div>
-                      <Button variant="outline" size="sm">
-                        <Download className="w-4 h-4 mr-2" />
-                        {guide.type}
-                      </Button>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
+            {isLoading ? (
+              <p className="text-center text-muted-foreground">
+                Loading guides...
+              </p>
+            ) : error ? (
+              <p className="text-center text-red-500">
+                Failed to load resources
+              </p>
+            ) : guides.length === 0 ? (
+              <p className="text-center text-muted-foreground">
+                No guides available.
+              </p>
+            ) : (
+              <div className="grid md:grid-cols-2 gap-6">
+                {guides.map((guide, i) => (
+                  <motion.div
+                    key={guide.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                  >
+                    <Card className="bg-card border-border shadow-sm hover:shadow-lg transition-shadow">
+                      <CardContent className="p-6 flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-xl bg-gradient-secondary flex items-center justify-center flex-shrink-0">
+                          <FileText className="w-6 h-6 text-secondary-foreground" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-display font-semibold text-foreground">
+                            {guide.title}
+                          </h3>
+                          <p className="text-sm text-muted-foreground">
+                            {guide.description}
+                          </p>
+                        </div>
+                        <Button variant="outline" size="sm" asChild>
+                          <a
+                            href={`${API_BASE}/resources/${guide.id}/download`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <Download className="w-4 h-4 mr-2" />
+                            PDF
+                          </a>
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            )}
           </div>
         </section>
 
@@ -112,38 +141,84 @@ const Resources = () => {
                 🎥 Video Resources
               </h2>
               <p className="text-muted-foreground">
-                Watch our YouTube tutorials and preparation videos.
+                Watch our tutorials and preparation videos.
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-6">
-              {videos.map((video, i) => (
-                <motion.div
-                  key={video.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
-                >
-                  <Card className="bg-card border-border shadow-sm hover:shadow-lg transition-shadow group cursor-pointer">
-                    <CardContent className="p-6">
-                      <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        className="aspect-video bg-indigo rounded-lg mb-4 flex items-center justify-center group-hover:bg-secondary transition-colors"
-                      >
-                        <Video className="w-12 h-12 text-indigo-foreground" />
-                      </motion.div>
-                      <h3 className="font-display font-semibold text-foreground mb-1">
-                        {video.title}
-                      </h3>
-                      <p className="text-sm text-muted-foreground flex items-center gap-1">
-                        {video.channel}
-                        <ExternalLink className="w-3 h-3" />
-                      </p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
+            {isLoading ? (
+              <p className="text-center text-muted-foreground">
+                Loading videos...
+              </p>
+            ) : error ? (
+              <p className="text-center text-red-500">
+                Failed to load resources
+              </p>
+            ) : videos.length === 0 ? (
+              <p className="text-center text-muted-foreground">
+                No videos available.
+              </p>
+            ) : (
+              <div className="grid md:grid-cols-2 gap-6">
+                {videos.map((video, i) => (
+                  <motion.div
+                    key={video.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                  >
+                    <Card className="bg-card border-border shadow-sm hover:shadow-lg transition-shadow group">
+                      <CardContent className="p-6">
+                        {isYouTube(video.sourceUrl) ? (
+                          <div className="aspect-video mb-4">
+                            <iframe
+                              width="100%"
+                              height="100%"
+                              src={toEmbedUrl(video.sourceUrl)}
+                              title={video.title}
+                              frameBorder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                            />
+                          </div>
+                        ) : video.sourceUrl ? (
+                          <video
+                            controls
+                            className="w-full rounded-lg mb-4"
+                            src={video.sourceUrl}
+                          />
+                        ) : (
+                          <motion.div
+                            whileHover={{ scale: 1.05 }}
+                            className="aspect-video bg-indigo rounded-lg mb-4 flex items-center justify-center group-hover:bg-secondary transition-colors"
+                          >
+                            <Video className="w-12 h-12 text-indigo-foreground" />
+                          </motion.div>
+                        )}
+
+                        <h3 className="font-display font-semibold text-foreground mb-1">
+                          {video.title}
+                        </h3>
+                        <p className="text-sm text-muted-foreground mb-3">
+                          {video.description}
+                        </p>
+
+                        {isYouTube(video.sourceUrl) && (
+                          <Button variant="outline" size="sm" asChild>
+                            <a
+                              href={video.sourceUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              Watch on YouTube
+                            </a>
+                          </Button>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            )}
           </div>
         </section>
 
