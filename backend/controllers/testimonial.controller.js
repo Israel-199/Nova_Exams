@@ -19,7 +19,7 @@ exports.createTestimonial = async (req, res) => {
       data: {
         student: req.body.student,
         exam: req.body.exam,
-        rating: parseInt(req.body.rating, 10), // ⭐ save rating as number
+        rating: parseInt(req.body.rating, 10), 
         testimonial: req.body.testimonial,
         ...(imageUrl && { image: imageUrl }),
       },

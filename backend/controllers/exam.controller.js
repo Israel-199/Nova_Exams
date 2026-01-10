@@ -4,7 +4,6 @@ const prisma = require("../prisma/client");
 exports.createExam = async (req, res) => {
   const { examType, mentorship, examRoomService, sum } = req.body;
 
-  // Validation
   if (
     !examType ||
     !mentorship ||

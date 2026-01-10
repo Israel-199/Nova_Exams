@@ -18,7 +18,6 @@ exports.createResource = async (req, res) => {
     let sourceType = "url";
     let publicId = null;
 
-    // Handle PDF upload
     if (req.files?.pdfFile?.[0]) {
       const file = req.files.pdfFile[0];
       console.log("PDF file received:", file);
@@ -34,7 +33,6 @@ exports.createResource = async (req, res) => {
       console.log("Cloudinary public_id:", publicId);
     }
 
-    // Handle Video upload
     if (req.files?.videoFile?.[0]) {
       const file = req.files.videoFile[0];
       console.log("Video file received:", file);
@@ -57,7 +55,7 @@ exports.createResource = async (req, res) => {
         description,
         sourceType,
         sourceUrl,
-        publicId, // 👈 save in DB
+        publicId,
         pdfUploadMode: type === "pdf" ? pdfUploadMode || "url" : null,
         videoType: type === "video" ? videoType || "youtube" : null,
       },
@@ -176,7 +174,7 @@ exports.downloadResource = async (req, res) => {
       return res.status(400).send("Resource missing publicId");
     }
 
-    // Ensure publicId does not include extension
+
     const cleanPublicId = resource.publicId.replace(/\.pdf$/, "");
 
     const downloadUrl = cloudinary.url(cleanPublicId, {
@@ -234,7 +232,6 @@ exports.deleteResource = async (req, res) => {
       });
     }
 
-    // Delete from Cloudinary if publicId exists
     if (resource.publicId) {
       try {
         await cloudinary.uploader.destroy(resource.publicId, {
@@ -246,7 +243,6 @@ exports.deleteResource = async (req, res) => {
       }
     }
 
-    // Delete from DB
     await prisma.resource.delete({ where: { id: req.params.id } });
 
     res.json({
