@@ -2,7 +2,6 @@ const prisma = require("../prisma/client");
 const uploadToCloudinary = require("../utils/cloudinaryUpload");
 const cloudinary = require("../lib/cloudinary");
 
-// Create Resource
 exports.createResource = async (req, res) => {
   try {
     const { type, title, description, pdfUploadMode, videoType } = req.body;
@@ -18,7 +17,7 @@ exports.createResource = async (req, res) => {
     let sourceType = "url";
     let publicId = null;
 
-    if (req.files?.pdfFile?.[0]) {
+    if (type === "pdf" && req.files?.pdfFile?.[0]) {
       const file = req.files.pdfFile[0];
       console.log("PDF file received:", file);
       const uploadResult = await uploadToCloudinary(
@@ -30,22 +29,27 @@ exports.createResource = async (req, res) => {
       sourceUrl = uploadResult.secure_url;
       publicId = uploadResult.public_id;
       sourceType = "upload";
-      console.log("Cloudinary public_id:", publicId);
     }
 
-    if (req.files?.videoFile?.[0]) {
-      const file = req.files.videoFile[0];
-      console.log("Video file received:", file);
-      const uploadResult = await uploadToCloudinary(
-        file.buffer,
-        file.mimetype,
-        "lib/video",
-        file.originalname
-      );
-      sourceUrl = uploadResult.secure_url;
-      publicId = uploadResult.public_id;
-      sourceType = "upload";
-      console.log("Cloudinary public_id:", publicId);
+    if (type === "video") {
+      if (videoType === "youtube" && req.body.url) {
+        sourceUrl = req.body.url;
+        sourceType = "url";
+        publicId = null;
+      } else if (req.files?.videoFile?.[0]) {
+        const file = req.files.videoFile[0];
+        console.log("Video file received:", file);
+        const uploadResult = await uploadToCloudinary(
+          file.buffer,
+          file.mimetype,
+          "lib/video",
+          file.originalname
+        );
+        sourceUrl = uploadResult.secure_url;
+        publicId = uploadResult.public_id;
+        sourceType = "upload";
+        console.log("Cloudinary public_id:", publicId);
+      }
     }
 
     const resource = await prisma.resource.create({
@@ -93,7 +97,7 @@ exports.updateResource = async (req, res) => {
       updateData.sourceType = "url";
     }
 
-    if (req.files?.pdfFile?.[0]) {
+    if (type === "pdf" && req.files?.pdfFile?.[0]) {
       const file = req.files.pdfFile[0];
       console.log("PDF file received (update):", file);
       const uploadResult = await uploadToCloudinary(
@@ -105,22 +109,26 @@ exports.updateResource = async (req, res) => {
       updateData.sourceUrl = uploadResult.secure_url;
       updateData.publicId = uploadResult.public_id;
       updateData.sourceType = "upload";
-      console.log("Cloudinary public_id:", uploadResult.public_id);
     }
 
-    if (req.files?.videoFile?.[0]) {
-      const file = req.files.videoFile[0];
-      console.log("Video file received (update):", file);
-      const uploadResult = await uploadToCloudinary(
-        file.buffer,
-        file.mimetype,
-        "lib/video",
-        file.originalname
-      );
-      updateData.sourceUrl = uploadResult.secure_url;
-      updateData.publicId = uploadResult.public_id;
-      updateData.sourceType = "upload";
-      console.log("Cloudinary public_id:", uploadResult.public_id);
+    if (type === "video") {
+      if (videoType === "youtube" && req.body.url) {
+        updateData.sourceUrl = req.body.url;
+        updateData.sourceType = "url";
+        updateData.publicId = null;
+      } else if (req.files?.videoFile?.[0]) {
+        const file = req.files.videoFile[0];
+        console.log("Video file received (update):", file);
+        const uploadResult = await uploadToCloudinary(
+          file.buffer,
+          file.mimetype,
+          "lib/video",
+          file.originalname
+        );
+        updateData.sourceUrl = uploadResult.secure_url;
+        updateData.publicId = uploadResult.public_id;
+        updateData.sourceType = "upload";
+      }
     }
 
     const resource = await prisma.resource.update({
@@ -164,7 +172,7 @@ exports.getResources = async (req, res) => {
   }
 };
 
-// Download Resource (PDFs)
+// Download Resource
 exports.downloadResource = async (req, res) => {
   try {
     const resource = await prisma.resource.findUnique({ where: { id: req.params.id } });
@@ -173,7 +181,6 @@ exports.downloadResource = async (req, res) => {
     if (!resource.publicId) {
       return res.status(400).send("Resource missing publicId");
     }
-
 
     const cleanPublicId = resource.publicId.replace(/\.pdf$/, "");
 
@@ -187,7 +194,6 @@ exports.downloadResource = async (req, res) => {
 
     res.redirect(downloadUrl);
   } catch (error) {
-    console.error("Download resource error:", error);
     res.status(500).send("Server error");
   }
 };
