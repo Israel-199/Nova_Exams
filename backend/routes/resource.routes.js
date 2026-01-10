@@ -5,6 +5,8 @@ const upload = require("../middleware/upload");
 
 // Public routes
 router.get("/", resourceController.getResources);
+router.get("/:id/download", resourceController.downloadResource);
+
 router.get("/:id", resourceController.getResource);
 
 router.post(
@@ -18,7 +20,6 @@ router.patch(
   upload.fields([{ name: "pdfFile" }, { name: "videoFile" }]),
   resourceController.updateResource
 );
-
 
 router.delete("/:id", resourceController.deleteResource);
 

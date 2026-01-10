@@ -49,10 +49,14 @@ model Resource {
   description   String?
   sourceType    String
   sourceUrl     String
-  pdfUploadMode String?   
-  videoType     String?   
+  publicId      String?  
+  pdfUploadMode String?
+  videoType     String?
   created_at    DateTime @default(now())
 }
+
+
+
 
 model Admin {
   id        String   @id @default(uuid())
