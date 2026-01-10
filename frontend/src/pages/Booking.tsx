@@ -211,10 +211,16 @@ const Booking = () => {
                           please contact our center directly. We're here to help
                           you find the right solution.
                         </p>
-                        <Button variant="hero" size="lg" className="ml-auto">
-                          <Phone className="w-5 h-5 mr-2" />
-                          Contact the Center
-                        </Button>
+                        <Button
+  variant="hero"
+  size="lg"
+  className="ml-auto"
+  onClick={() => (window.location.href = "tel:+251946002612")}
+>
+  <Phone className="w-5 h-5 mr-2" />
+  Contact the Center
+</Button>
+
                       </CardContent>
                     </Card>
                   ) : (
