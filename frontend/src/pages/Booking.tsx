@@ -1,45 +1,29 @@
 import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { ChatBot } from "@/components/ChatBot";
-import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import {
-  CheckCircle,
-  Calendar,
-  CreditCard,
-  MessageCircle,
-  Phone,
-  Link,
-} from "lucide-react";
+import { CheckCircle, MessageCircle, Phone, CreditCard, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useExams } from "../hooks/useExam";
+import { Checkbox } from "@/components/ui/checkbox";
 import { ConsultationBooking } from "@/components/ConsultationBooking";
-
-const exams = [
-  {
-    id: "pearson",
-    name: "Pearson",
-    basePrice: 25000,
-    description: "1 Month language Training + Exam Room Service (10,000 ETB)",
-  },
-  {
-    id: "ielts-home",
-    name: "IELTS Home",
-    basePrice: 20000,
-    description: "2 Weeks Mentorship + Exam Room Service (12,000 ETB)",
-  },
-  {
-    id: "others",
-    name: "Others",
-    basePrice: 0,
-    description: "Contact the center for mentorship and pricing details",
-  },
-];
+import { ChatBot } from "@/components/ChatBot";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 
 const MENTORSHIP_PRICE = 2000;
+
+export interface Exam {
+  id: string;
+  examType: string;
+  name: string;
+  description: string;
+  mentorship?: string;
+  examRoomService?: number;
+  basePrice?: number;
+  sum?: number;
+}
 
 const Booking = () => {
   const { toast } = useToast();
@@ -47,9 +31,17 @@ const Booking = () => {
   const [wantsMentorship, setWantsMentorship] = useState(false);
   const [step, setStep] = useState(1);
 
-  const selectedExamData = exams.find((e) => e.id === selectedExam);
+  const { data: exams, isLoading, isError } = useExams();
+
+  const selectedExamData = exams?.find((e: Exam) => e.id === selectedExam);
+
+  const isOthersExam =
+    selectedExamData?.examType?.toLowerCase() === "others" ||
+    selectedExamData?.examType?.toLowerCase() === "other";
+
   const totalPrice = selectedExamData
-    ? selectedExamData.basePrice + (wantsMentorship ? MENTORSHIP_PRICE : 0)
+    ? (selectedExamData.basePrice ?? selectedExamData.sum ?? 0) +
+      (wantsMentorship ? MENTORSHIP_PRICE : 0)
     : 0;
 
   const handleProceed = () => {
@@ -61,22 +53,38 @@ const Booking = () => {
       });
       return;
     }
-    if (step < 3) {
-      setStep(step + 1);
-    } else {
+
+    if (step === 1) {
+      setStep(2);
+      return;
+    }
+
+    if (step === 2 && !isOthersExam) {
+      setStep(3);
+      return;
+    }
+
+    if (step === 3) {
       toast({
         title: "Booking Initiated!",
         description: "Redirecting to payment... (Demo)",
       });
     }
   };
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader2 className="w-8 h-8 animate-spin text-secondary" />
+      </div>
+    );
+  }
+  if (isError)
+    return <p className="text-center text-red-500">Failed to load exams</p>;
 
   return (
     <div className="min-h-screen bg-background">
-      {/* <Navbar /> */}
       <Navbar bgColor="bg-gradient-secondary" />
       <main className="pt-20">
-        {/* Hero */}
         <section className="py-16 bg-gradient-secondary">
           <div className="container mx-auto px-4 text-center">
             <h1 className="font-display text-4xl md:text-5xl font-bold text-secondary-foreground mb-6">
@@ -92,13 +100,12 @@ const Booking = () => {
         {/* Booking Steps */}
         <section className="py-16">
           <div className="container mx-auto px-4">
+            {/* Step Indicator */}
             <div className="flex items-center justify-center gap-4 mb-12">
               {[
                 { num: 1, label: "Select Exam" },
                 { num: 2, label: "Options" },
-                ...(selectedExam !== "others"
-                  ? [{ num: 3, label: "Payment" }]
-                  : []),
+                ...(!isOthersExam ? [{ num: 3, label: "Payment" }] : []),
               ].map((s, i, arr) => (
                 <div key={s.num} className="flex items-center">
                   <div
@@ -138,7 +145,7 @@ const Booking = () => {
                     Choose Your Exam
                   </h2>
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {exams.map((exam) => (
+                    {exams.map((exam: Exam) => (
                       <Card
                         key={exam.id}
                         className={`cursor-pointer transition-all ${
@@ -146,12 +153,14 @@ const Booking = () => {
                             ? "border-secondary ring-2 ring-secondary"
                             : "border-border hover:border-secondary/50"
                         }`}
-                        onClick={() => setSelectedExam(exam.id)}
+                        onClick={() => {
+                          setSelectedExam(exam.id);
+                        }}
                       >
                         <CardHeader className="pb-2">
                           <div className="flex items-center justify-between">
                             <Badge className="bg-primary text-primary-foreground">
-                              {exam.name}
+                              {exam.examType}
                             </Badge>
                             {selectedExam === exam.id && (
                               <CheckCircle className="w-5 h-5 text-secondary" />
@@ -163,12 +172,16 @@ const Booking = () => {
                         </CardHeader>
                         <CardContent>
                           <p className="text-sm text-muted-foreground mb-3">
-                            {exam.description}
+                            {exam.mentorship}
                           </p>
                           <p className="font-bold text-foreground">
-                            {exam.name === "Others"
+                            {exam.examType.toLowerCase().includes("other")
                               ? "Contact for details"
-                              : exam.basePrice.toLocaleString()}
+                              : exam.sum != null
+                              ? `${exam.sum.toLocaleString()} ETB`
+                              : exam.basePrice != null
+                              ? `${exam.basePrice.toLocaleString()} ETB`
+                              : ""}
                           </p>
                         </CardContent>
                       </Card>
@@ -180,13 +193,12 @@ const Booking = () => {
               {/* Step 2: Options */}
               {step === 2 && (
                 <div className="max-w-lg mx-auto">
-                  {selectedExam === "others" ? (
+                  {isOthersExam ? (
                     <Card className="bg-tertiary/10 border-tertiary/30 shadow-lg max-w-3xl mx-auto mt-8">
                       <CardContent className="p-8 text-center">
                         <div className="w-16 h-16 rounded-full bg-tertiary/20 flex items-center justify-center mx-auto mb-4">
                           <MessageCircle className="w-8 h-8 text-tertiary animate-bounce" />
                         </div>
-
                         <h3 className="font-display text-2xl font-bold text-foreground mb-3">
                           Need a Different Exam?
                         </h3>
@@ -195,20 +207,15 @@ const Booking = () => {
                           please contact our center directly. We're here to help
                           you find the right solution.
                         </p>
-                        <div>
-                          <Button variant="hero" size="lg" className="ml-auto">
-                            <Phone className="w-5 h-5 mr-2" />
-                            Contact the Center
-                          </Button>
-                        </div>
+                        <Button variant="hero" size="lg" className="ml-auto">
+                          <Phone className="w-5 h-5 mr-2" />
+                          Contact the Center
+                        </Button>
                       </CardContent>
                     </Card>
                   ) : (
                     <>
-                      <h2 className="font-display text-2xl font-bold text-foreground mb-6 text-center">
-                        Additional Options
-                      </h2>
-
+                      {/* Mentorship Option */}
                       <Card className="mb-6">
                         <CardContent className="p-6">
                           <div className="flex items-start gap-4">
@@ -239,6 +246,7 @@ const Booking = () => {
                         </CardContent>
                       </Card>
 
+                      {/* Included Services */}
                       <Card className="bg-muted">
                         <CardContent className="p-6">
                           <h3 className="font-display font-semibold text-foreground mb-4">
@@ -266,7 +274,7 @@ const Booking = () => {
               )}
 
               {/* Step 3: Payment */}
-              {step === 3 && selectedExam !== "others" && (
+              {step === 3 && !isOthersExam && (
                 <div className="max-w-lg mx-auto">
                   <h2 className="font-display text-2xl font-bold text-foreground mb-6 text-center">
                     Confirm & Pay
@@ -282,7 +290,12 @@ const Booking = () => {
                             {selectedExamData?.name} Exam
                           </span>
                           <span className="text-foreground">
-                            ETB {selectedExamData?.basePrice.toLocaleString()}
+                            ETB{" "}
+                            {selectedExamData?.basePrice != null
+                              ? selectedExamData.basePrice.toLocaleString()
+                              : selectedExamData?.sum != null
+                              ? selectedExamData.sum.toLocaleString()
+                              : "0"}
                           </span>
                         </div>
 
@@ -307,7 +320,10 @@ const Booking = () => {
                         <div className="border-t border-border pt-3 flex justify-between font-bold">
                           <span className="text-foreground">Total</span>
                           <span className="text-secondary text-xl">
-                            ETB {totalPrice.toLocaleString()}
+                            ETB{" "}
+                            {totalPrice != null
+                              ? totalPrice.toLocaleString()
+                              : "0"}
                           </span>
                         </div>
                       </div>
@@ -336,7 +352,8 @@ const Booking = () => {
                   </Button>
                 )}
 
-                {!(step === 2 && selectedExam === "others") && (
+                {/* Hide continue button if examType is Others */}
+                {!(step === 2 && isOthersExam) && (
                   <Button
                     variant="hero"
                     size="lg"

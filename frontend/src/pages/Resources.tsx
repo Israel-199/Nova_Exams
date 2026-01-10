@@ -201,18 +201,6 @@ const Resources = () => {
                         <p className="text-sm text-muted-foreground mb-3">
                           {video.description}
                         </p>
-
-                        {isYouTube(video.sourceUrl) && (
-                          <Button variant="outline" size="sm" asChild>
-                            <a
-                              href={video.sourceUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              Watch on YouTube
-                            </a>
-                          </Button>
-                        )}
                       </CardContent>
                     </Card>
                   </motion.div>
@@ -221,7 +209,6 @@ const Resources = () => {
             )}
           </div>
         </section>
-
         {/* CTA */}
         <section className="py-16">
           <div className="container mx-auto px-4 text-center">
@@ -237,7 +224,7 @@ const Resources = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-muted-foreground mb-8"
+              className="text-muted-foreground mb-8 text-lg"
             >
               Our mentorship program provides personalized guidance for your
               exam preparation.
