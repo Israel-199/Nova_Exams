@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { useLogin, useSession } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 const navItems = [
@@ -35,7 +35,6 @@ export function Navbar({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const { toast } = useToast();
   const navigate = useNavigate();
 
   const { mutateAsync: login, isPending } = useLogin();
@@ -48,12 +47,10 @@ const handleSubmit = async (e: React.FormEvent) => {
   try {
     const res = await login({ email, password });
     if (res.success) {
-      toast({ title: "Login successful", description: res.message });
+      toast.success( "Login successful");
       setIsLoginOpen(false);
       setEmail("");
       setPassword("");
-
-      // ✅ Optimistically set session cache so ProtectedRoute sees user
       queryClient.setQueryData(["session"], {
         id: res.user?.id,
         email: res.user?.email,
@@ -62,29 +59,22 @@ const handleSubmit = async (e: React.FormEvent) => {
 
       navigate("/admin");
     } else {
-      toast({
-        title: "Login failed",
-        description: res.message,
-        variant: "destructive",
-      });
+      toast.error(
+      "Login failed"
+      );
     }
   } catch (error: any) {
-    toast({
-      title: "Login failed",
-      description:
-        error.response?.data?.message || "Unexpected server error.",
-      variant: "destructive",
-    });
+    toast.error(
+    "Login failed"
+    );
   }
 };
 
-
-  // ✅ Handle login button click
   const handleLoginClick = () => {
     if (user) {
-      navigate("/admin"); // already logged in → go to admin
+      navigate("/admin"); 
     } else {
-      setIsLoginOpen(true); // not logged in → open dialog
+      setIsLoginOpen(true); 
     }
   };
 
