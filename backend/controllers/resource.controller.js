@@ -4,7 +4,7 @@ const cloudinary = require("../lib/cloudinary");
 
 exports.createResource = async (req, res) => {
   try {
-    const { type, title, description, pdfUploadMode, videoType, sourceUrl } = req.body;
+    const { type, title, description, pdfUploadMode, videoType } = req.body;
 
     if (!type || !title || !description) {
       return res.status(400).json({
@@ -13,41 +13,42 @@ exports.createResource = async (req, res) => {
       });
     }
 
-    let finalSourceUrl = sourceUrl || null;
-    let sourceType = sourceUrl ? "url" : null;
+    let sourceUrl = req.body.url || null;
+    let sourceType = "url";
     let publicId = null;
 
-    // Handle PDF upload
     if (type === "pdf" && req.files?.pdfFile?.[0]) {
       const file = req.files.pdfFile[0];
+      console.log("PDF file received:", file);
       const uploadResult = await uploadToCloudinary(
         file.buffer,
         file.mimetype,
         "lib/pdf",
         file.originalname
       );
-      finalSourceUrl = uploadResult.secure_url;
+      sourceUrl = uploadResult.secure_url;
       publicId = uploadResult.public_id;
       sourceType = "upload";
     }
 
-    // Handle Video upload
     if (type === "video") {
-      if (videoType === "youtube" && sourceUrl) {
-        finalSourceUrl = sourceUrl;
+      if (videoType === "youtube" && req.body.url) {
+        sourceUrl = req.body.url;
         sourceType = "url";
         publicId = null;
       } else if (req.files?.videoFile?.[0]) {
         const file = req.files.videoFile[0];
+        console.log("Video file received:", file);
         const uploadResult = await uploadToCloudinary(
           file.buffer,
           file.mimetype,
           "lib/video",
           file.originalname
         );
-        finalSourceUrl = uploadResult.secure_url;
+        sourceUrl = uploadResult.secure_url;
         publicId = uploadResult.public_id;
         sourceType = "upload";
+        console.log("Cloudinary public_id:", publicId);
       }
     }
 
@@ -57,7 +58,7 @@ exports.createResource = async (req, res) => {
         title,
         description,
         sourceType,
-        sourceUrl: finalSourceUrl,
+        sourceUrl,
         publicId,
         pdfUploadMode: type === "pdf" ? pdfUploadMode || "url" : null,
         videoType: type === "video" ? videoType || "youtube" : null,
@@ -82,7 +83,7 @@ exports.createResource = async (req, res) => {
 // Update Resource
 exports.updateResource = async (req, res) => {
   try {
-    const { type, title, description, pdfUploadMode, videoType, sourceUrl } = req.body;
+    const { type, title, description, pdfUploadMode, videoType } = req.body;
 
     const updateData = {};
     if (type) updateData.type = type;
@@ -91,14 +92,14 @@ exports.updateResource = async (req, res) => {
     if (pdfUploadMode && type === "pdf") updateData.pdfUploadMode = pdfUploadMode;
     if (videoType && type === "video") updateData.videoType = videoType;
 
-    if (sourceUrl) {
-      updateData.sourceUrl = sourceUrl;
+    if (req.body.url) {
+      updateData.sourceUrl = req.body.url;
       updateData.sourceType = "url";
     }
 
-    // Handle PDF upload
     if (type === "pdf" && req.files?.pdfFile?.[0]) {
       const file = req.files.pdfFile[0];
+      console.log("PDF file received (update):", file);
       const uploadResult = await uploadToCloudinary(
         file.buffer,
         file.mimetype,
@@ -110,14 +111,14 @@ exports.updateResource = async (req, res) => {
       updateData.sourceType = "upload";
     }
 
-    // Handle Video upload
     if (type === "video") {
-      if (videoType === "youtube" && sourceUrl) {
-        updateData.sourceUrl = sourceUrl;
+      if (videoType === "youtube" && req.body.url) {
+        updateData.sourceUrl = req.body.url;
         updateData.sourceType = "url";
         updateData.publicId = null;
       } else if (req.files?.videoFile?.[0]) {
         const file = req.files.videoFile[0];
+        console.log("Video file received (update):", file);
         const uploadResult = await uploadToCloudinary(
           file.buffer,
           file.mimetype,
@@ -149,7 +150,6 @@ exports.updateResource = async (req, res) => {
     });
   }
 };
-
 
 // Get All Resources
 exports.getResources = async (req, res) => {
