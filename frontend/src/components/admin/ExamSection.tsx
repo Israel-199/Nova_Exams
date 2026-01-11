@@ -11,15 +11,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Plus, Pencil, Trash2, Loader2 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { Exam } from "@/types/admin";
 import { useAddExam, useUpdateExam, useDeleteExam, useExams } from "@/hooks/useExam";
 
 const ExamsSection = () => {
   const [isExamDialogOpen, setIsExamDialogOpen] = useState(false);
   const [editingExam, setEditingExam] = useState<Exam | null>(null);
-
-  const { toast } = useToast();
   
   const { data: exams = [], isLoading, error } = useExams();
 
@@ -49,24 +47,24 @@ const ExamsSection = () => {
     try {
       if (editingExam) {
         await updateExam.mutateAsync({ id: editingExam.id, ...payload });
-        toast({ title: "Exam updated successfully" });
+        toast.success("Exam updated successfully");
       } else {
         await addExam.mutateAsync(payload);
-        toast({ title: "Exam added successfully" });
+        toast.success("Exam added successfully");
       }
       setEditingExam(null);
       setIsExamDialogOpen(false);
     } catch {
-      toast({ title: "Error saving exam", variant: "destructive" });
+      toast.error("Error saving exam");
     }
   };
 
   const handleDeleteExam = async (id: string) => {
     try {
       await deleteExam.mutateAsync(id);
-      toast({ title: "Exam deleted" });
+      toast.success("Exam deleted");
     } catch {
-      toast({ title: "Error deleting exam", variant: "destructive" });
+      toast.error("Error deleting exam");
     }
   };
   return (
