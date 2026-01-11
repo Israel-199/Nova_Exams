@@ -28,14 +28,13 @@ import {
   useUpdateTestimonial,
   useDeleteTestimonial,
 } from "@/hooks/useTestimonial";
+import { toast } from "sonner";
 
 const TestimonialsSection = () => {
   const [isTestimonialDialogOpen, setIsTestimonialDialogOpen] = useState(false);
   const [editingTestimonial, setEditingTestimonial] =
     useState<Testimonial | null>(null);
   const [rating, setRating] = useState<number>(editingTestimonial?.rating || 0);
-
-  const { toast } = useToast();
 
   const { data: testimonials = [], isLoading, error } = useTestimonials();
   const addTestimonial = useAddTestimonial();
@@ -60,28 +59,28 @@ const TestimonialsSection = () => {
         { id: editingTestimonial.id, formData },
         {
           onSuccess: () => {
-            toast({ title: "Testimonial updated successfully!" });
+            toast.success("Testimonial updated successfully!");
             setIsTestimonialDialogOpen(false);
             setEditingTestimonial(null);
           },
-          onError: () => toast({ title: "Failed to update testimonial" }),
+          onError: () => toast.error("Failed to update testimonial"),
         }
       );
     } else {
       addTestimonial.mutate(formData, {
         onSuccess: () => {
-          toast({ title: "Testimonial added successfully!" });
+          toast.success("Testimonial added successfully!");
           setIsTestimonialDialogOpen(false);
         },
-        onError: () => toast({ title: "Failed to add testimonial" }),
+        onError: () => toast.error("Failed to add testimonial"),
       });
     }
   };
 
   const handleDeleteTestimonial = (id: string) => {
     deleteTestimonial.mutate(id, {
-      onSuccess: () => toast({ title: "Testimonial deleted successfully!" }),
-      onError: () => toast({ title: "Failed to delete testimonial" }),
+      onSuccess: () => toast.success("Testimonial deleted successfully!"),
+      onError: () => toast.error("Failed to delete testimonial"),
     });
   };
 
