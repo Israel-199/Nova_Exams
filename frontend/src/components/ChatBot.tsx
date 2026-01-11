@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MessageCircle, X, Send } from "lucide-react";
+import { MessageCircle, X, Send, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
 const faqs = [
@@ -27,39 +27,66 @@ const faqs = [
   },
 ];
 
+const novaHighlight = `Nova Exams Center helps students prepare and book international exams with ease. 
+We provide mentorship, professional exam environments, and technical support to make your journey smooth.`;
+
+const bookingInstruction =
+  "Click on 'Book Now' and follow the step-by-step booking process. Select your exam, date, and add mentorship if needed.";
+
 export function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<{ text: string; isUser: boolean }[]>(
-    [
-      {
-        text: "Hi! I'm Nova's AI assistant. How can I help you today?",
-        isUser: false,
-      },
-    ]
-  );
+  const [messages, setMessages] = useState<{ text: string; isUser: boolean }[]>([
+    { text: "Hi! I'm Nova's AI assistant. How can I help you today?", isUser: false },
+  ]);
   const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [trialCount, setTrialCount] = useState(0);
 
   const handleSend = () => {
     if (!input.trim()) return;
 
     const userMessage = input.trim().toLowerCase();
-    setMessages((prev) => [...prev, { text: input, isUser: true }]);
-    setInput("");
 
-    // Simple FAQ matching
+    setMessages((prev) => [...prev, { text: input.trim(), isUser: true }]);
+
+    setTrialCount((prev) => prev + 1);
+
+    setIsLoading(true);
+
     setTimeout(() => {
-      const matchedFaq = faqs.find(
-        (faq) =>
-          userMessage.includes(faq.q.toLowerCase().split(" ")[2]) ||
-          userMessage.includes(faq.q.toLowerCase().split(" ")[3])
-      );
+      let response: string;
 
-      const response = matchedFaq
-        ? matchedFaq.a
-        : "Thanks for your question! For detailed assistance, please contact us via WhatsApp or visit our Contact page. I can help with booking, exams, mentorship, and payment questions.";
+      if (trialCount === 0) {
+        response = novaHighlight;
+      } else {
+        if (userMessage.includes("mentorship")) {
+          response = "Yes! We offer optional mentorship programs to help you prepare for your exams.";
+        } else if (userMessage.includes("payment")) {
+          response = "We accept payments through Chapa, supporting various Ethiopian payment methods.";
+        } else if (userMessage.includes("center")) {
+          response = "Our exam center is located in Addis Ababa, Ethiopia. Contact us for exact directions.";
+        } else if (userMessage.includes("book")) {
+          response = "Click on 'Book Now' and follow the step-by-step booking process. Select your exam, date, and add mentorship if needed.";
+        } else if (userMessage.includes("exam")) {
+          response = "We offer Duolingo, TOEFL, IELTS, TOLC, GRE, and GMAT exams.";
+        } else {
+          const matchedFaq = faqs.find((faq) => {
+            if (input.trim() === faq.q) return true; 
+            const words = faq.q.split(" ");
+            return words.some((word) => input.trim().includes(word));
+          });
+
+          response = matchedFaq
+            ? matchedFaq.a
+            : `${novaHighlight}\n\nFor more assistance, please contact us directly at +251946002612 — Call us.`;
+        }
+      }
+
+      response = `${response}\n\n${bookingInstruction}`;
 
       setMessages((prev) => [...prev, { text: response, isUser: false }]);
-    }, 500);
+      setIsLoading(false);
+    }, 1000); 
   };
 
   return (
@@ -79,9 +106,7 @@ export function ChatBot() {
       {isOpen && (
         <Card className="fixed bottom-6 right-6 z-50 w-80 md:w-96 shadow-2xl border-border animate-slide-up">
           <CardHeader className="bg-gradient-secondary text-secondary-foreground rounded-t-lg flex flex-row items-center justify-between py-4">
-            <CardTitle className="text-lg font-display">
-              Nova AI Assistant
-            </CardTitle>
+            <CardTitle className="text-lg font-display">Nova AI Assistant</CardTitle>
             <button onClick={() => setIsOpen(false)} aria-label="Close chat">
               <X className="w-5 h-5" />
             </button>
@@ -92,12 +117,10 @@ export function ChatBot() {
               {messages.map((msg, i) => (
                 <div
                   key={i}
-                  className={`flex ${
-                    msg.isUser ? "justify-end" : "justify-start"
-                  }`}
+                  className={`flex ${msg.isUser ? "justify-end" : "justify-start"}`}
                 >
                   <div
-                    className={`max-w-[80%] px-4 py-2 rounded-2xl text-sm ${
+                    className={`max-w-[80%] px-4 py-2 rounded-2xl text-sm whitespace-pre-line ${
                       msg.isUser
                         ? "bg-primary text-primary-foreground rounded-br-sm"
                         : "bg-muted text-foreground rounded-bl-sm"
@@ -107,6 +130,16 @@ export function ChatBot() {
                   </div>
                 </div>
               ))}
+
+              {/* Loading indicator */}
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Typing...
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Input */}
