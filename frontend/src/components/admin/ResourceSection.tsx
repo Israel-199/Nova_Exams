@@ -39,7 +39,7 @@ const ResourcesPage = () => {
   const { data: resources = [], isLoading } = useResources();
   const addResource = useAddResource();
   const updateResource = useUpdateResource();
-  const { deleteResource } = useDeleteResource();
+  const deleteResource = useDeleteResource();
 
   const [resourceDialogOpen, setResourceDialogOpen] = useState(false);
   const [editingResource, setEditingResource] = useState<Resource | null>(null);
