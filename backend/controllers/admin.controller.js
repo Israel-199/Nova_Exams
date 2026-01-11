@@ -35,7 +35,7 @@ exports.loginAdmin = async (req, res) => {
     res.cookie("adminToken", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "none",
       maxAge: 60 * 60 * 1000,
     });
 
@@ -134,12 +134,10 @@ exports.updateProfile = async (req, res) => {
       },
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Failed to update profile",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Failed to update profile",
+      error: error.message,
+    });
   }
 };
