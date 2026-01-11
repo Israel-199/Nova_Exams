@@ -20,7 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Plus, Pencil, Trash2, Loader2 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { BlogPost } from "@/types/admin";
 import {
   useBlogPosts,
@@ -32,8 +32,6 @@ import {
 const BlogPostsSection = () => {
   const [isBlogDialogOpen, setIsBlogDialogOpen] = useState(false);
   const [editingBlog, setEditingBlog] = useState<BlogPost | null>(null);
-
-  const { toast } = useToast();
 
   const { data: blogPosts = [], isLoading, error } = useBlogPosts();
   const addBlogPost = useAddBlogPost();
@@ -66,28 +64,28 @@ const BlogPostsSection = () => {
         { id: editingBlog.id, blogData },
         {
           onSuccess: () => {
-            toast({ title: "Blog post updated successfully!" });
+            toast.success("Blog post updated successfully!");
             setIsBlogDialogOpen(false);
             setEditingBlog(null);
           },
-          onError: () => toast({ title: "Failed to update blog post" }),
+          onError: () => toast.error("Failed to update blog post"),
         }
       );
     } else {
       addBlogPost.mutate(blogData, {
         onSuccess: () => {
-          toast({ title: "Blog post added successfully!" });
+          toast.success("Blog post added successfully!");
           setIsBlogDialogOpen(false);
         },
-        onError: () => toast({ title: "Failed to add blog post" }),
+        onError: () => toast.error("Failed to add blog post"),
       });
     }
   };
 
   const handleDeleteBlog = (id: string) => {
     deleteBlogPost.mutate(id, {
-      onSuccess: () => toast({ title: "Blog post deleted successfully!" }),
-      onError: () => toast({ title: "Failed to delete blog post" }),
+      onSuccess: () => toast.success("Blog post deleted successfully!"),
+      onError: () => toast.error("Failed to delete blog post" ),
     });
   };
 
