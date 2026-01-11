@@ -40,41 +40,37 @@ export function Navbar({
   const { mutateAsync: login, isPending } = useLogin();
   const { data: user } = useSession();
 
-const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  try {
-    const res = await login({ email, password });
-    if (res.success) {
-      toast.success( "Login successful");
-      setIsLoginOpen(false);
-      setEmail("");
-      setPassword("");
-      queryClient.setQueryData(["session"], {
-        id: res.user?.id,
-        email: res.user?.email,
-        isAdmin: true,
-      });
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const res = await login({ email, password });
+      if (res.success) {
+        toast.success("Login successful");
+        setIsLoginOpen(false);
+        setEmail("");
+        setPassword("");
+        queryClient.setQueryData(["session"], {
+          id: res.user?.id,
+          email: res.user?.email,
+          isAdmin: true,
+        });
 
-      navigate("/admin");
-    } else {
-      toast.error(
-      "Login failed"
-      );
+        navigate("/admin");
+      } else {
+        toast.error("Login failed");
+      }
+    } catch (error: any) {
+      toast.error("Login failed");
     }
-  } catch (error: any) {
-    toast.error(
-    "Login failed"
-    );
-  }
-};
+  };
 
   const handleLoginClick = () => {
     if (user) {
-      navigate("/admin"); 
+      navigate("/admin");
     } else {
-      setIsLoginOpen(true); 
+      setIsLoginOpen(true);
     }
   };
 
@@ -114,7 +110,6 @@ const handleSubmit = async (e: React.FormEvent) => {
 
         {/* Right Actions */}
         <div className="flex items-center gap-4">
-          {/* ✅ Login button always visible */}
           <button
             onClick={handleLoginClick}
             className="hidden lg:block px-5 py-2 rounded-lg border border-secondary-foreground/30
@@ -126,8 +121,6 @@ const handleSubmit = async (e: React.FormEvent) => {
           >
             {user ? "Go to Dashboard" : "Log in"}
           </button>
-
-          {/* Mobile Menu Toggle */}
           <button
             className="block lg:hidden text-secondary-foreground"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -172,7 +165,6 @@ const handleSubmit = async (e: React.FormEvent) => {
           </button>
         </div>
       )}
-      {/* Admin Login Dialog (only if not logged in) */}
       {!user && (
         <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen}>
           <DialogContent className="w-full max-w-sm sm:max-w-md sm:mx-0 bg-card border-border rounded-lg sm:rounded-xl">
