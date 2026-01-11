@@ -170,7 +170,7 @@ const Booking = () => {
                               )}
                             </div>
                             <CardTitle className="text-lg font-display">
-                              {exam.name} Exam
+                              {exam.examType} Exam
                             </CardTitle>
                           </CardHeader>
                           <CardContent>
