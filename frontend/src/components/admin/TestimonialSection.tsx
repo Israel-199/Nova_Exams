@@ -31,7 +31,8 @@ import {
 
 const TestimonialsSection = () => {
   const [isTestimonialDialogOpen, setIsTestimonialDialogOpen] = useState(false);
-  const [editingTestimonial, setEditingTestimonial] = useState<Testimonial | null>(null);
+  const [editingTestimonial, setEditingTestimonial] =
+    useState<Testimonial | null>(null);
   const [rating, setRating] = useState<number>(editingTestimonial?.rating || 0);
 
   const { toast } = useToast();
@@ -52,7 +53,7 @@ const TestimonialsSection = () => {
   const handleSaveTestimonial = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    formData.append("rating", rating.toString()); // 👈 include rating
+    formData.append("rating", rating.toString());
 
     if (editingTestimonial) {
       updateTestimonial.mutate(
@@ -106,7 +107,9 @@ const TestimonialsSection = () => {
           <DialogContent className="bg-card">
             <DialogHeader>
               <DialogTitle>
-                {editingTestimonial ? "Edit Testimonial" : "Add New Testimonial"}
+                {editingTestimonial
+                  ? "Edit Testimonial"
+                  : "Add New Testimonial"}
               </DialogTitle>
             </DialogHeader>
             <form onSubmit={handleSaveTestimonial} className="space-y-4">
@@ -128,7 +131,6 @@ const TestimonialsSection = () => {
                   required
                 />
               </div>
-              {/* ⭐ Rating Selector */}
               <div className="space-y-2">
                 <Label>Rating</Label>
                 <div className="flex gap-2">
@@ -136,7 +138,9 @@ const TestimonialsSection = () => {
                     <Star
                       key={i}
                       className={`h-6 w-6 cursor-pointer ${
-                        i < rating ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"
+                        i < rating
+                          ? "text-yellow-400 fill-yellow-400"
+                          : "text-muted-foreground"
                       }`}
                       onClick={() => setRating(i + 1)}
                     />
@@ -162,7 +166,9 @@ const TestimonialsSection = () => {
               <Button
                 type="submit"
                 className="w-full"
-                disabled={addTestimonial.isPending || updateTestimonial.isPending}
+                disabled={
+                  addTestimonial.isPending || updateTestimonial.isPending
+                }
               >
                 {addTestimonial.isPending || updateTestimonial.isPending
                   ? "Saving..."
@@ -175,9 +181,13 @@ const TestimonialsSection = () => {
 
       <CardContent>
         {isLoading ? (
-          <p className="text-muted-foreground text-center">Loading testimonials...</p>
+          <p className="text-muted-foreground text-center">
+            Loading testimonials...
+          </p>
         ) : error ? (
-          <p className="text-red-500 text-center py-6">Failed to load testimonials</p>
+          <p className="text-red-500 text-center py-6">
+            Failed to load testimonials
+          </p>
         ) : testimonials.length === 0 ? (
           <p className="text-muted-foreground text-center py-6">
             No testimonials yet. Click “Add Testimonial” to create one.
@@ -198,15 +208,19 @@ const TestimonialsSection = () => {
               {testimonials.map((t) => (
                 <TableRow key={t.id}>
                   <TableCell>
-                    {t.image ? (
-                      <img
-                        src={t.image}
-                        alt={t.student}
-                        className="w-12 h-12 rounded-full object-cover"
-                      />
-                    ) : (
-                      <span className="text-muted-foreground text-sm">No image</span>
-                    )}
+                    <div className="w-12 h-12 flex-shrink-0">
+                      {t.image ? (
+                        <img
+                          src={t.image}
+                          alt={t.student}
+                          className="w-full h-full aspect-square rounded-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-muted-foreground text-sm">
+                          No image
+                        </span>
+                      )}
+                    </div>
                   </TableCell>
                   <TableCell className="font-medium">{t.student}</TableCell>
                   <TableCell>{t.exam}</TableCell>
@@ -216,13 +230,17 @@ const TestimonialsSection = () => {
                         <Star
                           key={i}
                           className={`h-4 w-4 ${
-                            i < t.rating ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"
+                            i < t.rating
+                              ? "text-yellow-400 fill-yellow-400"
+                              : "text-muted-foreground"
                           }`}
                         />
                       ))}
                     </div>
                   </TableCell>
-                  <TableCell className="max-w-xs truncate">{t.testimonial}</TableCell>
+                  <TableCell className="max-w-xs truncate">
+                    {t.testimonial}
+                  </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
                       <Button
@@ -247,7 +265,7 @@ const TestimonialsSection = () => {
                         ) : (
                           <Trash2 className="h-4 w-4" />
                         )}
-                                           </Button>
+                      </Button>
                     </div>
                   </TableCell>
                 </TableRow>
