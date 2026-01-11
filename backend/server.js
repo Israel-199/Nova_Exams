@@ -13,7 +13,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: "https://nova-exams-y58f.vercel.app" ,credentials:true}));
+app.use(cors({
+  origin: "https://nova-exams-y58f.vercel.app/",
+  credentials: true,
+}));
 
 app.use("/api/exams", examRoutes);
 app.use("/api/testimonials", testimonialRoutes);
