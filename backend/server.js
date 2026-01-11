@@ -4,9 +4,16 @@ const testimonialRoutes = require("./routes/testimonial.routes");
 const blogRoutes = require("./routes/blogpost.routes");
 const resourceRoutes = require("./routes/resource.routes");
 const adminRoutes = require("./routes/admin.routes");
+
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://nova-exams-y58f.vercel.app"
+];
+
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -14,9 +21,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: "https://nova-exams-y58f.vercel.app/",
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin) || /\.vercel\.app$/.test(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
 }));
+
+
 
 app.use("/api/exams", examRoutes);
 app.use("/api/testimonials", testimonialRoutes);
