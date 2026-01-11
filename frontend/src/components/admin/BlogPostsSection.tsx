@@ -92,7 +92,7 @@ const BlogPostsSection = () => {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>Manage Blog Posts</CardTitle>
+        <h2 className="text-xl font-semibold text-neutral-dark">Manage Blog Posts</h2>
         <Dialog open={isBlogDialogOpen} onOpenChange={setIsBlogDialogOpen}>
           <DialogTrigger asChild>
             <Button onClick={() => setEditingBlog(null)} className="gap-2">
@@ -203,7 +203,10 @@ const BlogPostsSection = () => {
             <TableBody>
               {blogPosts.map((post) => (
                 <TableRow key={post.id}>
-                  <TableCell className="font-medium">{post.title}</TableCell>
+                  <TableCell className="font-medium whitespace-nowrap">
+  {post.title}
+</TableCell>
+
                   <TableCell>{post.category}</TableCell>
                   <TableCell>{post.author}</TableCell>
                   <TableCell>

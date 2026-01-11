@@ -153,13 +153,11 @@ const ResourcesPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background p-6">
+    <div className=" bg-background">
       <Card className="bg-card border-border">
         <CardContent className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-semibold text-foreground">
-              Manage Resources
-            </h2>
+            <h2 className="text-xl font-semibold text-neutral-dark"> Manage Resources</h2>
             <Dialog
               open={resourceDialogOpen}
               onOpenChange={(open) => {
@@ -478,7 +476,7 @@ const ResourcesPage = () => {
                                   });
                                   setResourceDialogOpen(true);
                                 }}
-                                className="h-8 w-8"
+                                className="h-10 w-10"
                               >
                                 <Pencil className="w-4 h-4" />
                               </Button>
@@ -487,7 +485,7 @@ const ResourcesPage = () => {
                                 size="icon"
                                 onClick={() => handleDeleteResource(r.id)}
                                 disabled={deleteResource.isPending}
-                                className="h-8 w-8"
+                                className="h-10 w-10"
                               >
                                 {deleteResource.isPending ? (
                                   <Loader2 className="h-4 w-4 animate-spin" />
@@ -570,7 +568,7 @@ const ResourcesPage = () => {
                                   });
                                   setResourceDialogOpen(true);
                                 }}
-                                className="h-8 w-8"
+                                className="h-10 w-10"
                               >
                                 <Pencil className="w-4 h-4" />
                               </Button>
@@ -579,7 +577,7 @@ const ResourcesPage = () => {
                                 variant="destructive"
                                 onClick={() => handleDeleteResource(r.id)}
                                 disabled={deleteResource.isPending}
-                                className="h-8 w-8"
+                                className="h-10 w-10"
                               >
                                 {deleteResource.isPending ? (
                                   <Loader2 className="h-4 w-4 animate-spin" />

@@ -171,6 +171,7 @@ const ExamsSection = () => {
                     <td className="py-4 px-4">{exam.examRoomService} ETB</td>
                     <td className="py-4 px-4">{exam.sum} ETB</td>
                     <td className="py-4 px-4 text-right">
+                    <div className="flex justify-end">
                       <Button
                         variant="outline"
                         size="icon"
@@ -178,7 +179,7 @@ const ExamsSection = () => {
                           setEditingExam(exam);
                           setIsExamDialogOpen(true);
                         }}
-                        className="h-8 w-8 mr-2"
+                        className="h-10 w-10 mr-2"
                       >
                         <Pencil className="w-4 h-4" />
                       </Button>
@@ -186,7 +187,7 @@ const ExamsSection = () => {
                         variant="destructive"
                         size="icon"
                         onClick={() => handleDeleteExam(exam.id)}
-                        className="h-8 w-8"
+                        className="h-10 w-10"
                         disabled={deleteExam.isPending}
                       >
                         {deleteExam.isPending ? (
@@ -195,6 +196,7 @@ const ExamsSection = () => {
                           <Trash2 className="w-4 h-4" />
                         )}
                       </Button>
+                        </div>
                     </td>
                   </tr>
                 ))}

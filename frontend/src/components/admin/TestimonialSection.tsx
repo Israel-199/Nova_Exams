@@ -86,8 +86,8 @@ const TestimonialsSection = () => {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>Manage Testimonials</CardTitle>
+      <CardHeader className="flex flex-row items-center justify-between mb-6">
+          <h2 className="text-xl font-semibold text-neutral-dark">Manage Testimonials</h2>
         <Dialog
           open={isTestimonialDialogOpen}
           onOpenChange={setIsTestimonialDialogOpen}
@@ -221,7 +221,10 @@ const TestimonialsSection = () => {
                       )}
                     </div>
                   </TableCell>
-                  <TableCell className="font-medium">{t.student}</TableCell>
+                  <TableCell className="font-medium whitespace-nowrap">
+  {t.student}
+</TableCell>
+
                   <TableCell>{t.exam}</TableCell>
                   <TableCell>
                     <div className="flex">
