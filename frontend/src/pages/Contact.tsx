@@ -16,7 +16,7 @@ import {
   ShoppingCart,
 } from "lucide-react";
 import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "../hooks/use-toast";
 import { motion } from "framer-motion";
 const contactInfo = [
   { icon: Mail, label: "Email", value: "info@novaexams.com" },

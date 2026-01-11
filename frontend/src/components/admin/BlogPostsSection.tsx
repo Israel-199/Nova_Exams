@@ -85,7 +85,7 @@ const BlogPostsSection = () => {
   const handleDeleteBlog = (id: string) => {
     deleteBlogPost.mutate(id, {
       onSuccess: () => toast.success("Blog post deleted successfully!"),
-      onError: () => toast.error("Failed to delete blog post" ),
+      onError: () => toast.error("Failed to delete blog post"),
     });
   };
 
@@ -180,7 +180,9 @@ const BlogPostsSection = () => {
       </CardHeader>
       <CardContent>
         {error ? (
-          <p className="text-red-500 text-center py-6">Failed to load BlogPosts</p>
+          <p className="text-red-500 text-center py-6">
+            Failed to load BlogPosts
+          </p>
         ) : blogPosts.length === 0 ? (
           <p className="text-muted-foreground text-center py-6">
             No Blog yet. Click “Add Post” to create one.
@@ -204,9 +206,13 @@ const BlogPostsSection = () => {
                   <TableCell className="font-medium">{post.title}</TableCell>
                   <TableCell>{post.category}</TableCell>
                   <TableCell>{post.author}</TableCell>
-                  <TableCell>{new Date(post.date).toLocaleDateString()}</TableCell>
+                  <TableCell>
+                    {new Date(post.date).toLocaleDateString()}
+                  </TableCell>
                   <TableCell>{post.readTime}</TableCell>
-                  <TableCell className="max-w-xs truncate">{post.excerpt}</TableCell>
+                  <TableCell className="max-w-xs truncate">
+                    {post.excerpt}
+                  </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
                       <Button
@@ -226,7 +232,7 @@ const BlogPostsSection = () => {
                         disabled={deleteBlogPost.isPending}
                       >
                         {deleteBlogPost.isPending ? (
-                          <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
+                          <Loader2 className="h-4 w-4 animate-spin" />
                         ) : (
                           <Trash2 className="h-4 w-4" />
                         )}

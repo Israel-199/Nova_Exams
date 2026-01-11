@@ -39,7 +39,7 @@ const ResourcesPage = () => {
   const { data: resources = [], isLoading } = useResources();
   const addResource = useAddResource();
   const updateResource = useUpdateResource();
-  const deleteResource = useDeleteResource();
+  const { deleteResource } = useDeleteResource();
 
   const [resourceDialogOpen, setResourceDialogOpen] = useState(false);
   const [editingResource, setEditingResource] = useState<Resource | null>(null);
@@ -84,6 +84,7 @@ const ResourcesPage = () => {
       type: resourceForm.type,
       title: resourceForm.title,
       description: resourceForm.description,
+      sourceUrl: resourceForm.url,
       url: resourceForm.url,
       videoType:
         resourceForm.type === "video" ? resourceForm.videoType : undefined,
@@ -580,7 +581,11 @@ const ResourcesPage = () => {
                                 disabled={deleteResource.isPending}
                                 className="h-8 w-8"
                               >
-                                <Trash2 className="w-4 h-4" />
+                                {deleteResource.isPending ? (
+                                  <Loader2 className="h-4 w-4 animate-spin" />
+                                ) : (
+                                  <Trash2 className="w-4 h-4" />
+                                )}
                               </Button>
                             </div>
                           </td>

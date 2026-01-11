@@ -260,7 +260,7 @@ const TestimonialsSection = () => {
                         disabled={deleteTestimonial.isPending}
                       >
                         {deleteTestimonial.isPending ? (
-                          <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
+                          <Loader2 className="h-4 w-4 animate-spin" />
                         ) : (
                           <Trash2 className="h-4 w-4" />
                         )}
