@@ -16,9 +16,9 @@ import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useResources } from "@/hooks/useResources";
+import {toast} from "sonner";
 
 const Admin = () => {
-  const { toast } = useToast();
   const navigate = useNavigate();
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -44,7 +44,7 @@ const Admin = () => {
     const confirmed = window.confirm("Are you sure you want to log out?");
     if (confirmed) {
       await logout();
-      toast({ title: "Logged out", description: "Session cleared" });
+      toast.success("Logged out");
       navigate("/login");
     }
   };
@@ -69,7 +69,7 @@ const Admin = () => {
   const handleProfileUpdate = () => {
     updateProfile.mutate(profileForm, {
       onSuccess: () => {
-        toast({ title: "Profile updated successfully" });
+        toast.success("Profile updated successfully");
         setProfileForm({
           name: user?.name || "",
           email: user?.email || "",
@@ -78,10 +78,9 @@ const Admin = () => {
         });
       },
       onError: (error: any) => {
-        toast({
-          title: "Failed to update profile",
-          description: error?.response?.data?.message || "Something went wrong",
-        });
+        toast.error(
+        "Failed to update profile",
+        );
       },
     });
   };
