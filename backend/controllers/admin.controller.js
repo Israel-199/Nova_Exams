@@ -72,7 +72,11 @@ exports.getSession = (req, res) => {
 
 exports.logoutAdmin = async (req, res) => {
   try {
-    res.clearCookie("adminToken");
+    res.clearCookie("adminToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+    });
     return res
       .status(200)
       .json({ success: true, message: "Logged out successfully" });
@@ -80,6 +84,7 @@ exports.logoutAdmin = async (req, res) => {
     return res.status(500).json({ success: false, message: "Logout failed" });
   }
 };
+
 
 // Get Admin Profile
 exports.getProfile = async (req, res) => {
