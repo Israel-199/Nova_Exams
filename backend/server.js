@@ -4,6 +4,7 @@ const testimonialRoutes = require("./routes/testimonial.routes");
 const blogRoutes = require("./routes/blogpost.routes");
 const resourceRoutes = require("./routes/resource.routes");
 const adminRoutes = require("./routes/admin.routes");
+const teamRoutes = require("./routes/team.routes");
 
 const allowedOrigins = [
   "http://localhost:3000",
@@ -36,6 +37,7 @@ app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/resources", resourceRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/team", teamRoutes);
 
 
 app.get("/", (req, res) => {
