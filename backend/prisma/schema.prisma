@@ -25,8 +25,10 @@ model Testimonial {
   rating      Int      @default(5) 
   testimonial String   
   image       String?  
+  imageId     String?  
   created_at  DateTime @default(now())
 }
+
 
 
 model BlogPost {
@@ -53,6 +55,16 @@ model Resource {
   pdfUploadMode String?
   videoType     String?
   created_at    DateTime @default(now())
+}
+
+model TeamMember {
+  id        Int      @id @default(autoincrement())
+  name      String
+  role      String
+  bio       String
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 

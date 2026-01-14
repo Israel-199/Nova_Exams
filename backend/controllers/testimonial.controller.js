@@ -1,10 +1,10 @@
 const prisma = require("../prisma/client");
 const uploadToCloudinary = require("../utils/cloudinaryUpload");
+const cloudinary = require("cloudinary").v2;
 
-// Create Testimonial
 exports.createTestimonial = async (req, res) => {
   try {
-    let imageUrl;
+    let imageUrl, imageId;
 
     if (req.file) {
       const uploadResult = await uploadToCloudinary(
@@ -13,15 +13,17 @@ exports.createTestimonial = async (req, res) => {
         "testimonials"
       );
       imageUrl = uploadResult.secure_url;
+      imageId = uploadResult.public_id;
     }
 
     const testimonial = await prisma.testimonial.create({
       data: {
         student: req.body.student,
         exam: req.body.exam,
-        rating: parseInt(req.body.rating, 10), 
+        rating: parseInt(req.body.rating, 10),
         testimonial: req.body.testimonial,
         ...(imageUrl && { image: imageUrl }),
+        ...(imageId && { imageId }),
       },
     });
 
@@ -31,38 +33,25 @@ exports.createTestimonial = async (req, res) => {
   }
 };
 
-// Get Single Testimonial
 exports.getTestimonial = async (req, res) => {
   try {
     const testimonial = await prisma.testimonial.findUnique({
-      where: { id: req.params.id },
+      where: { id: Number(req.params.id) },
     });
 
     if (!testimonial) {
-      return res.status(404).json({
-        success: false,
-        message: "Testimonial not found",
-      });
+      return res.status(404).json({ success: false, message: "Testimonial not found" });
     }
 
-    res.json({
-      success: true,
-      message: "Testimonial fetched successfully",
-      data: testimonial,
-    });
+    res.json({ success: true, data: testimonial });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch testimonial",
-      error: error.message,
-    });
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 
-// Update Testimonial
 exports.updateTestimonial = async (req, res) => {
   try {
-    let imageUrl;
+    let imageUrl, imageId;
 
     if (req.file) {
       const uploadResult = await uploadToCloudinary(
@@ -71,16 +60,18 @@ exports.updateTestimonial = async (req, res) => {
         "testimonials"
       );
       imageUrl = uploadResult.secure_url;
+      imageId = uploadResult.public_id;
     }
 
     const testimonial = await prisma.testimonial.update({
-      where: { id: req.params.id },
+      where: { id: Number(req.params.id) },
       data: {
         ...(req.body.student && { student: req.body.student }),
         ...(req.body.exam && { exam: req.body.exam }),
-        ...(req.body.rating && { rating: parseInt(req.body.rating, 10) }), // ⭐ update rating if provided
+        ...(req.body.rating && { rating: parseInt(req.body.rating, 10) }),
         ...(req.body.testimonial && { testimonial: req.body.testimonial }),
         ...(imageUrl ? { image: imageUrl } : {}),
+        ...(imageId ? { imageId } : {}),
       },
     });
 
@@ -90,39 +81,36 @@ exports.updateTestimonial = async (req, res) => {
   }
 };
 
-// Get All Testimonials
+
 exports.getTestimonials = async (req, res) => {
   try {
     const testimonials = await prisma.testimonial.findMany({
       orderBy: { created_at: "desc" },
     });
-    res.json({
-      success: true,
-      message: "Testimonials fetched successfully",
-      data: testimonials,
-    });
+    res.json({ success: true, data: testimonials });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch testimonials",
-      error: error.message,
-    });
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 
-// Delete Testimonial
 exports.deleteTestimonial = async (req, res) => {
   try {
-    await prisma.testimonial.delete({ where: { id: req.params.id } });
-    res.json({
-      success: true,
-      message: "Testimonial deleted successfully",
+    const testimonial = await prisma.testimonial.findUnique({
+      where: { id: Number(req.params.id) },
     });
+
+    if (!testimonial) {
+      return res.status(404).json({ success: false, message: "Not found" });
+    }
+
+    if (testimonial.imageId) {
+      await cloudinary.uploader.destroy(testimonial.imageId);
+    }
+
+    await prisma.testimonial.delete({ where: { id: Number(req.params.id) } });
+
+    res.json({ success: true, message: "Testimonial deleted successfully" });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to delete testimonial",
-      error: error.message,
-    });
+    res.status(500).json({ success: false, error: error.message });
   }
 };
