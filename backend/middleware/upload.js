@@ -1,16 +1,11 @@
-const multer = require("multer");
-const path = require("path");
-
-const storage = multer.memoryStorage();
-
 const fileFilter = (req, file, cb) => {
   const url = req.originalUrl.toLowerCase();
 
-  if (url.includes("testimonials")) {
+  if (url.includes("testimonials") || url.includes("team")) {
     if (file.mimetype.startsWith("image/")) {
       cb(null, true);
     } else {
-      cb(null, false); 
+      cb(null, false);
     }
   }
 
@@ -30,7 +25,3 @@ const fileFilter = (req, file, cb) => {
     cb(null, false);
   }
 };
-
-const upload = multer({ storage, fileFilter });
-
-module.exports = upload;
