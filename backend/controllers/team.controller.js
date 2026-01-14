@@ -2,6 +2,7 @@ const prisma = require("../prisma/client");
 const uploadToCloudinary = require("../utils/cloudinaryUpload");
 const cloudinary = require("cloudinary").v2;
 
+// Create Team Member
 exports.createTeamMember = async (req, res) => {
   try {
     let imageUrl, imageId;
@@ -21,8 +22,8 @@ exports.createTeamMember = async (req, res) => {
         name: req.body.name,
         role: req.body.role,
         bio: req.body.bio,
-        ...(imageUrl && { image: imageUrl }),
-        ...(imageId && { imageId }), 
+        image: imageUrl || null,
+        imageId: imageId || null,
       },
     });
 
@@ -32,6 +33,7 @@ exports.createTeamMember = async (req, res) => {
   }
 };
 
+// Get All Team Members
 exports.getTeamMembers = async (req, res) => {
   try {
     const members = await prisma.teamMember.findMany({
@@ -43,6 +45,7 @@ exports.getTeamMembers = async (req, res) => {
   }
 };
 
+// Get Single Team Member
 exports.getTeamMember = async (req, res) => {
   try {
     const member = await prisma.teamMember.findUnique({
@@ -100,6 +103,7 @@ exports.updateTeamMember = async (req, res) => {
   }
 };
 
+// Delete Team Member
 exports.deleteTeamMember = async (req, res) => {
   try {
     const member = await prisma.teamMember.findUnique({
