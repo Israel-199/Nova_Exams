@@ -161,38 +161,42 @@ const About = () => {
       <p className="text-center text-muted-foreground">Loading team...</p>
     ) : (
       <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-        {team?.map((member, i) => (
-          <motion.div
-            key={member.id}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
-          >
-            <Card className="bg-card border-border shadow-md hover:shadow-lg transition-shadow">
-              <CardContent className="p-6 flex flex-col items-center text-center">
-                <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-secondary flex items-center justify-center">
-                  {member.image ? (
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <span className="w-full h-full flex items-center justify-center bg-secondary text-white font-bold text-2xl">
-                      {member.name.charAt(0)}
-                    </span>
-                  )}
-                </div>
-                <h3 className="font-display font-semibold text-lg text-foreground">
-                  {member.name}
-                </h3>
-                <p className="text-secondary text-sm mb-2">{member.role}</p>
-                <p className="text-muted-foreground text-sm">{member.bio}</p>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
-      </div>
+  {team?.map((member, i) => (
+    <motion.div
+      key={member.id}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: i * 0.1 }}
+      className="flex" // ✅ make each grid item a flex container
+    >
+      <Card className="bg-card border-border shadow-md hover:shadow-lg transition-shadow flex flex-col w-full">
+        <CardContent className="p-6 flex flex-col items-center text-center flex-1">
+          <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-secondary flex items-center justify-center">
+            {member.image ? (
+              <img
+                src={member.image}
+                alt={member.name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span className="w-full h-full flex items-center justify-center bg-purple-600 text-white font-bold text-2xl">
+                {member.name.charAt(0)}
+              </span>
+            )}
+          </div>
+          <h3 className="font-display font-semibold text-lg text-foreground">
+            {member.name}
+          </h3>
+          <p className="text-secondary text-sm mb-2">{member.role}</p>
+          {/* ✅ limit bio height so cards stay equal */}
+          <p className="text-muted-foreground text-sm line-clamp-3">
+            {member.bio}
+          </p>
+        </CardContent>
+      </Card>
+    </motion.div>
+  ))}
+</div>
     )}
   </div>
 </section>
