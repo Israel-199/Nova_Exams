@@ -42,6 +42,16 @@ export interface Resource {
   created_at?: string;
 }
 
+export interface TeamMember {
+  id: number;
+  name: string;
+  role: string;
+  bio: string;
+  image?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
 
 
 
