@@ -2,23 +2,20 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { Testimonial } from "@/types/admin";
 
-// Fetch all testimonials
 export function useTestimonials() {
   return useQuery<Testimonial[], Error>({
     queryKey: ["testimonials"],
     queryFn: async () => {
       const res = await api.get("/testimonials");
-      return res.data.data; // ✅ backend sends { data: testimonials }
+      return res.data.data; 
     },
   });
 }
 
-// Add testimonial (with image upload)
 export function useAddTestimonial() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (formData: FormData) => {
-      // formData should include: name, message, image (file)
       const res = await api.post("/testimonials", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -30,7 +27,6 @@ export function useAddTestimonial() {
   });
 }
 
-// Update testimonial
 export function useUpdateTestimonial() {
   const queryClient = useQueryClient();
   return useMutation({
@@ -46,7 +42,6 @@ export function useUpdateTestimonial() {
   });
 }
 
-// Delete testimonial
 export function useDeleteTestimonial() {
   const queryClient = useQueryClient();
   return useMutation({
