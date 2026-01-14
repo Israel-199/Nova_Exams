@@ -48,9 +48,11 @@ export interface TeamMember {
   role: string;
   bio: string;
   image?: string | null;
+  imageId?: string | null;   
   createdAt: string;
   updatedAt: string;
 }
+
 
 
 
