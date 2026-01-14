@@ -15,7 +15,7 @@ const values = [
 ];
 
 const About = () => {
-  const { data: team, isLoading } = useTeamMembers(); // ✅ fetch team from backend
+  const { data: team, isLoading } = useTeamMembers(); 
 
   return (
     <div className="min-h-screen bg-background">
