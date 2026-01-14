@@ -59,7 +59,7 @@ export function Navbar({
 
         navigate("/admin");
       } else {
-        toast.error("Login failed");
+        toast.error("Invalid Credential");
       }
     } catch (error: any) {
       toast.error("Login failed");
@@ -79,7 +79,6 @@ export function Navbar({
       className={`fixed top-0 left-0 right-0 z-50 ${bgColor} backdrop-blur-md`}
     >
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        {/* Logo */}
         <div className="flex items-center gap-8">
           <Link to="/" className="flex items-center gap-2">
             <div className="w-12 h-12 rounded-full bg-purple-950 flex items-center justify-center">
