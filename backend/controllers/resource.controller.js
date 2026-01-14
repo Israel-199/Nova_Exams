@@ -2,9 +2,10 @@ const prisma = require("../prisma/client");
 const uploadToCloudinary = require("../utils/cloudinaryUpload");
 const cloudinary = require("../lib/cloudinary");
 
+// Create Resource
 exports.createResource = async (req, res) => {
   try {
-    const { type, title, description, pdfUploadMode, videoType } = req.body;
+    const { type, title, description, pdfUploadMode, videoType, sourceUrl } = req.body;
 
     if (!type || !title || !description) {
       return res.status(400).json({
@@ -13,7 +14,7 @@ exports.createResource = async (req, res) => {
       });
     }
 
-    let sourceUrl = req.body.url || null;
+    let finalSourceUrl = sourceUrl || null;
     let sourceType = "url";
     let publicId = null;
 
@@ -26,14 +27,14 @@ exports.createResource = async (req, res) => {
         "lib/pdf",
         file.originalname
       );
-      sourceUrl = uploadResult.secure_url;
+      finalSourceUrl = uploadResult.secure_url;
       publicId = uploadResult.public_id;
       sourceType = "upload";
     }
 
     if (type === "video") {
-      if (videoType === "youtube" && req.body.url) {
-        sourceUrl = req.body.url;
+      if (videoType === "youtube" && sourceUrl) {
+        finalSourceUrl = sourceUrl;
         sourceType = "url";
         publicId = null;
       } else if (req.files?.videoFile?.[0]) {
@@ -45,7 +46,7 @@ exports.createResource = async (req, res) => {
           "lib/video",
           file.originalname
         );
-        sourceUrl = uploadResult.secure_url;
+        finalSourceUrl = uploadResult.secure_url;
         publicId = uploadResult.public_id;
         sourceType = "upload";
         console.log("Cloudinary public_id:", publicId);
@@ -58,7 +59,7 @@ exports.createResource = async (req, res) => {
         title,
         description,
         sourceType,
-        sourceUrl,
+        sourceUrl: finalSourceUrl,
         publicId,
         pdfUploadMode: type === "pdf" ? pdfUploadMode || "url" : null,
         videoType: type === "video" ? videoType || "youtube" : null,
@@ -83,7 +84,7 @@ exports.createResource = async (req, res) => {
 // Update Resource
 exports.updateResource = async (req, res) => {
   try {
-    const { type, title, description, pdfUploadMode, videoType } = req.body;
+    const { type, title, description, pdfUploadMode, videoType, sourceUrl } = req.body;
 
     const updateData = {};
     if (type) updateData.type = type;
@@ -92,11 +93,12 @@ exports.updateResource = async (req, res) => {
     if (pdfUploadMode && type === "pdf") updateData.pdfUploadMode = pdfUploadMode;
     if (videoType && type === "video") updateData.videoType = videoType;
 
-    if (req.body.url) {
-      updateData.sourceUrl = req.body.url;
+    if (sourceUrl) {
+      updateData.sourceUrl = sourceUrl;
       updateData.sourceType = "url";
     }
 
+    // Handle PDF upload
     if (type === "pdf" && req.files?.pdfFile?.[0]) {
       const file = req.files.pdfFile[0];
       console.log("PDF file received (update):", file);
@@ -111,9 +113,10 @@ exports.updateResource = async (req, res) => {
       updateData.sourceType = "upload";
     }
 
+    // Handle video upload
     if (type === "video") {
-      if (videoType === "youtube" && req.body.url) {
-        updateData.sourceUrl = req.body.url;
+      if (videoType === "youtube" && sourceUrl) {
+        updateData.sourceUrl = sourceUrl;
         updateData.sourceType = "url";
         updateData.publicId = null;
       } else if (req.files?.videoFile?.[0]) {
