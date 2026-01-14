@@ -30,24 +30,27 @@ app.use(cors({
   credentials: true,
 }));
 
+
 app.use("/api/exams", examRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/resources", resourceRoutes);
 app.use("/api/admin", adminRoutes);
 
+
 app.get("/", (req, res) => {
   res.send("Service is alive!");
 });
 
 const PORT = process.env.PORT || 5000;
+const BACKEND_URL = process.env.BACKEND_URL; 
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 
   setInterval(() => {
-    axios.get("https://nova-exams.onrender.com/")
-      .then(() => console.log("Pinged self to stay awake"))
-      .catch(err => console.error("Ping failed", err.message));
+    axios.get(BACKEND_URL)
+      .then(() => console.log(`Pinged backend url to stay awake`))
+      .catch(err => console.error("Ping failed:", err.message));
   }, 14 * 60 * 1000);
 });
