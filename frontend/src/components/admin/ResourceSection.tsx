@@ -48,7 +48,7 @@ const ResourcesPage = () => {
     type: "pdf" | "video";
     title: string;
     description: string;
-    url: string;
+    sourceUrl: string;
     videoType: "youtube" | "social" | "upload";
     videoFile: File | null;
     pdfFile: File | null;
@@ -57,7 +57,7 @@ const ResourcesPage = () => {
     type: "pdf",
     title: "",
     description: "",
-    url: "",
+    sourceUrl: "",
     videoType: "youtube",
     videoFile: null,
     pdfFile: null,
@@ -80,16 +80,22 @@ const ResourcesPage = () => {
       return;
     }
 
+    // Determine sourceType based on upload mode
+    let sourceType: "upload" | "url" = "url";
+    if (resourceForm.type === "pdf" && resourceForm.pdfUploadMode === "upload") {
+      sourceType = "upload";
+    } else if (resourceForm.type === "video" && resourceForm.videoType === "upload") {
+      sourceType = "upload";
+    }
+
     const payload: Partial<Resource> = {
       type: resourceForm.type,
       title: resourceForm.title,
       description: resourceForm.description,
-      sourceUrl: resourceForm.url,
-      url: resourceForm.url,
-      videoType:
-        resourceForm.type === "video" ? resourceForm.videoType : undefined,
-      pdfUploadMode:
-        resourceForm.type === "pdf" ? resourceForm.pdfUploadMode : undefined,
+      sourceUrl: resourceForm.sourceUrl,
+      sourceType: sourceType,
+      videoType: resourceForm.type === "video" ? resourceForm.videoType : null,
+      pdfUploadMode: resourceForm.type === "pdf" ? resourceForm.pdfUploadMode : null,
       pdfFile: resourceForm.pdfFile ?? undefined,
       videoFile: resourceForm.videoFile ?? undefined,
     };
@@ -131,7 +137,7 @@ const ResourcesPage = () => {
       type: "pdf",
       title: "",
       description: "",
-      url: "",
+      sourceUrl: "",
       videoType: "youtube",
       videoFile: null,
       pdfFile: null,
@@ -157,7 +163,10 @@ const ResourcesPage = () => {
       <Card className="bg-card border-border">
         <CardContent className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-semibold text-neutral-dark"> Manage Resources</h2>
+            <h2 className="text-xl font-semibold text-neutral-dark">
+              {" "}
+              Manage Resources
+            </h2>
             <Dialog
               open={resourceDialogOpen}
               onOpenChange={(open) => {
@@ -297,11 +306,11 @@ const ResourcesPage = () => {
                     <div>
                       <Label className="text-foreground">PDF URL</Label>
                       <Input
-                        value={resourceForm.url}
+                        value={resourceForm.sourceUrl}
                         onChange={(e) =>
                           setResourceForm({
                             ...resourceForm,
-                            url: e.target.value,
+                            sourceUrl: e.target.value,
                           })
                         }
                         placeholder="https://example.com/file.pdf"
@@ -378,11 +387,11 @@ const ResourcesPage = () => {
                     <div>
                       <Label className="text-foreground">Video URL</Label>
                       <Input
-                        value={resourceForm.url}
+                        value={resourceForm.sourceUrl}
                         onChange={(e) =>
                           setResourceForm({
                             ...resourceForm,
-                            url: e.target.value,
+                            sourceUrl: e.target.value,
                           })
                         }
                         placeholder="https://youtube.com/watch?v=..."
@@ -452,9 +461,7 @@ const ResourcesPage = () => {
                           </td>
                           <td className="py-3 px-4">
                             <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground">
-                              {r.pdfUploadMode === "upload"
-                                ? "Uploaded"
-                                : "URL"}
+                              {r.sourceType === "upload" ? "Uploaded" : "URL"}
                             </span>
                           </td>
                           <td className="py-3 px-4">
@@ -468,7 +475,7 @@ const ResourcesPage = () => {
                                     type: r.type,
                                     title: r.title,
                                     description: r.description,
-                                    url: r.url,
+                                    sourceUrl: r.sourceUrl,
                                     videoType: r.videoType || "youtube",
                                     videoFile: null,
                                     pdfFile: null,
@@ -560,7 +567,7 @@ const ResourcesPage = () => {
                                     type: r.type,
                                     title: r.title,
                                     description: r.description,
-                                    url: r.url,
+                                    sourceUrl: r.sourceUrl,
                                     videoType: r.videoType || "youtube",
                                     videoFile: null,
                                     pdfFile: null,
