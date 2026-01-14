@@ -1,3 +1,8 @@
+const multer = require("multer");
+const path = require("path");
+
+const storage = multer.memoryStorage();
+
 const fileFilter = (req, file, cb) => {
   const url = req.originalUrl.toLowerCase();
 
@@ -25,3 +30,7 @@ const fileFilter = (req, file, cb) => {
     cb(null, false);
   }
 };
+
+const upload = multer({ storage, fileFilter });
+
+module.exports = upload;
