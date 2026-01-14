@@ -25,7 +25,11 @@ const Admin = () => {
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
 
-  const { data: exams = [], isLoading: isExamsLoading, error: examsError } = useExams();
+  const {
+    data: exams = [],
+    isLoading: isExamsLoading,
+    error: examsError,
+  } = useExams();
   const { data: testimonials = [] } = useTestimonials();
   const { data: blogPosts = [] } = useBlogPosts();
   const { data: resource = [] } = useResources();
@@ -143,7 +147,7 @@ const Admin = () => {
             testimonialsCount={testimonials.length}
             blogPostsCount={blogPosts.length}
             resourcesCount={resource.length}
-            teamCount={team.length} // ✅ new stat
+            teamCount={team.length}
           />
 
           {/* Tabs */}
@@ -153,7 +157,8 @@ const Admin = () => {
               <TabsTrigger value="testimonials">Testimonials</TabsTrigger>
               <TabsTrigger value="blog">Blog Posts</TabsTrigger>
               <TabsTrigger value="resources">Resources</TabsTrigger>
-              <TabsTrigger value="team">Team Members</TabsTrigger> {/* ✅ new tab */}
+              <TabsTrigger value="team">Team Members</TabsTrigger>{" "}
+              {/* ✅ new tab */}
             </TabsList>
 
             <TabsContent value="exams">
@@ -181,7 +186,7 @@ const Admin = () => {
             </TabsContent>
 
             <TabsContent value="team">
-              <TeamSection /> {/* ✅ new section */}
+              <TeamSection />
             </TabsContent>
           </Tabs>
         </div>
@@ -258,7 +263,7 @@ const Admin = () => {
             </div>
 
             <div className="flex gap-3">
-                            <Button
+              <Button
                 onClick={handleProfileUpdate}
                 disabled={updateProfile.isPending}
                 className="bg-primary"
