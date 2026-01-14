@@ -8,7 +8,7 @@ const teamRoutes = require("./routes/team.routes");
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://nova-exams-y58f.vercel.app"
+  "https://nova-exams.vercel.app/"
 ];
 
 const express = require("express");
