@@ -64,7 +64,7 @@ exports.updateTestimonial = async (req, res) => {
     }
 
     const testimonial = await prisma.testimonial.update({
-      where: { id: Number(req.params.id) },
+      where: { id: req.params.id },
       data: {
         ...(req.body.student && { student: req.body.student }),
         ...(req.body.exam && { exam: req.body.exam }),
@@ -96,7 +96,7 @@ exports.getTestimonials = async (req, res) => {
 exports.deleteTestimonial = async (req, res) => {
   try {
     const testimonial = await prisma.testimonial.findUnique({
-      where: { id: Number(req.params.id) },
+      where: { id: req.params.id},
     });
 
     if (!testimonial) {
