@@ -1,44 +1,39 @@
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { ArrowLeft, Loader2, Eye, EyeOff } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/hooks/use-toast";
-import { Eye, EyeOff } from "lucide-react";
 import AdminStats from "@/components/admin/AdminStats";
 import ExamsSection from "../components/admin/ExamSection";
 import TestimonialsSection from "../components/admin/TestimonialSection";
 import BlogPostsSection from "../components/admin/BlogPostsSection";
 import ResourcesSection from "../components/admin/ResourceSection";
+import TeamSection from "../components/admin/TeamSection"; // ✅ new import
+
 import { useExams } from "../hooks/useExam";
-import { useLogout, useSession, useUpdateProfile } from "../hooks/useAuth";
 import { useTestimonials } from "@/hooks/useTestimonial";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
+import { useResources } from "@/hooks/useResources";
+import { useTeamMembers } from "@/hooks/useTeam"; // ✅ new hook
+
+import { useLogout, useSession, useUpdateProfile } from "../hooks/useAuth";
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useResources } from "@/hooks/useResources";
-import {toast} from "sonner";
+import { toast } from "sonner";
 
 const Admin = () => {
   const navigate = useNavigate();
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
 
-
-  const {
-    data: exams = [],
-    isLoading: isExamsLoading,
-    error: examsError,
-  } = useExams();
-
+  const { data: exams = [], isLoading: isExamsLoading, error: examsError } = useExams();
   const { data: testimonials = [] } = useTestimonials();
   const { data: blogPosts = [] } = useBlogPosts();
   const { data: resource = [] } = useResources();
-
+  const { data: team = [] } = useTeamMembers(); // ✅ fetch team
 
   const logout = useLogout();
   const { data: user } = useSession();
   const updateProfile = useUpdateProfile();
-
 
   const handleLogoutClick = async () => {
     const confirmed = window.confirm("Are you sure you want to log out?");
@@ -48,6 +43,7 @@ const Admin = () => {
       navigate("/login");
     }
   };
+
   const [profileForm, setProfileForm] = useState({
     name: "",
     email: "",
@@ -77,10 +73,8 @@ const Admin = () => {
           newPassword: "",
         });
       },
-      onError: (error: any) => {
-        toast.error(
-        "Failed to update profile",
-        );
+      onError: () => {
+        toast.error("Failed to update profile");
       },
     });
   };
@@ -130,7 +124,7 @@ const Admin = () => {
               Admin Dashboard
             </h1>
             <p className="text-muted-foreground mb-5">
-              Manage exams, testimonials, blog posts and resources
+              Manage exams, testimonials, blog posts, resources and team members
             </p>
             {user ? (
               <p className="text-[20px] font-medium text-foreground">
@@ -142,12 +136,14 @@ const Admin = () => {
               </p>
             )}
           </div>
+
           {/* Stats Cards */}
           <AdminStats
             examsCount={exams.length}
             testimonialsCount={testimonials.length}
             blogPostsCount={blogPosts.length}
             resourcesCount={resource.length}
+            teamCount={team.length} // ✅ new stat
           />
 
           {/* Tabs */}
@@ -157,6 +153,7 @@ const Admin = () => {
               <TabsTrigger value="testimonials">Testimonials</TabsTrigger>
               <TabsTrigger value="blog">Blog Posts</TabsTrigger>
               <TabsTrigger value="resources">Resources</TabsTrigger>
+              <TabsTrigger value="team">Team Members</TabsTrigger> {/* ✅ new tab */}
             </TabsList>
 
             <TabsContent value="exams">
@@ -180,11 +177,15 @@ const Admin = () => {
             </TabsContent>
 
             <TabsContent value="resources">
-  <ResourcesSection  />
-</TabsContent>
+              <ResourcesSection />
+            </TabsContent>
 
+            <TabsContent value="team">
+              <TeamSection /> {/* ✅ new section */}
+            </TabsContent>
           </Tabs>
         </div>
+
         {/* Profile Update Section */}
         <div className="mb-10 p-6 border rounded-lg bg-card shadow-sm">
           <h2 className="text-xl font-semibold mb-4">Update Profile</h2>
@@ -257,7 +258,7 @@ const Admin = () => {
             </div>
 
             <div className="flex gap-3">
-              <Button
+                            <Button
                 onClick={handleProfileUpdate}
                 disabled={updateProfile.isPending}
                 className="bg-primary"

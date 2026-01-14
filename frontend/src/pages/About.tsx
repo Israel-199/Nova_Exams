@@ -4,17 +4,8 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Card, CardContent } from "@/components/ui/card";
 import { Award, Target, Users, Heart } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
-import img1 from "@/assets/profile-1.jpg";
-import img2 from "@/assets/profile-2.jpg";
-import img3 from "@/assets/profile-1.jpg";
-import { WireframeMesh } from "@/components/WireframeMesh";
 import { motion } from "framer-motion";
-
-const team = [
-  { name: "Abebe Kebede", role: "Founder & CEO", bio: "10+ years in education consulting", image: img2 },
-  { name: "Tigist Hailu", role: "Head of Operations", bio: "Expert in exam coordination", image: img1 },
-  { name: "Yonas Tesfaye", role: "Lead Mentor", bio: "IELTS Band 9, TOEFL 120 scorer", image: img2 },
-];
+import { useTeamMembers } from "@/hooks/useTeam"; // ✅ import hook
 
 const values = [
   { icon: Award, title: "Excellence", description: "We strive for the highest standards in everything we do." },
@@ -24,6 +15,8 @@ const values = [
 ];
 
 const About = () => {
+  const { data: team, isLoading } = useTeamMembers(); // ✅ fetch team from backend
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar bgColor="bg-gradient-secondary" />
@@ -162,33 +155,38 @@ const About = () => {
                 Meet Our <span className="text-gradient-secondary">Team</span>
               </h2>
             </motion.div>
-            <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-              {team.map((member, i) => (
-                <motion.div
-                  key={member.name}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                >
-                  <Card className="bg-card border-border shadow-md hover:shadow-lg transition-shadow">
-                    <CardContent className="p-6 flex flex-col items-center text-center">
-                      <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-secondary">
-                        <img
-                          src={member.image}
-                          alt={member.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <h3 className="font-display font-semibold text-lg text-foreground">
-                        {member.name}
-                      </h3>
-                      <p className="text-secondary text-sm mb-2">{member.role}</p>
-                      <p className="text-muted-foreground text-sm">{member.bio}</p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
+
+            {isLoading ? (
+              <p className="text-center text-muted-foreground">Loading team...</p>
+            ) : (
+              <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                {team?.map((member, i) => (
+                  <motion.div
+                    key={member.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                  >
+                    <Card className="bg-card border-border shadow-md hover:shadow-lg transition-shadow">
+                      <CardContent className="p-6 flex flex-col items-center text-center">
+                        <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-secondary">
+                          <img
+                            src={member.image ?? "/fallback.jpg"}
+                            alt={member.name}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <h3 className="font-display font-semibold text-lg text-foreground">
+                          {member.name}
+                        </h3>
+                        <p className="text-secondary text-sm mb-2">{member.role}</p>
+                        <p className="text-muted-foreground text-sm">{member.bio}</p>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            )}
           </div>
         </section>
       </main>
