@@ -2,10 +2,19 @@ import { Footer } from "@/components/Footer";
 import { ChatBot } from "@/components/ChatBot";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Card, CardContent } from "@/components/ui/card";
-import { Award, Target, Users, Heart } from "lucide-react";
+import {
+  Award,
+  Target,
+  Users,
+  Heart,
+  ChevronRight,
+  ChevronLeft,
+} from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { motion } from "framer-motion";
 import { useTeamMembers } from "@/hooks/useTeam";
+import { cn } from "@/lib/utils";
+import { useCallback, useEffect, useState } from "react";
 
 const values = [
   {
@@ -31,8 +40,42 @@ const values = [
 ];
 
 const About = () => {
-  const { data: team, isLoading } = useTeamMembers();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const { data: team = [], isLoading, error } = useTeamMembers();
 
+  const next = useCallback(() => {
+    if (team.length > 0) {
+      setCurrentIndex((prev) => (prev + 1) % team.length);
+    }
+  }, [team]);
+  const prev = useCallback(() => {
+    if (team.length > 0) {
+      setCurrentIndex((prev) => (prev - 1 + team.length) % team.length);
+    }
+  }, [team]);
+  useEffect(() => {
+    if (isPaused || team.length === 0) return;
+    const interval = setInterval(next, 3000);
+    return () => clearInterval(interval);
+  }, [isPaused, next, team]);
+
+  const getVisibleIndices = () => {
+    if (!team || team.length === 0) return [];
+    const prevIndex = (currentIndex - 1 + team.length) % team.length;
+    const nextIndex = (currentIndex + 1) % team.length;
+    return [prevIndex, currentIndex, nextIndex];
+  };
+
+  const visibleIndices = getVisibleIndices();
+  if (isLoading) {
+    return <div className="text-center py-24">Loading team...</div>;
+  }
+  if (error) {
+    return (
+      <div className="text-center py-24 text-red-500">Failed to load team</div>
+    );
+  }
   return (
     <div className="min-h-screen bg-background">
       <Navbar bgColor="bg-gradient-secondary" />
@@ -165,66 +208,119 @@ const About = () => {
         </section>
 
         {/* Team */}
-        <section className="py-24">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-center max-w-2xl mx-auto mb-16"
-              viewport={{ once: true }}
-            >
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
-                Meet Our <span className="text-gradient-secondary">Team</span>
-              </h2>
-            </motion.div>
-
-            {isLoading ? (
-              <p className="text-center text-muted-foreground">
-                Loading team...
-              </p>
-            ) : (
-              <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-                {team?.map((member, i) => (
-                  <motion.div
-                    key={member.id}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: i * 0.1 }}
-                    className="flex"
-                    viewport={{ once: true }}
-                  >
-                    <Card className="bg-card border-border shadow-md hover:shadow-lg transition-shadow flex flex-col w-full">
-                      <CardContent className="p-6 flex flex-col items-center text-center flex-1">
-                        <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-secondary flex items-center justify-center">
-                          {member.image ? (
-                            <img
-                              src={member.image}
-                              alt={member.name}
-                              className="w-full h-full object-cover"
-                            />
-                          ) : (
-                            <span className="w-full h-full flex items-center justify-center bg-purple-600 text-white font-bold text-2xl">
-                              {member.name.charAt(0)}
-                            </span>
-                          )}
-                        </div>
-                        <h3 className="font-display font-semibold text-lg text-foreground">
-                          {member.name}
-                        </h3>
-                        <p className="text-secondary text-sm mb-2">
-                          {member.role}
-                        </p>
-                        <p className="text-muted-foreground text-sm line-clamp-3">
-                          {member.bio}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-          </div>
+        <section className="py-24 bg-background min-h-screen flex items-center justify-center">
+          {" "}
+          <div className="bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] p-8 md:p-12 w-full">
+            {" "}
+            <div className="container mx-auto px-4">
+              {" "}
+              <div className="text-center max-w-2xl mx-auto mb-20 relative">
+                {" "}
+                <span className="inline-block px-4 py-1 rounded-full bg-secondary/10 text-secondary font-medium text-sm mb-4">
+                  {" "}
+                  Our Team{" "}
+                </span>{" "}
+                <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-8">
+                  {" "}
+                  Meet Our <span className="text-gradient-secondary">
+                    Team
+                  </span>{" "}
+                </h2>{" "}
+              </div>{" "}
+              {/* Carousel */}{" "}
+              <div
+                className="relative max-w-6xl mx-auto items-center justify-center flex flex-col"
+                onMouseEnter={() => setIsPaused(true)}
+                onMouseLeave={() => setIsPaused(false)}
+              >
+                {" "}
+                {/* Navigation Buttons */}{" "}
+                <button
+                  onClick={prev}
+                  className="absolute left-0 md:-left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-card text-foreground flex items-center justify-center hover:bg-secondary hover:text-secondary-foreground transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 border border-border"
+                  aria-label="Previous team member"
+                >
+                  {" "}
+                  <ChevronLeft className="w-5 h-5" />{" "}
+                </button>{" "}
+                <button
+                  onClick={next}
+                  className="absolute right-0 md:-right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-card text-foreground flex items-center justify-center hover:bg-secondary hover:text-secondary-foreground transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 border border-border"
+                  aria-label="Next team member"
+                >
+                  {" "}
+                  <ChevronRight className="w-5 h-5" />{" "}
+                </button>{" "}
+                {/* Cards */}{" "}
+                <div className="flex items-center justify-center gap-4 md:gap-6 px-12 md:px-16">
+                  {" "}
+                  {visibleIndices.map((index, position) => {
+                    const member = team[index];
+                    const isCenter = position === 1;
+                    return (
+                      <Card
+                        key={`card-${position}`}
+                        className={cn(
+                          "flex-shrink-0 bg-card border-border transition-all duration-500 w-full md:w-[340px]",
+                          isCenter
+                            ? "scale-100 opacity-100 shadow-2xl z-10 border-secondary"
+                            : "hidden md:block scale-95 opacity-50 shadow-md hover:opacity-70"
+                        )}
+                      >
+                        {" "}
+                        <CardContent className="p-6 md:p-8 min-h-[200px] flex flex-col items-center text-center">
+                          {" "}
+                          <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-secondary flex items-center justify-center">
+                            {" "}
+                            {member.image ? (
+                              <img
+                                src={member.image}
+                                alt={member.name}
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <span className="w-full h-full flex items-center justify-center bg-purple-600 text-white font-bold text-2xl">
+                                {" "}
+                                {member.name.charAt(0)}{" "}
+                              </span>
+                            )}{" "}
+                          </div>{" "}
+                          <h3 className="font-display font-semibold text-lg text-foreground">
+                            {" "}
+                            {member.name}{" "}
+                          </h3>{" "}
+                          <p className="text-secondary text-sm mb-2">
+                            {member.role}
+                          </p>{" "}
+                          <p className="text-muted-foreground text-sm line-clamp-3">
+                            {" "}
+                            {member.bio}{" "}
+                          </p>{" "}
+                        </CardContent>{" "}
+                      </Card>
+                    );
+                  })}{" "}
+                </div>{" "}
+                {/* Dots */}{" "}
+                <div className="flex items-center justify-center gap-3 mt-12">
+                  {" "}
+                  {team.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentIndex(index)}
+                      className={cn(
+                        "rounded-full transition-all duration-500 ease-out",
+                        index === currentIndex
+                          ? "w-8 h-3 bg-secondary"
+                          : "w-3 h-3 bg-muted-foreground/30 hover:bg-secondary/50 hover:scale-125"
+                      )}
+                      aria-label={`Go to team member ${index + 1}`}
+                    />
+                  ))}{" "}
+                </div>{" "}
+              </div>{" "}
+            </div>{" "}
+          </div>{" "}
         </section>
       </main>
       <Footer />
