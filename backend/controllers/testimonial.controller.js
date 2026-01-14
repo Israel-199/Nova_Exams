@@ -2,6 +2,7 @@ const prisma = require("../prisma/client");
 const uploadToCloudinary = require("../utils/cloudinaryUpload");
 const cloudinary = require("cloudinary").v2;
 
+// Create Testimonial
 exports.createTestimonial = async (req, res) => {
   try {
     let imageUrl, imageId;
@@ -22,8 +23,8 @@ exports.createTestimonial = async (req, res) => {
         exam: req.body.exam,
         rating: parseInt(req.body.rating, 10),
         testimonial: req.body.testimonial,
-        ...(imageUrl && { image: imageUrl }),
-        ...(imageId && { imageId }),
+        image: imageUrl || null,
+        imageId: imageId || null,
       },
     });
 
@@ -33,10 +34,11 @@ exports.createTestimonial = async (req, res) => {
   }
 };
 
+// Get Single Testimonial
 exports.getTestimonial = async (req, res) => {
   try {
     const testimonial = await prisma.testimonial.findUnique({
-      where: { id: Number(req.params.id) },
+      where: { id: req.params.id }, // ✅ string
     });
 
     if (!testimonial) {
@@ -49,11 +51,22 @@ exports.getTestimonial = async (req, res) => {
   }
 };
 
+// Update Testimonial
 exports.updateTestimonial = async (req, res) => {
   try {
     let imageUrl, imageId;
 
+    const existing = await prisma.testimonial.findUnique({
+      where: { id: req.params.id },
+    });
+    if (!existing) {
+      return res.status(404).json({ success: false, message: "Not found" });
+    }
+
     if (req.file) {
+      if (existing.imageId) {
+        await cloudinary.uploader.destroy(existing.imageId);
+      }
       const uploadResult = await uploadToCloudinary(
         req.file.buffer,
         req.file.mimetype,
@@ -64,7 +77,7 @@ exports.updateTestimonial = async (req, res) => {
     }
 
     const testimonial = await prisma.testimonial.update({
-      where: { id: req.params.id },
+      where: { id: req.params.id }, // ✅ string
       data: {
         ...(req.body.student && { student: req.body.student }),
         ...(req.body.exam && { exam: req.body.exam }),
@@ -81,7 +94,7 @@ exports.updateTestimonial = async (req, res) => {
   }
 };
 
-
+// Get All Testimonials
 exports.getTestimonials = async (req, res) => {
   try {
     const testimonials = await prisma.testimonial.findMany({
@@ -93,10 +106,11 @@ exports.getTestimonials = async (req, res) => {
   }
 };
 
+// Delete Testimonial
 exports.deleteTestimonial = async (req, res) => {
   try {
     const testimonial = await prisma.testimonial.findUnique({
-      where: { id: req.params.id},
+      where: { id: req.params.id }, // ✅ string
     });
 
     if (!testimonial) {
@@ -107,7 +121,7 @@ exports.deleteTestimonial = async (req, res) => {
       await cloudinary.uploader.destroy(testimonial.imageId);
     }
 
-    await prisma.testimonial.delete({ where: { id: Number(req.params.id) } });
+    await prisma.testimonial.delete({ where: { id: req.params.id } }); // ✅ string
 
     res.json({ success: true, message: "Testimonial deleted successfully" });
   } catch (error) {
