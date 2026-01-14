@@ -57,6 +57,7 @@ const Contact = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               className="font-display text-4xl md:text-5xl font-bold text-secondary-foreground mb-6"
+              viewport={{ once: true }}
             >
               {" "}
               Contact <span className="text-primary">Us</span>{" "}
@@ -66,6 +67,7 @@ const Contact = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-secondary-foreground/90 text-lg max-w-2xl mx-auto"
+              viewport={{ once: true }}
             >
               {" "}
               Have questions? We're here to help. Reach out to us and we'll
@@ -85,6 +87,7 @@ const Contact = () => {
                 initial={{ opacity: 0, x: -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
               >
                 {" "}
                 <h2 className="font-display text-2xl font-bold text-foreground mb-8 mt-20">
@@ -100,6 +103,7 @@ const Contact = () => {
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5, delay: index * 0.2 }}
                       whileHover={{ scale: 1.03 }}
+                      viewport={{ once: true }}
                     >
                       {" "}
                       <Card className="bg-muted border-border shadow-md hover:shadow-lg transition-shadow">
@@ -110,6 +114,7 @@ const Contact = () => {
                             animate={{ y: [0, -3, 0] }}
                             transition={{ repeat: Infinity, duration: 2 }}
                             className="w-10 h-10 rounded-lg bg-gradient-secondary flex items-center justify-center shadow-sm"
+                            viewport={{ once: true }}
                           >
                             {" "}
                             <item.icon className="w-5 h-5 text-secondary-foreground" />{" "}
@@ -136,6 +141,7 @@ const Contact = () => {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
+                viewport={{ once: true }}
               >
                 {" "}
                 <Card className="bg-card border-border shadow-lg hover:shadow-xl transition-shadow">
@@ -242,7 +248,10 @@ const Contact = () => {
                           required
                         />{" "}
                       </div>{" "}
-                      <motion.div whileHover={{ scale: 1.02 }}>
+                      <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        viewport={{ once: true }}
+                      >
                         {" "}
                         <Button
                           type="submit"
@@ -272,6 +281,7 @@ const Contact = () => {
                   transition={{ duration: 0.6 }}
                   whileHover={{ scale: 1.03 }}
                   className="overflow-hidden"
+                  viewport={{ once: true }}
                 >
                   <Card className="bg-muted border-border text-center shadow-lg hover:shadow-xl transition-shadow">
                     <CardContent className="p-6 flex flex-col items-center">
@@ -294,6 +304,7 @@ const Contact = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.2 }}
                   whileHover={{ scale: 1.05 }}
+                  viewport={{ once: true }}
                 >
                   <Card className="bg-muted border-border text-center shadow-lg hover:shadow-xl transition-shadow">
                     <CardContent className="p-6 flex flex-col items-center">
@@ -316,6 +327,7 @@ const Contact = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.4 }}
                   whileHover={{ scale: 1.05 }}
+                  viewport={{ once: true }}
                 >
                   <Card className="bg-muted border-border text-center shadow-lg hover:shadow-xl transition-shadow">
                     <CardContent className="p-6 flex flex-col items-center">
