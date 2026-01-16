@@ -41,30 +41,31 @@ const AdminStats = ({
           <div className="text-3xl font-bold text-foreground">{testimonialsCount}</div>
         </CardContent>
       </Card>
+<Card className="bg-gradient-to-br from-pink-100 to-pink-50 border-pink-200">
+  <CardHeader className="flex flex-row items-center justify-between pb-2">
+    <CardTitle className="text-sm font-medium text-muted-foreground">
+      Blog Posts
+    </CardTitle>
+    <FileText className="h-5 w-5 text-pink-600" />
+  </CardHeader>
+  <CardContent>
+    <div className="text-3xl font-bold text-foreground">{blogPostsCount}</div>
+  </CardContent>
+</Card>
 
-      <Card className="bg-gradient-to-br from-indigo/10 to-indigo/5 border-indigo/20">
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">
-            Blog Posts
-          </CardTitle>
-          <FileText className="h-5 w-5 text-indigo" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-3xl font-bold text-foreground">{blogPostsCount}</div>
-        </CardContent>
-      </Card>
 
-      <Card className="bg-gradient-to-br from-indigo/10 to-indigo/5 border-indigo/20">
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">
-            Resources
-          </CardTitle>
-          <Book className="h-5 w-5 text-indigo" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-3xl font-bold text-foreground">{resourcesCount}</div>
-        </CardContent>
-      </Card>
+    <Card className="bg-gradient-to-br from-indigo-100 to-indigo-50 border-indigo-200">
+  <CardHeader className="flex flex-row items-center justify-between pb-2">
+    <CardTitle className="text-sm font-medium text-muted-foreground">
+      Resources
+    </CardTitle>
+    <Book className="h-5 w-5 text-indigo-600" />
+  </CardHeader>
+  <CardContent>
+    <div className="text-3xl font-bold text-foreground">{resourcesCount}</div>
+  </CardContent>
+</Card>
+
 
       <Card className="bg-gradient-to-br from-green-100 to-green-50 border-green-200">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
