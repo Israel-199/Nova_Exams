@@ -78,7 +78,7 @@ export function ChatBot() {
 
           response = matchedFaq
             ? matchedFaq.a
-            : `${novaHighlight}\n\nFor more assistance, please contact us directly at +251946002612 — Call us.`;
+            : `${novaHighlight}\n\nFor more assistance, please contact us directly at +251949700013 — Call us.`;
         }
       }
 
