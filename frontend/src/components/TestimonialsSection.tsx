@@ -19,7 +19,9 @@ export function TestimonialsSection() {
 
   const prev = useCallback(() => {
     if (testimonials.length > 0) {
-      setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+      setCurrentIndex(
+        (prev) => (prev - 1 + testimonials.length) % testimonials.length
+      );
     }
   }, [testimonials]);
 
@@ -31,7 +33,8 @@ export function TestimonialsSection() {
 
   const getVisibleIndices = () => {
     if (testimonials.length === 0) return [];
-    const prevIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
+    const prevIndex =
+      (currentIndex - 1 + testimonials.length) % testimonials.length;
     const nextIndex = (currentIndex + 1) % testimonials.length;
     return [prevIndex, currentIndex, nextIndex];
   };
@@ -43,14 +46,17 @@ export function TestimonialsSection() {
   }
 
   if (error) {
-    return <div className="text-center py-24 text-red-500">Failed to load testimonials</div>;
+    return (
+      <div className="text-center py-24 text-red-500">
+        Failed to load testimonials
+      </div>
+    );
   }
 
   return (
     <section className="py-24 bg-background min-h-screen flex items-center justify-center">
       <div className="bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] p-8 md:p-12">
         <div className="container mx-auto px-4">
-          {/* Section Header */}
           <div className="text-center max-w-2xl mx-auto mb-20 relative">
             <span className="inline-block px-4 py-1 rounded-full bg-secondary/10 text-secondary font-medium text-sm mb-4">
               Testimonials
@@ -68,13 +74,11 @@ export function TestimonialsSection() {
             </div>
           </div>
 
-          {/* Carousel */}
           <div
             className="relative max-w-6xl mx-auto items-center justify-center flex flex-col"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
           >
-            {/* Navigation Buttons */}
             <button
               onClick={prev}
               className="absolute left-0 md:-left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-card text-foreground flex items-center justify-center hover:bg-secondary hover:text-secondary-foreground transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 border border-border"
@@ -90,7 +94,6 @@ export function TestimonialsSection() {
               <ChevronRight className="w-5 h-5" />
             </button>
 
-            {/* Cards */}
             <div className="flex items-center justify-center gap-4 md:gap-6 px-12 md:px-16">
               {visibleIndices.map((index, position) => {
                 const t = testimonials[index];
@@ -122,7 +125,6 @@ export function TestimonialsSection() {
                           </div>
                         </div>
 
-                        {/* Rating stars */}
                         <div className="flex items-center mb-4">
                           {Array.from({ length: t.rating }).map((_, i) => (
                             <svg
@@ -147,7 +149,6 @@ export function TestimonialsSection() {
               })}
             </div>
 
-            {/* Dots */}
             <div className="flex items-center justify-center gap-3 mt-12">
               {testimonials.map((_, index) => (
                 <button

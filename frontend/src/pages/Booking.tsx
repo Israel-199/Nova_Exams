@@ -72,8 +72,9 @@ const Booking = () => {
 
     if (step === 3) {
       toast({
-        title: "Booking Initiated!",
-        description: "Redirecting to payment... (Demo)",
+        title: "Coming Soon",
+        description:
+          "Chapa payments will be available shortly. Until then, please reach us via Telegram, Email, or other services to complete your booking.",
       });
     }
   };
@@ -96,11 +97,8 @@ const Booking = () => {
             </p>
           </div>
         </section>
-
-        {/* Booking Steps */}
         <section className="py-16">
           <div className="container mx-auto px-4">
-            {/* Step Indicator */}
             <div className="flex items-center justify-center gap-4 mb-12">
               {[
                 { num: 1, label: "Select Exam" },
@@ -136,9 +134,7 @@ const Booking = () => {
                 </div>
               ))}
             </div>
-
             <div className="max-w-4xl mx-auto">
-              {/* Step 1: Select Exam */}
               {step === 1 && (
                 <div>
                   <h2 className="font-display text-2xl font-bold text-foreground mb-6 text-center">
@@ -193,8 +189,6 @@ const Booking = () => {
                   </div>
                 </div>
               )}
-
-              {/* Step 2: Options */}
               {step === 2 && (
                 <div className="max-w-lg mx-auto">
                   {isOthersExam ? (
@@ -226,7 +220,6 @@ const Booking = () => {
                     </Card>
                   ) : (
                     <>
-                      {/* Mentorship Option */}
                       <Card className="mb-6">
                         <CardContent className="p-6">
                           <div className="flex items-start gap-4">
@@ -256,8 +249,6 @@ const Booking = () => {
                           </div>
                         </CardContent>
                       </Card>
-
-                      {/* Included Services */}
                       <Card className="bg-muted">
                         <CardContent className="p-6">
                           <h3 className="font-display font-semibold text-foreground mb-4">
@@ -283,8 +274,6 @@ const Booking = () => {
                   )}
                 </div>
               )}
-
-              {/* Step 3: Payment */}
               {step === 3 && !isOthersExam && (
                 <div className="max-w-lg mx-auto">
                   <h2 className="font-display text-2xl font-bold text-foreground mb-6 text-center">
@@ -354,8 +343,6 @@ const Booking = () => {
                   </Card>
                 </div>
               )}
-
-              {/* Navigation Buttons */}
               <div className="flex justify-between mt-8">
                 {step > 1 && (
                   <Button variant="outline" onClick={() => setStep(step - 1)}>
@@ -363,7 +350,6 @@ const Booking = () => {
                   </Button>
                 )}
 
-                {/* Hide continue button if examType is Others */}
                 {!(step === 2 && isOthersExam) && (
                   <Button
                     variant="hero"
@@ -378,8 +364,6 @@ const Booking = () => {
             </div>
           </div>
         </section>
-
-        {/* Consultation Booking Section */}
         <ConsultationBooking />
       </main>
       <Footer />
