@@ -5,8 +5,7 @@ import {
   MapPin,
   Facebook,
   Youtube,
-  Instagram,
-  Linkedin,
+  MessageCircle,
 } from "lucide-react";
 import navLogo from "@/assets/navlogo.png";
 
@@ -98,31 +97,50 @@ export function Footer() {
             <ul className="space-y-3">
               <li className="flex items-center gap-3 text-sm text-indigo-foreground/80">
                 <Mail className="w-4 h-4 text-primary" />
-                <span>info@novaexams.com</span>
+                <span>astronomer291@gmail.com</span>
               </li>
               <li className="flex items-center gap-3 text-sm text-indigo-foreground/80">
                 <Phone className="w-4 h-4 text-primary" />
-                <span>+251 911 123 456</span>
+                <span>+251 949700013</span>
               </li>
               <li className="flex items-center gap-3 text-sm text-indigo-foreground/80">
                 <MapPin className="w-4 h-4 text-primary" />
                 <span>Addis Ababa, Ethiopia</span>
               </li>
             </ul>
-            {/* Social Links */}
-            <div className="flex items-center gap-4 mt-6">
-              {[Facebook, Youtube, Instagram, Linkedin].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="w-9 h-9 rounded-lg bg-indigo-foreground/10 flex items-center justify-center 
-                 hover:bg-primary hover:text-primary-foreground 
-                 transition-transform duration-300 ease-in-out"
-                >
-                  <Icon className="w-4 h-4 transform hover:rotate-12" />
-                </a>
-              ))}
-            </div>
+<div className="flex items-center gap-4 mt-6">
+  <a
+    href="https://www.youtube.com/@NovaGlobalExams"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="w-9 h-9 rounded-lg bg-indigo-foreground/10 flex items-center justify-center 
+      hover:bg-primary hover:text-primary-foreground 
+      transition-transform duration-300 ease-in-out"
+  >
+    <Youtube className="w-4 h-4 transform hover:rotate-12" />
+  </a>
+
+  <a
+    href="https://t.me/NovaExamService"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="w-9 h-9 rounded-lg bg-indigo-foreground/10 flex items-center justify-center 
+      hover:bg-primary hover:text-primary-foreground 
+      transition-transform duration-300 ease-in-out"
+  >
+    <MessageCircle className="w-4 h-4 transform hover:rotate-12" />
+  </a>
+
+  <a
+    href="mailto:astronomer291@gmail.com"
+    className="w-9 h-9 rounded-lg bg-indigo-foreground/10 flex items-center justify-center 
+      hover:bg-primary hover:text-primary-foreground 
+      transition-transform duration-300 ease-in-out"
+  >
+    <Mail className="w-4 h-4 transform hover:rotate-12" />
+  </a>
+</div>
+
           </div>
         </div>
 

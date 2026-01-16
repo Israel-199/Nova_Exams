@@ -19,8 +19,8 @@ import { useState } from "react";
 import { useToast } from "../hooks/use-toast";
 import { motion } from "framer-motion";
 const contactInfo = [
-  { icon: Mail, label: "Email", value: "info@novaexams.com" },
-  { icon: Phone, label: "Phone", value: "+251 911 123 456" },
+  { icon: Mail, label: "Email", value: "astronomer291@gmail.com" },
+  { icon: Phone, label: "Phone", value: "+251 949700013" },
   { icon: MapPin, label: "Address", value: "Addis Ababa, Ethiopia" },
   { icon: Clock, label: "Hours", value: "Mon-Sat: 8AM - 6PM" },
 ];
@@ -42,7 +42,7 @@ const Contact = () => {
     setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
   };
   return (
-    <div className="bg-background ">
+    <div className="bg-background overflow-x-hidden">
       {" "}
       <Navbar bgColor="bg-gradient-secondary" />{" "}
       <main className="pt-20">
