@@ -1,6 +1,5 @@
 const prisma = require("../prisma/client");
 
-// Create Blog Post
 exports.createBlogPost = async (req, res) => {
   try {
     const blogPost = await prisma.blogPost.create({
@@ -28,7 +27,6 @@ exports.createBlogPost = async (req, res) => {
   }
 };
 
-// Get All Blog Posts
 exports.getBlogPosts = async (req, res) => {
   try {
     const blogPosts = await prisma.blogPost.findMany({
@@ -48,7 +46,6 @@ exports.getBlogPosts = async (req, res) => {
   }
 };
 
-// Get Single Blog Post
 exports.getBlogPost = async (req, res) => {
   try {
     const blogPost = await prisma.blogPost.findUnique({
@@ -76,7 +73,6 @@ exports.getBlogPost = async (req, res) => {
   }
 };
 
-// Update Blog Post
 exports.updateBlogPost = async (req, res) => {
   try {
     const blogPost = await prisma.blogPost.update({
@@ -105,7 +101,6 @@ exports.updateBlogPost = async (req, res) => {
   }
 };
 
-// Delete Blog Post
 exports.deleteBlogPost = async (req, res) => {
   try {
     await prisma.blogPost.delete({ where: { id: req.params.id } });
