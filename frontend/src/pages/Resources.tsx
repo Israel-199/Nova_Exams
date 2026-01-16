@@ -211,7 +211,7 @@ const Resources = () => {
         </section>
         {/* CTA */}
         <section className="py-16">
-          <div className="container mx-auto px-4 text-center">
+          <div className="container mx-auto px-4 text-center overflow-x-hidden overflow-y-hidden">
             <motion.h2
               initial={{ opacity: 0, y: -20 }}
               whileInView={{ opacity: 1, y: 0 }}

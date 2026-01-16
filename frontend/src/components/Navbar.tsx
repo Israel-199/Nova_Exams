@@ -76,7 +76,7 @@ export function Navbar({
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 ${bgColor} backdrop-blur-md`}
+      className={`fixed top-0 left-0 right-0 z-50 ${bgColor} backdrop-blur-md overflow-x-hidden overflow-y-hidden`}
     >
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-8">
@@ -165,7 +165,7 @@ export function Navbar({
         </div>
       )}
       {!user && (
-        <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen}>
+        <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen} >
           <DialogContent className="w-full max-w-sm sm:max-w-md sm:mx-0 bg-card border-border rounded-lg sm:rounded-xl">
             <DialogHeader className="text-center">
               <div className="mx-auto w-12 h-12 rounded-xl bg-gradient-secondary flex items-center justify-center ">

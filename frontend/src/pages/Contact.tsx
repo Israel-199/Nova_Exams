@@ -42,7 +42,7 @@ const Contact = () => {
     setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
   };
   return (
-    <div className="bg-background overflow-x-hidden">
+    <div className="bg-background ">
       {" "}
       <Navbar bgColor="bg-gradient-secondary" />{" "}
       <main className="pt-20">

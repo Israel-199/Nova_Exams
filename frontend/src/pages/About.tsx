@@ -68,17 +68,14 @@ const About = () => {
   };
 
   const visibleIndices = getVisibleIndices();
-  if (isLoading) {
-    return <div className="text-center py-24">Loading team...</div>;
-  }
   if (error) {
     return (
       <div className="text-center py-24 text-red-500">Failed to load team</div>
     );
   }
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar bgColor="bg-gradient-secondary" />
+    <div className="min-h-screen bg-background overflow-x-hidden">
+        <Navbar bgColor="bg-gradient-secondary" />
       <main className="pt-20">
         {/* Hero */}
         <section className="py-24 bg-gradient-secondary">
@@ -303,21 +300,24 @@ const About = () => {
                 </div>{" "}
                 {/* Dots */}{" "}
                 <div className="flex items-center justify-center gap-3 mt-12">
-                  {" "}
-                  {team.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentIndex(index)}
-                      className={cn(
-                        "rounded-full transition-all duration-500 ease-out",
-                        index === currentIndex
-                          ? "w-8 h-3 bg-secondary"
-                          : "w-3 h-3 bg-muted-foreground/30 hover:bg-secondary/50 hover:scale-125"
-                      )}
-                      aria-label={`Go to team member ${index + 1}`}
-                    />
-                  ))}{" "}
-                </div>{" "}
+                  {isLoading ? (
+                    <div className="text-center py-24">Loading team...</div>
+                  ) : (
+                    team.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentIndex(index)}
+                        className={cn(
+                          "rounded-full transition-all duration-500 ease-out",
+                          index === currentIndex
+                            ? "w-8 h-3 bg-secondary"
+                            : "w-3 h-3 bg-muted-foreground/30 hover:bg-secondary/50 hover:scale-125"
+                        )}
+                        aria-label={`Go to team member ${index + 1}`}
+                      />
+                    ))
+                  )}
+                </div>
               </div>{" "}
             </div>{" "}
           </div>{" "}

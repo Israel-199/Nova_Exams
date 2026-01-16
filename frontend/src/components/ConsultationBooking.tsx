@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Video, Clock, Users, ExternalLink } from "lucide-react";
 
@@ -11,6 +10,7 @@ interface ConsultationType {
   duration: string;
   description: string;
   icon: React.ReactNode;
+  url: string;
 }
 
 const consultationTypes: ConsultationType[] = [
@@ -21,6 +21,7 @@ const consultationTypes: ConsultationType[] = [
     description:
       "One-on-one session to discuss exam strategies and preparation tips",
     icon: <Calendar className="w-5 h-5" />,
+    url: "https://calendly.com/astronomer291/30min",
   },
   {
     id: "mentorship",
@@ -28,6 +29,7 @@ const consultationTypes: ConsultationType[] = [
     duration: "45 min",
     description: "Connect with high scorers for personalized guidance",
     icon: <Users className="w-5 h-5" />,
+    url: "https://calendly.com/astronomer291/30min",
   },
   {
     id: "general",
@@ -35,24 +37,20 @@ const consultationTypes: ConsultationType[] = [
     duration: "15 min",
     description: "Quick call to answer your questions about our services",
     icon: <Clock className="w-5 h-5" />,
+    url: "https://calendly.com/astronomer291/30min",
   },
 ];
 
 export const ConsultationBooking = () => {
-  const [calendlyUrl, setCalendlyUrl] = useState(
-    "https://calendly.com/novaexams"
-  );
   const [selectedType, setSelectedType] = useState<string | null>(null);
 
   const handleBookNow = (type: ConsultationType) => {
     setSelectedType(type.id);
-    // Open Calendly in a new tab with the specific event type
-    const url = `${calendlyUrl}/${type.id}`;
-    window.open(url, "_blank", "noopener,noreferrer");
+    window.open(type.url, "_blank", "noopener,noreferrer");
   };
 
   return (
-    <section className="py-16 bg-muted/30">
+    <section className="py-16 bg-muted/30 overflow-x-hidden">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <Badge className="bg-secondary/10 text-secondary mb-4">
@@ -123,7 +121,6 @@ export const ConsultationBooking = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {/* Calendly Inline Widget */}
             <div className="bg-muted rounded-lg p-8 text-center">
               <div className="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center mx-auto mb-4">
                 <Video className="w-8 h-8 text-secondary" />
@@ -139,7 +136,11 @@ export const ConsultationBooking = () => {
                 variant="hero"
                 size="lg"
                 onClick={() =>
-                  window.open(calendlyUrl, "_blank", "noopener,noreferrer")
+                  window.open(
+                    "https://calendly.com/astronomer291/30min",
+                    "_blank",
+                    "noopener,noreferrer"
+                  )
                 }
               >
                 <ExternalLink className="w-4 h-4 mr-2" />
