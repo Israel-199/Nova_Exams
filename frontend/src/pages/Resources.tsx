@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { FileText, Video, Download } from "lucide-react";
 import { motion } from "framer-motion";
 import { api } from "@/lib/api";
-
+import { Link } from "react-router-dom";
 import { useResources } from "@/hooks/useResources";
 import { Resource } from "@/types/admin";
 
@@ -35,7 +35,6 @@ const Resources = () => {
     <div className="min-h-screen bg-background">
       <Navbar bgColor="bg-gradient-secondary" />
       <main className="pt-20">
-        {/* Hero */}
         <section className="py-16 bg-gradient-secondary">
           <div className="container mx-auto px-4 text-center">
             <motion.h1
@@ -60,7 +59,6 @@ const Resources = () => {
           </div>
         </section>
 
-        {/* Downloadable Guides */}
         <section className="py-16">
           <div className="container mx-auto px-4">
             <motion.div
@@ -132,7 +130,6 @@ const Resources = () => {
           </div>
         </section>
 
-        {/* Video Resources */}
         <section className="py-16 bg-muted">
           <div className="container mx-auto px-4">
             <motion.div
@@ -215,7 +212,6 @@ const Resources = () => {
             )}
           </div>
         </section>
-        {/* CTA */}
         <section className="py-16">
           <div className="container mx-auto px-4 text-center overflow-x-hidden overflow-y-hidden">
             <motion.h2
@@ -237,9 +233,9 @@ const Resources = () => {
               Our mentorship program provides personalized guidance for your
               exam preparation.
             </motion.p>
-            <motion.div whileHover={{ scale: 1.05 }}>
+            <motion.div whileHover={{ scale: 1.05 }} viewport={{ once: true }}>
               <Button variant="cta" size="lg" asChild>
-                <a href="/booking">Get Mentorship</a>
+                <Link to="/booking">Get Mentorship</Link>
               </Button>
             </motion.div>
           </div>
