@@ -2,7 +2,6 @@ const prisma = require("../prisma/client");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-// Login Admin (sets cookie)
 exports.loginAdmin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -86,7 +85,6 @@ exports.logoutAdmin = async (req, res) => {
 };
 
 
-// Get Admin Profile
 exports.getProfile = async (req, res) => {
   try {
     const admin = await prisma.admin.findUnique({
@@ -105,7 +103,6 @@ exports.getProfile = async (req, res) => {
   }
 };
 
-// Update Admin Profile (name, email)
 exports.updateProfile = async (req, res) => {
   try {
     const { name, email, oldPassword, newPassword } = req.body;
