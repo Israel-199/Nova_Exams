@@ -33,7 +33,7 @@ const Admin = () => {
   const { data: testimonials = [] } = useTestimonials();
   const { data: blogPosts = [] } = useBlogPosts();
   const { data: resource = [] } = useResources();
-  const { data: team = [] } = useTeamMembers(); // ✅ fetch team
+  const { data: team = [] } = useTeamMembers();
 
   const logout = useLogout();
   const { data: user } = useSession();
@@ -158,7 +158,6 @@ const Admin = () => {
               <TabsTrigger value="blog">Blog Posts</TabsTrigger>
               <TabsTrigger value="resources">Resources</TabsTrigger>
               <TabsTrigger value="team">Team Members</TabsTrigger>{" "}
-              {/* ✅ new tab */}
             </TabsList>
 
             <TabsContent value="exams">

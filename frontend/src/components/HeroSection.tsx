@@ -20,10 +20,7 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen w-full bg-hero overflow-hidden">
-      {/* 3D Wireframe Mesh Background */}
       <WireframeMesh />
-
-      {/* Decorative sparkles */}
       <div className="sparkle-lg top-32 left-20 animate-sparkle">
         <X className="w-4 h-4" strokeWidth={3} />
       </div>
@@ -45,14 +42,10 @@ export function HeroSection() {
       >
         <span className="text-primary/50 text-xl">✦</span>
       </div>
-
-      {/* Navigation */}
       <Navbar />
 
-      {/* Hero Content */}
       <div className="container mx-auto px-4 pt-12 lg:pt-20 pb-32 lg:pb-40">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
           <div className="relative z-10">
             <div className="inline-block px-4 py-2 rounded-full bg-primary/20 border border-primary/30 mb-6 animate-fade-in mt-10">
               <span className="text-primary font-medium text-sm">
@@ -62,18 +55,21 @@ export function HeroSection() {
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-secondary-foreground leading-tight mb-6">
               Seamless English
               <br />
-              Proficiency <span className="text-primary">Exam Services</span> - at{" "}
-              <span className="underline-yellow cursor-pointer">Nova Exams</span>
+              Proficiency <span className="text-primary">Exam Services</span> -
+              at{" "}
+              <span className="underline-yellow cursor-pointer">
+                Nova Exams
+              </span>
             </h1>
             <p
               className="text-lg md:text-xl text-secondary-foreground/90 mb-8 leading-relaxed animate-slide-up"
               style={{ animationDelay: "0.1s" }}
             >
-              Book international exams like Duolingo, TOEFL, IELTS, and TOLC with ease.
-              We provide exam room services, expert mentorship, and seamless exam purchasing.
+              Book international exams like Duolingo, TOEFL, IELTS, and TOLC
+              with ease. We provide exam room services, expert mentorship, and
+              seamless exam purchasing.
             </p>
 
-            {/* CTA Buttons */}
             <div
               className="flex flex-col sm:flex-row gap-4 animate-slide-up"
               style={{ animationDelay: "0.3s" }}
@@ -94,7 +90,6 @@ export function HeroSection() {
               </Button>
             </div>
 
-            {/* Stats */}
             <div
               className="flex flex-wrap gap-4 mb-10 animate-slide-up mt-10"
               style={{ animationDelay: "0.2s" }}
@@ -131,57 +126,74 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right Content - Floating Cards */}
           <div className="relative hidden lg:block h-[500px]">
-            {/* Main student image */}
             <motion.div
               className="absolute left-0 top-8 w-64 h-80 rounded-2xl overflow-hidden shadow-2xl"
               animate={{ y: [0, -20, 0] }}
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             >
-              <img src={student1} alt="Student" className="w-full h-full object-cover" />
+              <img
+                src={student1}
+                alt="Student"
+                className="w-full h-full object-cover"
+              />
             </motion.div>
 
-            {/* Second student image */}
             <motion.div
               className="absolute right-0 top-0 w-48 h-60 rounded-2xl overflow-hidden shadow-2xl"
               animate={{ y: [0, -15, 0] }}
               transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
             >
-              <img src={student2} alt="Student" className="w-full h-full object-cover" />
+              <img
+                src={student2}
+                alt="Student"
+                className="w-full h-full object-cover"
+              />
             </motion.div>
 
-            {/* Third student image */}
             <motion.div
               className="absolute right-8 bottom-0 w-56 h-72 rounded-2xl overflow-hidden shadow-2xl"
               animate={{ y: [0, -25, 0] }}
               transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
             >
-              <img src={student3} alt="Student" className="w-full h-full object-cover" />
+              <img
+                src={student3}
+                alt="Student"
+                className="w-full h-full object-cover"
+              />
             </motion.div>
 
-            {/* Testimonial Card (image + text synced) */}
             <motion.div
               className="absolute right-20 top-32 floating-card flex items-center gap-3"
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             >
               <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center overflow-hidden">
-                <img src={student2} alt="Meron" className="w-full h-full object-cover" />
+                <img
+                  src={student2}
+                  alt="Meron"
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div>
-                <p className="font-semibold text-foreground text-sm">Abel Tadesse</p>
+                <p className="font-semibold text-foreground text-sm">
+                  Abel Tadesse
+                </p>
                 <p className="text-muted-foreground text-xs">IELTS Student</p>
                 <div className="flex gap-0.5 mt-1">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-3 h-3 fill-primary text-primary" />
+                    <Star
+                      key={i}
+                      className="w-3 h-3 fill-primary text-primary"
+                    />
                   ))}
                 </div>
-                <p className="text-muted-foreground text-xs mt-1">Scored Band 8.0 🎉</p>
+                <p className="text-muted-foreground text-xs mt-1">
+                  Scored Band 8.0 🎉
+                </p>
               </div>
             </motion.div>
 
-            {/* Exams Booked Highlight (synced) */}
             <motion.div
               className="absolute left-8 bottom-32 floating-card flex items-center gap-3"
               animate={{ y: [0, -12, 0] }}
@@ -191,14 +203,13 @@ export function HeroSection() {
                 <Award className="w-5 h-5 text-teal" />
               </div>
               <div>
-                                <p className="font-bold text-foreground text-lg">5,000+</p>
+                <p className="font-bold text-foreground text-lg">5,000+</p>
                 <p className="text-muted-foreground text-xs">
                   Exams Booked Successfully
                 </p>
               </div>
             </motion.div>
 
-            {/* Admission Success Card (synced) */}
             <motion.div
               className="absolute right-12 bottom-12 floating-card flex items-center gap-2"
               animate={{ y: [0, -15, 0] }}
@@ -208,7 +219,9 @@ export function HeroSection() {
                 <Award className="w-4 h-4 text-secondary-foreground" />
               </div>
               <div>
-                <p className="font-semibold text-secondary text-sm">Congrats!</p>
+                <p className="font-semibold text-secondary text-sm">
+                  Congrats!
+                </p>
                 <p className="text-muted-foreground text-xs">
                   Admission Secured Abroad
                 </p>
@@ -220,4 +233,3 @@ export function HeroSection() {
     </section>
   );
 }
-

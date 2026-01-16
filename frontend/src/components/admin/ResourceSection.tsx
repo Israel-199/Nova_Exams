@@ -82,9 +82,15 @@ const ResourcesPage = () => {
 
     // Determine sourceType based on upload mode
     let sourceType: "upload" | "url" = "url";
-    if (resourceForm.type === "pdf" && resourceForm.pdfUploadMode === "upload") {
+    if (
+      resourceForm.type === "pdf" &&
+      resourceForm.pdfUploadMode === "upload"
+    ) {
       sourceType = "upload";
-    } else if (resourceForm.type === "video" && resourceForm.videoType === "upload") {
+    } else if (
+      resourceForm.type === "video" &&
+      resourceForm.videoType === "upload"
+    ) {
       sourceType = "upload";
     }
 
@@ -95,7 +101,8 @@ const ResourcesPage = () => {
       sourceUrl: resourceForm.sourceUrl,
       sourceType: sourceType,
       videoType: resourceForm.type === "video" ? resourceForm.videoType : null,
-      pdfUploadMode: resourceForm.type === "pdf" ? resourceForm.pdfUploadMode : null,
+      pdfUploadMode:
+        resourceForm.type === "pdf" ? resourceForm.pdfUploadMode : null,
       pdfFile: resourceForm.pdfFile ?? undefined,
       videoFile: resourceForm.videoFile ?? undefined,
     };

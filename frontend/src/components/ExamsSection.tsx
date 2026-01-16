@@ -3,13 +3,17 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle } from "lucide-react";
-import { motion } from "framer-motion"; // ✅ import motion
+import { motion } from "framer-motion"; 
 
 const exams = [
   {
     name: "Duolingo",
     description: "Quick and convenient English proficiency test",
-    features: ["2-hour test", "Results in 48 hours", "Accepted by 4000+ institutions"],
+    features: [
+      "2-hour test",
+      "Results in 48 hours",
+      "Accepted by 4000+ institutions",
+    ],
   },
   {
     name: "TOEFL",
@@ -31,12 +35,10 @@ const exams = [
 export function ExamsSection() {
   return (
     <section className="py-24 bg-indigo relative overflow-hidden">
-      {/* Background Decoration */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <span className="inline-block px-4 py-1 rounded-full bg-primary/20 text-primary font-medium text-sm mb-4">
             Exams Offered
@@ -45,11 +47,10 @@ export function ExamsSection() {
             Choose Your <span className="text-primary">Exam</span>
           </h2>
           <p className="text-indigo-foreground/80 text-lg">
-            We offer a variety of internationally recognized exams to help you achieve your educational goals.
+            We offer a variety of internationally recognized exams to help you
+            achieve your educational goals.
           </p>
         </div>
-
-        {/* Exams Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {exams.map((exam, index) => (
             <motion.div
@@ -57,7 +58,7 @@ export function ExamsSection() {
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.15 }}
-              viewport={{ once: true }} // ✅ animate only once when in view
+              viewport={{ once: true }} 
             >
               <Card className="bg-indigo-foreground/5 border-indigo-foreground/10 backdrop-blur-sm hover:border-primary/50 transition-all duration-300 group">
                 <CardHeader>
@@ -67,7 +68,9 @@ export function ExamsSection() {
                   <CardTitle className="text-indigo-foreground font-display">
                     {exam.name} Exam
                   </CardTitle>
-                  <p className="text-sm text-indigo-foreground/70">{exam.description}</p>
+                  <p className="text-sm text-indigo-foreground/70">
+                    {exam.description}
+                  </p>
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-3">
@@ -86,18 +89,17 @@ export function ExamsSection() {
             </motion.div>
           ))}
         </div>
-
-   <motion.div
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2}}
+          transition={{ duration: 0.6, delay: 0.2 }}
           className="text-center mt-12"
-           viewport={{ once: true }}
+          viewport={{ once: true }}
         >
           <Button variant="hero" size="lg" asChild>
             <Link to="/booking">Book Your Exam</Link>
           </Button>
-          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

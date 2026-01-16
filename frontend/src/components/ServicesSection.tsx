@@ -5,19 +5,48 @@ import { BookOpen, Users, Monitor, Award, Clock, Shield } from "lucide-react";
 import { motion } from "framer-motion";
 
 const services = [
-  { icon: BookOpen, title: "Exam Booking", description: "Book international exams including Duolingo, TOEFL, IELTS, TOLC, GRE, and GMAT with ease." },
-  { icon: Monitor, title: "Exam Room Service", description: "Fully equipped exam room service with reliable internet connection and power system." },
-  { icon: Users, title: "Mentorship Program", description: "Efficient Mentorship to guide you through your exam preparation journey." },
-  { icon: Award, title: "Success Guarantee", description: "Our 98% success rate speaks for itself. Join thousands of successful students." },
-  { icon: Clock, title: "Flexible Scheduling", description: "Choose exam dates that work best for you with our flexible booking system." },
-  { icon: Shield, title: "Secure Process", description: "Safe and secure exam registration and payment processing with Chapa integration." },
+  {
+    icon: BookOpen,
+    title: "Exam Booking",
+    description:
+      "Book international exams including Duolingo, TOEFL, IELTS, TOLC, GRE, and GMAT with ease.",
+  },
+  {
+    icon: Monitor,
+    title: "Exam Room Service",
+    description:
+      "Fully equipped exam room service with reliable internet connection and power system.",
+  },
+  {
+    icon: Users,
+    title: "Mentorship Program",
+    description:
+      "Efficient Mentorship to guide you through your exam preparation journey.",
+  },
+  {
+    icon: Award,
+    title: "Success Guarantee",
+    description:
+      "Our 98% success rate speaks for itself. Join thousands of successful students.",
+  },
+  {
+    icon: Clock,
+    title: "Flexible Scheduling",
+    description:
+      "Choose exam dates that work best for you with our flexible booking system.",
+  },
+  {
+    icon: Shield,
+    title: "Secure Process",
+    description:
+      "Safe and secure exam registration and payment processing with Chapa integration.",
+  },
 ];
 
 export function ServicesSection() {
   return (
     <section className="py-24 bg-muted">
       <div className="container mx-auto px-4">
-        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -37,8 +66,6 @@ export function ServicesSection() {
             smooth and successful.
           </p>
         </motion.div>
-
-        {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, index) => (
             <motion.div
@@ -46,7 +73,7 @@ export function ServicesSection() {
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.15 }}
-               viewport={{ once: true }}
+              viewport={{ once: true }}
             >
               <Card className="group bg-card border-border shadow-sm hover:shadow-lg transition-shadow duration-300">
                 <CardContent className="p-6">
@@ -64,14 +91,12 @@ export function ServicesSection() {
             </motion.div>
           ))}
         </div>
-
-        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2}}
+          transition={{ duration: 0.6, delay: 0.2 }}
           className="text-center mt-12"
-           viewport={{ once: true }}
+          viewport={{ once: true }}
         >
           <Button variant="cta" size="lg" asChild>
             <Link to="/booking">Explore All Services</Link>

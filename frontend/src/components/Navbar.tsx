@@ -76,7 +76,7 @@ export function Navbar({
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 ${bgColor} backdrop-blur-md overflow-x-hidden overflow-y-hidden`}
+      className={`fixed top-0 left-0 right-0 z-50 ${bgColor} backdrop-blur-md`}
     >
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-8">

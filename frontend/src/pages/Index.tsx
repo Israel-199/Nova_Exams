@@ -1,5 +1,5 @@
 import { HeroSection } from "@/components/HeroSection";
-import  {ServicesSection}  from "@/components/ServicesSection";
+import { ServicesSection } from "@/components/ServicesSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { CTASection } from "@/components/CTASection";
 import { Footer } from "@/components/Footer";
@@ -9,19 +9,18 @@ import { ExamsSection } from "@/components/ExamsSection";
 
 const Index = () => {
   return (
-   <div className="min-h-screen bg-background relative overflow-x-hidden">
-  <main className="w-full overflow-x-hidden">
-    <HeroSection />
-    <ServicesSection />
-    <ExamsSection/>
-    <TestimonialsSection />
-    <CTASection />
-  </main>
-  <Footer />
-  <ChatBot />
-  <WhatsAppButton />
-</div>
-
+    <div className="min-h-screen bg-background relative overflow-x-hidden">
+      <main className="w-full overflow-x-hidden">
+        <HeroSection />
+        <ServicesSection />
+        <ExamsSection />
+        <TestimonialsSection />
+        <CTASection />
+      </main>
+      <Footer />
+      <ChatBot />
+      <WhatsAppButton />
+    </div>
   );
 };
 

@@ -6,13 +6,9 @@ export function CTASection() {
   return (
     <section className="py-24 bg-background">
       <div className="mx-auto max-w-7xl">
-        {/* Ensure the box has height so the mesh can fill it */}
         <div className="relative overflow-hidden rounded-3xl bg-gradient-secondary p-8 md:p-16 min-h-[400px]">
-          {/* Decorative blobs */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-magenta/20 rounded-full blur-3xl" />
-
-          {/* Foreground content */}
           <div className="relative z-10 text-center max-w-2xl mx-auto">
             <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-secondary-foreground mb-6">
               Ready to Start Your{" "}

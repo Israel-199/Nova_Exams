@@ -75,7 +75,7 @@ const About = () => {
   }
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
-        <Navbar bgColor="bg-gradient-secondary" />
+      <Navbar bgColor="bg-gradient-secondary" />
       <main className="pt-20">
         {/* Hero */}
         <section className="py-24 bg-gradient-secondary">
@@ -298,7 +298,7 @@ const About = () => {
                     );
                   })}{" "}
                 </div>{" "}
-                {/* Dots */}{" "}
+                {" "}
                 <div className="flex items-center justify-center gap-3 mt-12">
                   {isLoading ? (
                     <div className="text-center py-24">Loading team...</div>

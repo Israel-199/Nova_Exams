@@ -13,25 +13,30 @@ import {
 import { Plus, Pencil, Trash2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Exam } from "@/types/admin";
-import { useAddExam, useUpdateExam, useDeleteExam, useExams } from "@/hooks/useExam";
+import {
+  useAddExam,
+  useUpdateExam,
+  useDeleteExam,
+  useExams,
+} from "@/hooks/useExam";
 
 const ExamsSection = () => {
   const [isExamDialogOpen, setIsExamDialogOpen] = useState(false);
   const [editingExam, setEditingExam] = useState<Exam | null>(null);
-  
+
   const { data: exams = [], isLoading, error } = useExams();
 
   const addExam = useAddExam();
   const updateExam = useUpdateExam();
   const deleteExam = useDeleteExam();
 
-   if (isLoading) {
-      return (
-        <div className="flex items-center justify-center min-h-[400px]">
-          <Loader2 className="w-8 h-8 animate-spin text-secondary" />
-        </div>
-      );
-    }
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader2 className="w-8 h-8 animate-spin text-secondary" />
+      </div>
+    );
+  }
 
   const handleSaveExam = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -72,7 +77,9 @@ const ExamsSection = () => {
       <CardContent className="p-6">
         {/* Header with Add button */}
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-semibold text-neutral-dark">Manage Exam Prices</h2>
+          <h2 className="text-xl font-semibold text-neutral-dark">
+            Manage Exam Prices
+          </h2>
           <Dialog open={isExamDialogOpen} onOpenChange={setIsExamDialogOpen}>
             <DialogTrigger asChild>
               <Button onClick={() => setEditingExam(null)} className="gap-2">
@@ -106,7 +113,9 @@ const ExamsSection = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="examRoomService">Exam Room Service (ETB)</Label>
+                    <Label htmlFor="examRoomService">
+                      Exam Room Service (ETB)
+                    </Label>
                     <Input
                       id="examRoomService"
                       name="examRoomService"
@@ -131,7 +140,7 @@ const ExamsSection = () => {
                   className="w-full"
                   disabled={addExam.isPending || updateExam.isPending}
                 >
-                  {(addExam.isPending || updateExam.isPending) ? (
+                  {addExam.isPending || updateExam.isPending ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
                     "Save Exam"
@@ -147,7 +156,9 @@ const ExamsSection = () => {
           {isLoading ? (
             <p className="text-center py-6">Loading exams...</p>
           ) : error ? (
-            <p className="text-red-500 text-center py-6">Failed to load exams</p>
+            <p className="text-red-500 text-center py-6">
+              Failed to load exams
+            </p>
           ) : exams.length === 0 ? (
             <p className="text-muted-foreground text-center py-6">
               No exams yet. Click “Add Exam” to create one.
@@ -171,32 +182,32 @@ const ExamsSection = () => {
                     <td className="py-4 px-4">{exam.examRoomService} ETB</td>
                     <td className="py-4 px-4">{exam.sum} ETB</td>
                     <td className="py-4 px-4 text-right">
-                    <div className="flex justify-end">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => {
-                          setEditingExam(exam);
-                          setIsExamDialogOpen(true);
-                        }}
-                        className="h-10 w-10 mr-2"
-                      >
-                        <Pencil className="w-4 h-4" />
-                      </Button>
-                      <Button
-                        variant="destructive"
-                        size="icon"
-                        onClick={() => handleDeleteExam(exam.id)}
-                        className="h-10 w-10"
-                        disabled={deleteExam.isPending}
-                      >
-                        {deleteExam.isPending ? (
-                          <Loader2 className="h-4 w-4 animate-spin" />
-                        ) : (
-                          <Trash2 className="w-4 h-4" />
-                        )}
-                      </Button>
-                        </div>
+                      <div className="flex justify-end">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          onClick={() => {
+                            setEditingExam(exam);
+                            setIsExamDialogOpen(true);
+                          }}
+                          className="h-10 w-10 mr-2"
+                        >
+                          <Pencil className="w-4 h-4" />
+                        </Button>
+                        <Button
+                          variant="destructive"
+                          size="icon"
+                          onClick={() => handleDeleteExam(exam.id)}
+                          className="h-10 w-10"
+                          disabled={deleteExam.isPending}
+                        >
+                          {deleteExam.isPending ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Trash2 className="w-4 h-4" />
+                          )}
+                        </Button>
+                      </div>
                     </td>
                   </tr>
                 ))}

@@ -109,7 +109,6 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
       const currentY = dotPos[i * 3 + 1];
       const currentZ = dotPos[i * 3 + 2];
 
-      // Softer idle drift
       const driftX = Math.sin(time.current * 0.2 + ox * 2) * 0.01;
       const driftY = Math.cos(time.current * 0.15 + oy * 2) * 0.01;
 
@@ -235,10 +234,10 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
           />
         </bufferGeometry>
         <pointsMaterial
-          size={0.015} // smaller dots
+          size={0.015}
           color="#81e6d9"
           transparent
-          opacity={0.08} // lighter opacity
+          opacity={0.08} 
           sizeAttenuation
         />
       </points>

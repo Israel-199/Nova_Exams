@@ -20,7 +20,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Plus, Pencil, Trash2, Upload, Loader2, Star } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
 import { Testimonial } from "@/types/admin";
 import {
   useTestimonials,
@@ -87,7 +86,9 @@ const TestimonialsSection = () => {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold text-neutral-dark">Manage Testimonials</h2>
+        <h2 className="text-xl font-semibold text-neutral-dark">
+          Manage Testimonials
+        </h2>
         <Dialog
           open={isTestimonialDialogOpen}
           onOpenChange={setIsTestimonialDialogOpen}
@@ -222,8 +223,8 @@ const TestimonialsSection = () => {
                     </div>
                   </TableCell>
                   <TableCell className="font-medium whitespace-nowrap">
-  {t.student}
-</TableCell>
+                    {t.student}
+                  </TableCell>
 
                   <TableCell>{t.exam}</TableCell>
                   <TableCell>

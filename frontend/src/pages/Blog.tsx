@@ -11,11 +11,18 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 
-import { useBlogPosts } from "@/hooks/useBlogPosts"; // 👈 fetch from backend
+import { useBlogPosts } from "@/hooks/useBlogPosts";
 
-const categories = ["All", "IELTS", "TOEFL", "Duolingo", "TOLC", "GRE", "Guides"];
+const categories = [
+  "All",
+  "IELTS",
+  "TOEFL",
+  "Duolingo",
+  "TOLC",
+  "GRE",
+  "Guides",
+];
 
-/* -------------------- ANIMATIONS -------------------- */
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -29,17 +36,18 @@ const cardVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
-/* -------------------- COMPONENT -------------------- */
 const Blog = () => {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
 
-  // ✅ Fetch posts from backend
   const { data: posts = [], isLoading, error } = useBlogPosts();
 
   const filteredPosts = posts.filter((post) => {
-    const matchesSearch = post.title.toLowerCase().includes(search.toLowerCase());
-    const matchesCategory = activeCategory === "All" || post.category === activeCategory;
+    const matchesSearch = post.title
+      .toLowerCase()
+      .includes(search.toLowerCase());
+    const matchesCategory =
+      activeCategory === "All" || post.category === activeCategory;
     return matchesSearch && matchesCategory;
   });
 
@@ -48,7 +56,6 @@ const Blog = () => {
       <Navbar bgColor="bg-gradient-secondary" />
 
       <main className="pt-20">
-        {/* ---------------- HERO ---------------- */}
         <section className="py-16 bg-gradient-secondary">
           <div className="container mx-auto px-4 text-center">
             <motion.h1
@@ -65,14 +72,13 @@ const Blog = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-secondary-foreground/90 text-lg max-w-2xl mx-auto"
             >
-              Expert tips, study guides, and resources to help you succeed in your exams.
+              Expert tips, study guides, and resources to help you succeed in
+              your exams.
             </motion.p>
           </div>
         </section>
 
-        {/* ---------------- CONTENT ---------------- */}
         <div className="container mx-auto px-4 py-12">
-          {/* Search + Categories */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -113,7 +119,9 @@ const Blog = () => {
 
           {/* Posts */}
           {isLoading ? (
-            <p className="text-center text-muted-foreground">Loading posts...</p>
+            <p className="text-center text-muted-foreground">
+              Loading posts...
+            </p>
           ) : error ? (
             <p className="text-center text-red-500">Failed to load posts</p>
           ) : (
@@ -143,7 +151,9 @@ const Blog = () => {
                         </div>
 
                         <h3 className="text-xl font-bold">{post.title}</h3>
-                        <p className="text-sm text-muted-foreground">{post.excerpt}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {post.excerpt}
+                        </p>
 
                         <div className="flex justify-between items-center pt-2">
                           <div className="flex gap-4 text-xs text-muted-foreground">
@@ -165,7 +175,6 @@ const Blog = () => {
             </motion.div>
           )}
 
-          {/* Empty State */}
           {filteredPosts.length === 0 && !isLoading && !error && (
             <motion.div
               initial={{ opacity: 0 }}

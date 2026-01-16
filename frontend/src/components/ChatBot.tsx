@@ -35,9 +35,14 @@ const bookingInstruction =
 
 export function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<{ text: string; isUser: boolean }[]>([
-    { text: "Hi! I'm Nova's AI assistant. How can I help you today?", isUser: false },
-  ]);
+  const [messages, setMessages] = useState<{ text: string; isUser: boolean }[]>(
+    [
+      {
+        text: "Hi! I'm Nova's AI assistant. How can I help you today?",
+        isUser: false,
+      },
+    ]
+  );
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [trialCount, setTrialCount] = useState(0);
@@ -60,18 +65,23 @@ export function ChatBot() {
         response = novaHighlight;
       } else {
         if (userMessage.includes("mentorship")) {
-          response = "Yes! We offer optional mentorship programs to help you prepare for your exams.";
+          response =
+            "Yes! We offer optional mentorship programs to help you prepare for your exams.";
         } else if (userMessage.includes("payment")) {
-          response = "We accept payments through Chapa, supporting various Ethiopian payment methods.";
+          response =
+            "We accept payments through Chapa, supporting various Ethiopian payment methods.";
         } else if (userMessage.includes("center")) {
-          response = "Our exam center is located in Addis Ababa, Ethiopia. Contact us for exact directions.";
+          response =
+            "Our exam center is located in Addis Ababa, Ethiopia. Contact us for exact directions.";
         } else if (userMessage.includes("book")) {
-          response = "Click on 'Book Now' and follow the step-by-step booking process. Select your exam, date, and add mentorship if needed.";
+          response =
+            "Click on 'Book Now' and follow the step-by-step booking process. Select your exam, date, and add mentorship if needed.";
         } else if (userMessage.includes("exam")) {
-          response = "We offer Duolingo, TOEFL, IELTS, TOLC, GRE, and GMAT exams.";
+          response =
+            "We offer Duolingo, TOEFL, IELTS, TOLC, GRE, and GMAT exams.";
         } else {
           const matchedFaq = faqs.find((faq) => {
-            if (input.trim() === faq.q) return true; 
+            if (input.trim() === faq.q) return true;
             const words = faq.q.split(" ");
             return words.some((word) => input.trim().includes(word));
           });
@@ -86,7 +96,7 @@ export function ChatBot() {
 
       setMessages((prev) => [...prev, { text: response, isUser: false }]);
       setIsLoading(false);
-    }, 1000); 
+    }, 1000);
   };
 
   return (
@@ -106,7 +116,9 @@ export function ChatBot() {
       {isOpen && (
         <Card className="fixed bottom-6 right-6 z-50 w-80 md:w-96 shadow-2xl border-border animate-slide-up">
           <CardHeader className="bg-gradient-secondary text-secondary-foreground rounded-t-lg flex flex-row items-center justify-between py-4">
-            <CardTitle className="text-lg font-display">Nova AI Assistant</CardTitle>
+            <CardTitle className="text-lg font-display">
+              Nova AI Assistant
+            </CardTitle>
             <button onClick={() => setIsOpen(false)} aria-label="Close chat">
               <X className="w-5 h-5" />
             </button>
@@ -117,7 +129,9 @@ export function ChatBot() {
               {messages.map((msg, i) => (
                 <div
                   key={i}
-                  className={`flex ${msg.isUser ? "justify-end" : "justify-start"}`}
+                  className={`flex ${
+                    msg.isUser ? "justify-end" : "justify-start"
+                  }`}
                 >
                   <div
                     className={`max-w-[80%] px-4 py-2 rounded-2xl text-sm whitespace-pre-line ${
