@@ -2,7 +2,6 @@ const prisma = require("../prisma/client");
 const uploadToCloudinary = require("../utils/cloudinaryUpload");
 const cloudinary = require("../lib/cloudinary");
 
-// Create Resource
 exports.createResource = async (req, res) => {
   try {
     const { type, title, description, pdfUploadMode, videoType, sourceUrl } = req.body;
@@ -81,7 +80,6 @@ exports.createResource = async (req, res) => {
   }
 };
 
-// Update Resource
 exports.updateResource = async (req, res) => {
   try {
     const { type, title, description, pdfUploadMode, videoType, sourceUrl } = req.body;
@@ -154,7 +152,6 @@ exports.updateResource = async (req, res) => {
   }
 };
 
-// Get All Resources
 exports.getResources = async (req, res) => {
   try {
     const resources = await prisma.resource.findMany({
@@ -175,7 +172,6 @@ exports.getResources = async (req, res) => {
   }
 };
 
-// Download Resource
 exports.downloadResource = async (req, res) => {
   try {
     const resource = await prisma.resource.findUnique({ where: { id: req.params.id } });
@@ -201,7 +197,6 @@ exports.downloadResource = async (req, res) => {
   }
 };
 
-// Get Single Resource
 exports.getResource = async (req, res) => {
   try {
     const resource = await prisma.resource.findUnique({
@@ -230,7 +225,6 @@ exports.getResource = async (req, res) => {
   }
 };
 
-// Delete Resource (DB + Cloudinary)
 exports.deleteResource = async (req, res) => {
   try {
     const resource = await prisma.resource.findUnique({ where: { id: req.params.id } });
