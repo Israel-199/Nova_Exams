@@ -43,6 +43,7 @@ const Resources = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className="font-display text-4xl md:text-5xl font-bold text-secondary-foreground mb-6"
+               viewport={{ once: true }}
             >
               <span className="text-primary">Resources</span>
             </motion.h1>
@@ -51,6 +52,7 @@ const Resources = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-secondary-foreground/90 text-lg max-w-2xl mx-auto"
+               viewport={{ once: true }}
             >
               Free study materials, guides, and video content to help you
               prepare for your exams.
@@ -66,6 +68,7 @@ const Resources = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="mb-12"
+               viewport={{ once: true }}
             >
               <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-4">
                 📚 Downloadable Guides
@@ -95,6 +98,7 @@ const Resources = () => {
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: i * 0.1 }}
+                     viewport={{ once: true }}
                   >
                     <Card className="bg-card border-border shadow-sm hover:shadow-lg transition-shadow">
                       <CardContent className="p-6 flex items-center gap-4">
@@ -136,6 +140,7 @@ const Resources = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="mb-12"
+               viewport={{ once: true }}
             >
               <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-4">
                 🎥 Video Resources
@@ -165,6 +170,7 @@ const Resources = () => {
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: i * 0.1 }}
+                     viewport={{ once: true }}
                   >
                     <Card className="bg-card border-border shadow-sm hover:shadow-lg transition-shadow group">
                       <CardContent className="p-6">
@@ -217,6 +223,7 @@ const Resources = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="font-display text-2xl md:text-3xl font-bold text-foreground mb-4"
+               viewport={{ once: true }}
             >
               Need More Help?
             </motion.h2>
@@ -225,6 +232,7 @@ const Resources = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-muted-foreground mb-8 text-lg"
+               viewport={{ once: true }}
             >
               Our mentorship program provides personalized guidance for your
               exam preparation.
