@@ -3,7 +3,6 @@ const router = express.Router();
 const blogController = require("../controllers/blogpost.controller");
 const authenticateAdmin = require("../middleware/authAdmin");
 
-// Create blog post
 router.post("/",authenticateAdmin, blogController.createBlogPost);
 
 router.get("/", blogController.getBlogPosts);
