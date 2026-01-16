@@ -37,8 +37,10 @@ const Contact = () => {
     e.preventDefault();
     toast({
       title: "Message Sent!",
-      description: "We'll get back to you within 24 hours.",
+      description:
+        "Thank you for reaching out to us. We appreciate your message!",
     });
+
     setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
   };
   return (
