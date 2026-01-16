@@ -1,6 +1,5 @@
 const prisma = require("../prisma/client");
 
-// Create Exam
 exports.createExam = async (req, res) => {
   const { examType, mentorship, examRoomService, sum } = req.body;
 
@@ -32,7 +31,6 @@ exports.createExam = async (req, res) => {
   }
 };
 
-// Get All Exams
 exports.getExams = async (req, res) => {
   try {
     const exams = await prisma.exam.findMany();
@@ -50,7 +48,6 @@ exports.getExams = async (req, res) => {
   }
 };
 
-// Get Single Exam
 exports.getExam = async (req, res) => {
   try {
     const exam = await prisma.exam.findUnique({
@@ -77,7 +74,6 @@ exports.getExam = async (req, res) => {
   }
 };
 
-// Update Exam
 exports.updateExam = async (req, res) => {
   try {
     const exam = await prisma.exam.update({
@@ -99,7 +95,6 @@ exports.updateExam = async (req, res) => {
   }
 };
 
-// Delete Exam
 exports.deleteExam = async (req, res) => {
   try {
     await prisma.exam.delete({ where: { id: req.params.id } });
