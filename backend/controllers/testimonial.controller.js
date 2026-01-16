@@ -38,7 +38,7 @@ exports.createTestimonial = async (req, res) => {
 exports.getTestimonial = async (req, res) => {
   try {
     const testimonial = await prisma.testimonial.findUnique({
-      where: { id: req.params.id }, // ✅ string
+      where: { id: req.params.id }, 
     });
 
     if (!testimonial) {
@@ -77,7 +77,7 @@ exports.updateTestimonial = async (req, res) => {
     }
 
     const testimonial = await prisma.testimonial.update({
-      where: { id: req.params.id }, // ✅ string
+      where: { id: req.params.id }, 
       data: {
         ...(req.body.student && { student: req.body.student }),
         ...(req.body.exam && { exam: req.body.exam }),
@@ -110,7 +110,7 @@ exports.getTestimonials = async (req, res) => {
 exports.deleteTestimonial = async (req, res) => {
   try {
     const testimonial = await prisma.testimonial.findUnique({
-      where: { id: req.params.id }, // ✅ string
+      where: { id: req.params.id },
     });
 
     if (!testimonial) {
@@ -121,7 +121,7 @@ exports.deleteTestimonial = async (req, res) => {
       await cloudinary.uploader.destroy(testimonial.imageId);
     }
 
-    await prisma.testimonial.delete({ where: { id: req.params.id } }); // ✅ string
+    await prisma.testimonial.delete({ where: { id: req.params.id } }); 
 
     res.json({ success: true, message: "Testimonial deleted successfully" });
   } catch (error) {
