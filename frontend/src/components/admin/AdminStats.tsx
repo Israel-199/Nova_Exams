@@ -29,18 +29,20 @@ const AdminStats = ({
           <div className="text-3xl font-bold text-foreground">{examsCount}</div>
         </CardContent>
       </Card>
+<Card className="bg-gradient-to-br from-purple-100 to-purple-50 border-purple-200">
+  <CardHeader className="flex flex-row items-center justify-between pb-2">
+    <CardTitle className="text-sm font-medium text-muted-foreground">
+      Testimonials
+    </CardTitle>
+    <MessageSquare className="h-5 w-5 text-purple-600" />
+  </CardHeader>
+  <CardContent>
+    <div className="text-3xl font-bold text-foreground">{testimonialsCount}</div>
+  </CardContent>
+</Card>
 
-      <Card className="bg-gradient-to-br from-magenta/10 to-magenta/5 border-magenta/20">
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">
-            Testimonials
-          </CardTitle>
-          <MessageSquare className="h-5 w-5 text-magenta" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-3xl font-bold text-foreground">{testimonialsCount}</div>
-        </CardContent>
-      </Card>
+
+
 <Card className="bg-gradient-to-br from-pink-100 to-pink-50 border-pink-200">
   <CardHeader className="flex flex-row items-center justify-between pb-2">
     <CardTitle className="text-sm font-medium text-muted-foreground">
