@@ -108,43 +108,42 @@ export function Footer() {
                 <span>Addis Ababa, Ethiopia</span>
               </li>
             </ul>
-<div className="flex items-center gap-4 mt-6">
-  <a
-    href="https://www.youtube.com/@NovaGlobalExams"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="w-9 h-9 rounded-lg bg-indigo-foreground/10 flex items-center justify-center 
+            <div className="flex items-center gap-4 mt-6">
+              <a
+                href="https://www.youtube.com/@NovaGlobalExams"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-lg bg-indigo-foreground/10 flex items-center justify-center 
       hover:bg-primary hover:text-primary-foreground 
       transition-transform duration-300 ease-in-out"
-  >
-    <Youtube className="w-4 h-4 transform hover:rotate-12" />
-  </a>
+              >
+                <Youtube className="w-4 h-4 transform hover:rotate-12" />
+              </a>
 
-  <a
-    href="https://t.me/NovaExamService"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="w-9 h-9 rounded-lg bg-indigo-foreground/10 flex items-center justify-center 
+              <a
+                href="https://t.me/NovaExamService"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-lg bg-indigo-foreground/10 flex items-center justify-center 
       hover:bg-primary hover:text-primary-foreground 
       transition-transform duration-300 ease-in-out"
-  >
-    <MessageCircle className="w-4 h-4 transform hover:rotate-12" />
-  </a>
-
-  <a
-    href="mailto:astronomer291@gmail.com"
-    className="w-9 h-9 rounded-lg bg-indigo-foreground/10 flex items-center justify-center 
-      hover:bg-primary hover:text-primary-foreground 
-      transition-transform duration-300 ease-in-out"
-  >
-    <Mail className="w-4 h-4 transform hover:rotate-12" />
-  </a>
-</div>
-
+              >
+                <MessageCircle className="w-4 h-4 transform hover:rotate-12" />
+              </a>
+              <a
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=astronomer291@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-lg bg-indigo-foreground/10 flex items-center justify-center 
+    hover:bg-primary hover:text-primary-foreground 
+    transition-transform duration-300 ease-in-out"
+              >
+                <Mail className="w-4 h-4 transform hover:rotate-12" />
+              </a>
+            </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-indigo-foreground/20 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-indigo-foreground/60">
             © {new Date().getFullYear()} Nova Exams. All rights reserved.
