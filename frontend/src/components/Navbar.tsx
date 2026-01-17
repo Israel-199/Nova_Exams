@@ -89,8 +89,6 @@ export function Navbar({
             </span>
           </Link>
         </div>
-
-        {/* Desktop Nav */}
         <div className="hidden lg:flex items-center gap-8">
           {navItems.map((item) => (
             <Link
@@ -106,8 +104,6 @@ export function Navbar({
             </Link>
           ))}
         </div>
-
-        {/* Right Actions */}
         <div className="flex items-center gap-4">
           <button
             onClick={handleLoginClick}
@@ -132,8 +128,6 @@ export function Navbar({
           </button>
         </div>
       </div>
-
-      {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div
           className={`lg:hidden absolute left-0 right-0 top-full ${bgColor} backdrop-blur-md border-t border-secondary-foreground/10 p-4 animate-fade-in space-y-3`}
