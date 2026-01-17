@@ -84,7 +84,7 @@ export function Footer() {
                       {exam}
                     </span>
                   </li>
-                )
+                ),
               )}
             </ul>
           </div>
