@@ -66,7 +66,6 @@ export const ConsultationBooking = () => {
           </p>
         </div>
 
-        {/* Consultation Types */}
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-12">
           {consultationTypes.map((type) => (
             <Card
@@ -111,8 +110,6 @@ export const ConsultationBooking = () => {
             </Card>
           ))}
         </div>
-
-        {/* Calendly Embed Section */}
         <Card className="max-w-4xl mx-auto">
           <CardHeader>
             <CardTitle className="font-display flex items-center gap-2">
@@ -150,8 +147,6 @@ export const ConsultationBooking = () => {
                 Powered by Calendly • Google Meet links included
               </p>
             </div>
-
-            {/* Features */}
             <div className="grid md:grid-cols-3 gap-6 mt-8">
               <div className="text-center">
                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
