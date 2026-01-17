@@ -101,7 +101,6 @@ export function ChatBot() {
 
   return (
     <>
-      {/* Chat Button */}
       <button
         onClick={() => setIsOpen(true)}
         className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-secondary text-secondary-foreground flex items-center justify-center shadow-lg hover:scale-110 transition-transform ${
@@ -111,8 +110,6 @@ export function ChatBot() {
       >
         <MessageCircle className="w-6 h-6" />
       </button>
-
-      {/* Chat Window */}
       {isOpen && (
         <Card className="fixed bottom-6 right-6 z-50 w-80 md:w-96 shadow-2xl border-border animate-slide-up">
           <CardHeader className="bg-gradient-secondary text-secondary-foreground rounded-t-lg flex flex-row items-center justify-between py-4">
@@ -124,7 +121,6 @@ export function ChatBot() {
             </button>
           </CardHeader>
           <CardContent className="p-0">
-            {/* Messages */}
             <div className="h-64 overflow-y-auto p-4 space-y-3">
               {messages.map((msg, i) => (
                 <div
@@ -144,8 +140,6 @@ export function ChatBot() {
                   </div>
                 </div>
               ))}
-
-              {/* Loading indicator */}
               {isLoading && (
                 <div className="flex justify-start">
                   <div className="flex items-center gap-2 text-muted-foreground text-sm">
@@ -155,8 +149,6 @@ export function ChatBot() {
                 </div>
               )}
             </div>
-
-            {/* Input */}
             <div className="p-4 border-t border-border flex gap-2">
               <Input
                 value={input}
