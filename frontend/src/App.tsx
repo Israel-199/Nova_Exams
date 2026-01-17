@@ -32,9 +32,6 @@ function ProtectedRoute({ children }: { children: JSX.Element }) {
   return children;
 }
 
-
-
-
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <HelmetProvider>
