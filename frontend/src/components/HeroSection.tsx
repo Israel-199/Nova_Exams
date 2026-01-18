@@ -162,70 +162,64 @@ export function HeroSection() {
                 className="w-full h-full object-cover"
               />
             </motion.div>
-
-            <motion.div
-              className="absolute right-20 top-32 floating-card flex items-center gap-3"
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center overflow-hidden">
-                <img
-                  src={student2}
-                  alt="Meron"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div>
-                <p className="font-semibold text-foreground text-sm">
-                  Abel Tadesse
-                </p>
-                <p className="text-muted-foreground text-xs">Toefl student</p>
-                <div className="flex gap-0.5 mt-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-3 h-3 fill-primary text-primary"
-                    />
-                  ))}
+            <div className="absolute right-20 top-32 bg-white rounded-xl shadow-lg p-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center overflow-hidden">
+                  <img
+                    src={student2}
+                    alt="Abel Tadesse"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
-                <p className="text-muted-foreground text-xs mt-1">
-                  Scored 100 🎉
-                </p>
+                <div>
+                  <p className="font-semibold text-foreground text-sm">
+                    Abel Tadesse
+                  </p>
+                  <p className="text-muted-foreground text-xs">TOEFL student</p>
+                  <div className="flex gap-0.5 mt-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="w-3 h-3 fill-primary text-primary"
+                      />
+                    ))}
+                  </div>
+                  <p className="text-muted-foreground text-xs mt-1">
+                    Scored 100 🎉
+                  </p>
+                </div>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              className="absolute left-8 bottom-32 floating-card flex items-center gap-3"
-              animate={{ y: [0, -12, 0] }}
-              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <div className="w-10 h-10 rounded-full bg-teal/20 flex items-center justify-center">
-                <Award className="w-5 h-5 text-teal" />
+            <div className="absolute left-5 bottom-32 bg-white rounded-xl shadow-lg p-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-teal/20 flex items-center justify-center">
+                  <Award className="w-5 h-5 text-teal" />
+                </div>
+                <div>
+                  <p className="font-bold text-foreground text-lg">500+</p>
+                  <p className="text-muted-foreground text-xs">
+                    Exams Booked Successfully
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className="font-bold text-foreground text-lg">500+</p>
-                <p className="text-muted-foreground text-xs">
-                  Exams Booked Successfully
-                </p>
+            </div>
+
+            <div className="absolute right-10 bottom-10 bg-white rounded-xl shadow-lg p-3">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
+                  <Award className="w-4 h-4 text-secondary-foreground" />
+                </div>
+                <div>
+                  <p className="font-semibold text-secondary text-sm">
+                    Congrats!
+                  </p>
+                  <p className="text-muted-foreground text-xs">
+                    Admission Secured Abroad
+                  </p>
+                </div>
               </div>
-            </motion.div>
-            <motion.div
-              className="absolute right-12 bottom-12 floating-card flex items-center gap-2"
-              animate={{ y: [0, -15, 0] }}
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
-                <Award className="w-4 h-4 text-secondary-foreground" />
-              </div>
-              <div>
-                <p className="font-semibold text-secondary text-sm">
-                  Congrats!
-                </p>
-                <p className="text-muted-foreground text-xs">
-                  Admission Secured Abroad
-                </p>
-              </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>
