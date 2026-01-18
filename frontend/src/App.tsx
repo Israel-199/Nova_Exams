@@ -51,7 +51,7 @@ const App = () => (
             <Route path="/contact-us" element={<Contact />} />
             <Route path="/booking" element={<Booking />} />
             <Route path="/privacy" element={<PrivacyPage />} />
-
+            <Route path="/terms" element={<TermsPage />} />
             <Route
               path="/admin"
               element={
