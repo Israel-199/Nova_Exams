@@ -109,7 +109,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3 text-sm text-indigo-foreground/80">
                 <a
-                  href="https://www.google.com/maps/search/?api=1&query=Nur+Plaza,+Bethel+Area,+Addis+Ababa,+Ethiopia"
+                  href="https://www.google.com/maps/place/Nur+plaza+%2F+%E1%8A%91%E1%88%AD+%E1%8D%95%E1%88%8B%E1%8B%9B/@9.0036896,38.619998,13z/data=!4m10!1m2!2m1!1sNur+Plaza,+Bethel+Area,+Addis+Ababa,+Ethiopia!3m6!1s0x164b870017ae74a5:0x16040086b8193c6!8m2!3d9.0036896!4d38.6920958!15sCi1OdXIgUGxhemEsIEJldGhlbCBBcmVhLCBBZGRpcyBBYmFiYSwgRXRoaW9waWGSAQ9zaG9wcGluZ19jZW50ZXLgAQA!16s%2Fg%2F11xrpg707x?entry=ttu&g_ep=EgoyMDI2MDExMy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 hover:text-yellow-400 transition-colors"
@@ -141,7 +141,6 @@ export function Footer() {
               >
                 <MessageCircle className="w-4 h-4 transform hover:rotate-12" />
               </a>
-
               <a
                 href="https://mail.google.com/mail/?view=cm&fs=1&to=astronomer291@gmail.com"
                 target="_blank"
