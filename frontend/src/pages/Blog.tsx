@@ -5,7 +5,7 @@ import { Search, Calendar, Clock, User } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ChatBot } from "@/components/ChatBot";
-import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { WhatsAppButton } from "@/components/TelegramButton";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

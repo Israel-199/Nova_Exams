@@ -1,6 +1,6 @@
 import { Footer } from "@/components/Footer";
 import { ChatBot } from "@/components/ChatBot";
-import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { TelegramButton } from "@/components/TelegramButton";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Award,
@@ -325,7 +325,7 @@ const About = () => {
       </main>
       <Footer />
       <ChatBot />
-      <WhatsAppButton />
+      <TelegramButton />
     </div>
   );
 };
