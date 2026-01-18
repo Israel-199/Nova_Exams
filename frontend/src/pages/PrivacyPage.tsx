@@ -187,7 +187,7 @@ function PrivacyPage() {
                   href="https://www.google.com/maps/search/?api=1&query=Nur+Plaza,+7th+Floor,+Bethel+Area,+Addis+Ababa,+Ethiopia"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 hover:underline hover:text-yellow-400 transition-colors"
+                  className="flex items-center gap-2 hover:underline hover:text-[hsl(var(--secondary))] transition-colors"
                 >
                   <MapPin className="w-4 h-4 text-[hsl(var(--secondary))]" />
                   <span>Nur Plaza, 7th Floor, Bethel Area, Addis Ababa, Ethiopia</span>
@@ -196,7 +196,7 @@ function PrivacyPage() {
               <p className="flex items-center gap-2">
                 <a
                   href="mailto:astronomer291@gmail.com"
-                  className="flex items-center gap-2 hover:underline hover:text-yellow-400 transition-colors"
+                  className="flex items-center gap-2 hover:underline text-[hsl(var(--secondary))] transition-colors"
                 >
                   <Mail className="w-4 h-4 text-[hsl(var(--secondary))]" />
                   <span>astronomer291@gmail.com</span>
