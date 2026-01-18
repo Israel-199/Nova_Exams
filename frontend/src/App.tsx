@@ -15,8 +15,8 @@ import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
 import { useSession } from "@/hooks/useAuth"; 
-import { PrivacyPage } from "./pages/PrivacyPage";
-import { TermsPage } from "./pages/TermsPage";
+import  PrivacyPage  from "./pages/PrivacyPage";
+import  TermsPage from "./pages/TermsPage";
 
 const queryClient = new QueryClient();
 
