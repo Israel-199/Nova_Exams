@@ -1,4 +1,4 @@
-export function TermsPage() {
+function TermsPage() {
   return (
     <div className="container mx-auto px-6 py-12 text-sm leading-relaxed">
       <h1 className="text-2xl font-bold mb-6">Terms of Service</h1>
@@ -22,3 +22,5 @@ export function TermsPage() {
     </div>
   );
 }
+
+export default TermsPage;
