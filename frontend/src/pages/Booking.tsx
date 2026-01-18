@@ -16,7 +16,7 @@ import { useExams } from "../hooks/useExam";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ConsultationBooking } from "@/components/ConsultationBooking";
 import { ChatBot } from "@/components/ChatBot";
-import { WhatsAppButton } from "@/components/TelegramButton";
+import { TelegramButton } from "@/components/TelegramButton";
 
 const MENTORSHIP_PRICE = 2000;
 
@@ -368,7 +368,7 @@ const Booking = () => {
       </main>
       <Footer />
       <ChatBot />
-      <WhatsAppButton />
+      <TelegramButton />
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { CTASection } from "@/components/CTASection";
 import { Footer } from "@/components/Footer";
 import { ChatBot } from "@/components/ChatBot";
-import { WhatsAppButton } from "@/components/TelegramButton";
+import { TelegramButton } from "@/components/TelegramButton";
 import { ExamsSection } from "@/components/ExamsSection";
 
 const Index = () => {
@@ -19,7 +19,7 @@ const Index = () => {
       </main>
       <Footer />
       <ChatBot />
-      <WhatsAppButton />
+      <TelegramButton />
     </div>
   );
 };
