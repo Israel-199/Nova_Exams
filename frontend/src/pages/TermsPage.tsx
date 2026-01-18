@@ -34,7 +34,6 @@ function TermsPage() {
               you must not use the Service.
             </p>
           </section>
-
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
               2. Services Description
@@ -45,7 +44,6 @@ function TermsPage() {
               Nova Exams is not an official exam body unless expressly stated.
             </p>
           </section>
-
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
               3. Eligibility
