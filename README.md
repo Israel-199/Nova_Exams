@@ -26,7 +26,7 @@ The goal was to create a platform that feels professional, easy to use, and exte
 - **Framework:** React with Vite for fast development and builds.
 - **Styling:** TailwindCSS for utility‑first styling and Framer Motion for smooth animations.
 - **Icons:** Lucide React for consistent, professional icons.
-- **Architecture:** Modular components (`Navbar`, `Footer`, `ChatBot`, `WhatsAppButton`, `Resources`).
+- **Architecture:** Modular components (`Navbar`, `Footer`, `ChatBot`, `TelegramButton`, `Resources`).
 - **Features Implemented:**
   - Dynamic resource rendering (guides/videos fetched from backend).
   - Responsive layouts with grid and flex utilities.
