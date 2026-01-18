@@ -49,7 +49,7 @@ const Contact = () => {
       <Navbar bgColor="bg-gradient-secondary" />{" "}
       <main className="pt-20">
         {" "}
-        {/* Hero */}{" "}
+        {" "}
         <section className="py-24 bg-gradient-secondary">
           {" "}
           <div className="container mx-auto px-4 text-center">
@@ -77,14 +77,14 @@ const Contact = () => {
             </motion.p>{" "}
           </div>{" "}
         </section>{" "}
-        {/* Contact Form & Info */}{" "}
+         {" "}
         <section className="py-24">
           {" "}
           <div className="container mx-auto px-4">
             {" "}
             <div className="grid lg:grid-cols-2 gap-12">
               {" "}
-              {/* Contact Info */}{" "}
+                {" "}
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -92,7 +92,7 @@ const Contact = () => {
                 viewport={{ once: true }}
               >
                 {" "}
-                <h2 className="font-display text-2xl font-bold text-foreground mb-8 mt-20">
+                <h2 className="font-display text-2xl font-bold text-foreground mb-7 mt-15 ml-6 md:mt-20">
                   {" "}
                   Get in Touch{" "}
                 </h2>{" "}

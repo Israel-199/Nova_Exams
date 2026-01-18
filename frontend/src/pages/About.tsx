@@ -110,7 +110,7 @@ const About = () => {
                 transition={{ duration: 0.5 }}
                 viewport={{ once: true }}
               >
-                <span className="inline-block px-4 py-1 rounded-full bg-secondary/10 text-secondary font-medium text-sm mb-4">
+                <span className="inline-block px-4 py-1 rounded-full bg-secondary/10 text-secondary font-medium text-[19px] mb-4">
                   Our Mission
                 </span>
                 <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
@@ -206,7 +206,7 @@ const About = () => {
               {" "}
               <div className="text-center max-w-2xl mx-auto mb-20 relative">
                 {" "}
-                <span className="inline-block px-4 py-1 rounded-full bg-secondary/10 text-secondary font-medium text-sm mb-4">
+                <span className="inline-block px-4 py-1 rounded-full bg-secondary/10 text-secondary font-medium text-[17px] mb-4">
                   {" "}
                   Our Team{" "}
                 </span>{" "}

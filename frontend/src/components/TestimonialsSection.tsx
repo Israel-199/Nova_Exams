@@ -58,7 +58,7 @@ export function TestimonialsSection() {
       <div className="bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] p-8 md:p-12">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-20 relative">
-            <span className="inline-block px-4 py-1 rounded-full bg-secondary/10 text-secondary font-medium text-sm mb-4">
+            <span className="inline-block px-4 py-1 rounded-full bg-secondary/10 text-secondary font-medium text-[19px] mb-4">
               Testimonials
             </span>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-8">
