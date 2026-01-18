@@ -61,7 +61,6 @@ function PrivacyPage() {
                 </a>
               </p>
           </section>
-
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
               3. Categories of Personal Data We Collect
@@ -73,7 +72,6 @@ function PrivacyPage() {
               <li>Payment Data</li>
             </ul>
           </section>
-
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
               4. Legal Bases for Processing
@@ -83,7 +81,6 @@ function PrivacyPage() {
               consent, legitimate interests, and legal obligations.
             </p>
           </section>
-
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
               5. How We Use Personal Data
@@ -96,7 +93,6 @@ function PrivacyPage() {
               <li>Ensure security and prevent abuse</li>
             </ul>
           </section>
-
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
               6. Cookies and Tracking
@@ -106,7 +102,6 @@ function PrivacyPage() {
               cookies are deployed only after user consent.
             </p>
           </section>
-
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
               7. Data Sharing
