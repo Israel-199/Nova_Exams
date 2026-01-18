@@ -141,7 +141,7 @@ function TermsPage() {
                 <Mail className="w-4 h-4 text-[hsl(var(--secondary))]" />
                 <a
                   href="mailto:astronomer291@gmail.com"
-                  className="hover:underline hover:text-yellow-400 transition-colors"
+                  className="hover:underline hover:text-[hsl(var(--secondary))] transition-colors"
                 >
                   astronomer291@gmail.com
                 </a>
@@ -150,7 +150,7 @@ function TermsPage() {
                 <Phone className="w-4 h-4 text-[hsl(var(--secondary))]" />
                 <a
                   href="tel:+251949700013"
-                  className="hover:underline hover:text-yellow-400 transition-colors"
+                  className="hover:underline hover:text-[hsl(var(--secondary))] transition-colors"
                 >
                   +251 949700013
                 </a>
