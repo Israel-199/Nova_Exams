@@ -111,7 +111,6 @@ function PrivacyPage() {
               We do not sell personal data.
             </p>
           </section>
-
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
               8. International Transfers
@@ -120,7 +119,6 @@ function PrivacyPage() {
               Personal data may be processed outside your country of residence with appropriate safeguards.
             </p>
           </section>
-
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
               9. Data Retention
@@ -130,7 +128,6 @@ function PrivacyPage() {
               and resolve disputes.
             </p>
           </section>
-
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
               10. Data Subject Rights
@@ -143,7 +140,6 @@ function PrivacyPage() {
               <li>Lodge a complaint</li>
             </ul>
           </section>
-
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
               11. Data Security
@@ -153,7 +149,6 @@ function PrivacyPage() {
               but no online system can guarantee absolute security.
             </p>
           </section>
-
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
               12. Third-Party Websites
@@ -171,7 +166,6 @@ function PrivacyPage() {
               We may update this Privacy Policy at any time. Material changes will be posted here.
             </p>
           </section>
-
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
               14. Contact
