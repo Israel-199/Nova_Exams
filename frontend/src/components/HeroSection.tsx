@@ -179,7 +179,7 @@ export function HeroSection() {
                 <p className="font-semibold text-foreground text-sm">
                   Abel Tadesse
                 </p>
-                <p className="text-muted-foreground text-xs">IELTS Student</p>
+                <p className="text-muted-foreground text-xs">Toefl student</p>
                 <div className="flex gap-0.5 mt-1">
                   {[...Array(5)].map((_, i) => (
                     <Star
@@ -189,7 +189,7 @@ export function HeroSection() {
                   ))}
                 </div>
                 <p className="text-muted-foreground text-xs mt-1">
-                  Scored Band 8.0 🎉
+                  Scored 100 🎉
                 </p>
               </div>
             </motion.div>
@@ -203,13 +203,12 @@ export function HeroSection() {
                 <Award className="w-5 h-5 text-teal" />
               </div>
               <div>
-                <p className="font-bold text-foreground text-lg">5,000+</p>
+                <p className="font-bold text-foreground text-lg">500+</p>
                 <p className="text-muted-foreground text-xs">
                   Exams Booked Successfully
                 </p>
               </div>
             </motion.div>
-
             <motion.div
               className="absolute right-12 bottom-12 floating-card flex items-center gap-2"
               animate={{ y: [0, -15, 0] }}
