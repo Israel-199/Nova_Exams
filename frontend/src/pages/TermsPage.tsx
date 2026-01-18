@@ -55,7 +55,6 @@ function TermsPage() {
               Minors may use the Service only with parental consent.
             </p>
           </section>
-
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
               4. User Obligations
@@ -67,7 +66,6 @@ function TermsPage() {
               <li>No unlawful use</li>
             </ul>
           </section>
-
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
               5. Fees, Payments, and Refunds
@@ -78,7 +76,6 @@ function TermsPage() {
               results.
             </p>
           </section>
-
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
               6. Intellectual Property Rights
@@ -88,7 +85,6 @@ function TermsPage() {
               Unauthorized use is prohibited.
             </p>
           </section>
-
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
               7. Disclaimers
@@ -98,7 +94,6 @@ function TermsPage() {
               warrant uninterrupted access or specific outcomes.
             </p>
           </section>
-
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
               8. Limitation of Liability
@@ -108,7 +103,6 @@ function TermsPage() {
               or technical failures beyond reasonable control.
             </p>
           </section>
-
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
               9. Termination
@@ -117,7 +111,6 @@ function TermsPage() {
               We may suspend or terminate access for violations of these Terms.
             </p>
           </section>
-
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
               10. Governing Law and Jurisdiction
@@ -127,7 +120,6 @@ function TermsPage() {
               mandatory consumer protection rights.
             </p>
           </section>
-
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
               11. Amendments
@@ -152,7 +144,6 @@ function TermsPage() {
                 </div>
                 <p className="font-display text-sm text-black">Nova Exams</p>
               </div>
-
               <p className="flex items-center gap-1">
                 <Mail className="w-4 h-4 text-[hsl(var(--secondary))]" />
                 <a
