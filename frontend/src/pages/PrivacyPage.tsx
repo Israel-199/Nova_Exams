@@ -13,7 +13,6 @@ function PrivacyPage() {
           <span className="font-medium">Back</span>
         </Link>
       </div>
-
       <div className="max-w-3xl mx-auto">
         <h1 className="text-4xl font-bold mb-4 text-[hsl(var(--secondary))]">
           Privacy Policy
@@ -157,7 +156,6 @@ function PrivacyPage() {
               Our website may link to third-party sites. We are not responsible for their privacy practices.
             </p>
           </section>
-
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
               13. Policy Updates
