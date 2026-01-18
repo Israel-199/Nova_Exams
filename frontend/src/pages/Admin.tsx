@@ -6,13 +6,13 @@ import ExamsSection from "../components/admin/ExamSection";
 import TestimonialsSection from "../components/admin/TestimonialSection";
 import BlogPostsSection from "../components/admin/BlogPostsSection";
 import ResourcesSection from "../components/admin/ResourceSection";
-import TeamSection from "../components/admin/TeamSection"; // ✅ new import
+import TeamSection from "../components/admin/TeamSection";
 
 import { useExams } from "../hooks/useExam";
 import { useTestimonials } from "@/hooks/useTestimonial";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
 import { useResources } from "@/hooks/useResources";
-import { useTeamMembers } from "@/hooks/useTeam"; // ✅ new hook
+import { useTeamMembers } from "@/hooks/useTeam";
 
 import { useLogout, useSession, useUpdateProfile } from "../hooks/useAuth";
 import { useState, useEffect } from "react";
@@ -94,7 +94,6 @@ const Admin = () => {
 
   return (
     <div className="min-h-screen bg-background relative">
-      {/* Logout button */}
       <div className="absolute top-4 right-4 z-50">
         <button
           onClick={handleLogoutClick}
@@ -108,10 +107,8 @@ const Admin = () => {
           Logout
         </button>
       </div>
-
       <main>
         <div className="container mx-auto px-4 py-12 relative">
-          {/* Back link */}
           <div className="absolute top-4 left-4">
             <Link
               to="/"
@@ -122,8 +119,7 @@ const Admin = () => {
             </Link>
           </div>
 
-          {/* Header */}
-          <div className="mb-8 mt-5">
+          <div className="mb-8 mt-7">
             <h1 className="text-4xl font-display font-bold text-foreground mb-2">
               Admin Dashboard
             </h1>
@@ -140,8 +136,6 @@ const Admin = () => {
               </p>
             )}
           </div>
-
-          {/* Stats Cards */}
           <AdminStats
             examsCount={exams.length}
             testimonialsCount={testimonials.length}
@@ -150,7 +144,6 @@ const Admin = () => {
             teamCount={team.length}
           />
 
-          {/* Tabs */}
           <Tabs defaultValue="exams" className="space-y-6">
             <TabsList className="bg-muted/50 p-1">
               <TabsTrigger value="exams">Exam Prices</TabsTrigger>
@@ -189,8 +182,6 @@ const Admin = () => {
             </TabsContent>
           </Tabs>
         </div>
-
-        {/* Profile Update Section */}
         <div className="mb-10 p-6 border rounded-lg bg-card shadow-sm">
           <h2 className="text-xl font-semibold mb-4">Update Profile</h2>
           <div className="space-y-4">
@@ -209,7 +200,6 @@ const Admin = () => {
                 setProfileForm({ ...profileForm, email: e.target.value })
               }
             />
-            {/* Old Password */}
             <div className="relative">
               <Input
                 placeholder="Old Password"
@@ -234,8 +224,6 @@ const Admin = () => {
                 )}
               </button>
             </div>
-
-            {/* New Password */}
             <div className="relative">
               <Input
                 placeholder="New Password"
