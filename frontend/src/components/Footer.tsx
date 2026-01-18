@@ -12,11 +12,8 @@ import navLogo from "@/assets/navlogo.png";
 export function Footer() {
   return (
     <footer className="relative bg-indigo text-indigo-foreground overflow-hidden">
-      {/* Content wrapper */}
       <div className="relative z-10 mx-auto max-w-7xl py-16 px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          {/* Brand */}
-
           <div className="space-y-4">
             <Link to="/" className="flex items-center gap-2">
               <div className="w-12 h-12 rounded-full bg-purple-950 flex items-center justify-center">
@@ -34,7 +31,6 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h4 className="font-display font-semibold text-lg mb-4 text-primary">
               Quick Links
@@ -71,7 +67,6 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Exams Offered */}
           <div>
             <h4 className="font-display font-semibold text-lg mb-4 text-primary">
               Exams Offered
@@ -88,8 +83,6 @@ export function Footer() {
               )}
             </ul>
           </div>
-
-          {/* Contact Info */}
           <div>
             <h4 className="font-display font-semibold text-lg mb-4 text-primary">
               Contact Us
@@ -104,8 +97,15 @@ export function Footer() {
                 <span>+251 949700013</span>
               </li>
               <li className="flex items-center gap-3 text-sm text-indigo-foreground/80">
-                <MapPin className="w-4 h-4 text-primary" />
-                <span>Addis Ababa, Ethiopia</span>
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Nur+Plaza,+Bethel+Area,+Addis+Ababa,+Ethiopia"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 hover:text-yellow-400 transition-colors"
+                >
+                  <MapPin className="w-4 h-4 text-primary" />
+                  <span>Nur Plaza, Bethel Area, Addis Ababa</span>
+                </a>
               </li>
             </ul>
             <div className="flex items-center gap-4 mt-6">
@@ -114,8 +114,8 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-lg bg-indigo-foreground/10 flex items-center justify-center 
-      hover:bg-primary hover:text-primary-foreground 
-      transition-transform duration-300 ease-in-out"
+        hover:bg-primary hover:text-primary-foreground 
+        transition-transform duration-300 ease-in-out"
               >
                 <Youtube className="w-4 h-4 transform hover:rotate-12" />
               </a>
@@ -125,18 +125,19 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-lg bg-indigo-foreground/10 flex items-center justify-center 
-      hover:bg-primary hover:text-primary-foreground 
-      transition-transform duration-300 ease-in-out"
+        hover:bg-primary hover:text-primary-foreground 
+        transition-transform duration-300 ease-in-out"
               >
                 <MessageCircle className="w-4 h-4 transform hover:rotate-12" />
               </a>
+
               <a
                 href="https://mail.google.com/mail/?view=cm&fs=1&to=astronomer291@gmail.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-lg bg-indigo-foreground/10 flex items-center justify-center 
-    hover:bg-primary hover:text-primary-foreground 
-    transition-transform duration-300 ease-in-out"
+        hover:bg-primary hover:text-primary-foreground 
+        transition-transform duration-300 ease-in-out"
               >
                 <Mail className="w-4 h-4 transform hover:rotate-12" />
               </a>
