@@ -89,12 +89,23 @@ export function Footer() {
             </h4>
             <ul className="space-y-3">
               <li className="flex items-center gap-3 text-sm text-indigo-foreground/80">
-                <Mail className="w-4 h-4 text-primary" />
-                <span>astronomer291@gmail.com</span>
+                <a
+                  href="mailto:astronomer291@gmail.com"
+                  className="flex items-center gap-2 hover:text-yellow-400 transition-colors"
+                >
+                  {" "}
+                  <Mail className="w-4 h-4 text-primary" />{" "}
+                  <span>astronomer291@gmail.com</span>{" "}
+                </a>
               </li>
               <li className="flex items-center gap-3 text-sm text-indigo-foreground/80">
-                <Phone className="w-4 h-4 text-primary" />
-                <span>+251 949700013</span>
+                <a
+                  href="tel:+251949700013"
+                  className="flex items-center gap-2 hover:text-yellow-400 transition-colors"
+                >
+                  <Phone className="w-4 h-4 text-primary" />
+                  <span>+251 949700013</span>
+                </a>
               </li>
               <li className="flex items-center gap-3 text-sm text-indigo-foreground/80">
                 <a
