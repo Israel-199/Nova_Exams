@@ -1,101 +1,139 @@
+
+
 function PrivacyPage() {
   return (
-    <div className="container mx-auto px-6 py-12 text-sm leading-relaxed">
-      <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
-      <p className="text-muted-foreground mb-4">Last updated: January 18, 2026</p>
+    <div className="min-h-screen py-16 px-6">
+      <div className="max-w-3xl mx-auto">
+        <h1 className="text-4xl font-bold mb-4 text-[hsl(var(--secondary))]">
+          Privacy Policy
+        </h1>
+        <p className="text-sm text-[hsl(var(--muted-foreground))] mb-8">
+          Last updated: January 18, 2026
+        </p>
 
-      <h2 className="font-semibold mt-6 mb-2">1. Introduction</h2>
-      <p>
-        Nova Exams (“we,” “us,” or “our”) operates this website and related services
-        (collectively, the “Service”). This Privacy Policy describes how we collect,
-        use, store, disclose, and protect personal data in compliance with applicable
-        data protection laws, including the EU General Data Protection Regulation (GDPR).
-      </p>
+        <div className="space-y-8 text-sm leading-relaxed">
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">1. Introduction</h2>
+            <p>
+              Nova Exams (“we,” “us,” or “our”) operates this website and related services
+              (collectively, the “Service”). This Privacy Policy describes how we collect,
+              use, store, disclose, and protect personal data in compliance with applicable
+              data protection laws, including the EU General Data Protection Regulation (GDPR).
+            </p>
+          </section>
 
-      <h2 className="font-semibold mt-6 mb-2">2. Data Controller</h2>
-      <p>
-        Nova Exams<br />
-        Nur Plaza, 7th Floor<br />
-        Bethel Area, Addis Ababa, Ethiopia<br />
-        Email: astronomer291@gmail.com
-      </p>
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">2. Data Controller</h2>
+            <p>
+              Nova Exams<br />
+              Nur Plaza, 7th Floor<br />
+              Bethel Area, Addis Ababa, Ethiopia<br />
+              Email: astronomer291@gmail.com
+            </p>
+          </section>
 
-      <h2 className="font-semibold mt-6 mb-2">3. Categories of Personal Data We Collect</h2>
-      <ul className="list-disc pl-6">
-        <li>Identity and Contact Data (name, email, phone)</li>
-        <li>Academic and Service Data (exam preferences, mock test activity, booking history)</li>
-        <li>Technical and Usage Data (IP address, browser type, device identifiers, pages visited)</li>
-        <li>Payment Data (processed only by third-party providers)</li>
-      </ul>
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">3. Categories of Personal Data We Collect</h2>
+            <ul className="list-disc pl-6 space-y-1">
+              <li>Identity and Contact Data</li>
+              <li>Academic and Service Data</li>
+              <li>Technical and Usage Data</li>
+              <li>Payment Data</li>
+            </ul>
+          </section>
 
-      <h2 className="font-semibold mt-6 mb-2">4. Legal Bases for Processing</h2>
-      <p>
-        We process personal data under lawful bases including contractual necessity,
-        consent, legitimate interests, and legal obligations.
-      </p>
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">4. Legal Bases for Processing</h2>
+            <p>
+              We process personal data under lawful bases including contractual necessity,
+              consent, legitimate interests, and legal obligations.
+            </p>
+          </section>
 
-      <h2 className="font-semibold mt-6 mb-2">5. How We Use Personal Data</h2>
-      <ul className="list-disc pl-6">
-        <li>Deliver and manage exam services</li>
-        <li>Process bookings and accounts</li>
-        <li>Communicate service-related information</li>
-        <li>Improve platform functionality</li>
-        <li>Ensure security and prevent abuse</li>
-      </ul>
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">5. How We Use Personal Data</h2>
+            <ul className="list-disc pl-6 space-y-1">
+              <li>Deliver and manage exam services</li>
+              <li>Process bookings and accounts</li>
+              <li>Communicate service-related information</li>
+              <li>Improve platform functionality</li>
+              <li>Ensure security and prevent abuse</li>
+            </ul>
+          </section>
 
-      <h2 className="font-semibold mt-6 mb-2">6. Cookies and Tracking</h2>
-      <p>
-        We use cookies for essential functionality and analytics. Where required by law,
-        cookies are deployed only after user consent.
-      </p>
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">6. Cookies and Tracking</h2>
+            <p>
+              We use cookies for essential functionality and analytics. Where required by law,
+              cookies are deployed only after user consent.
+            </p>
+          </section>
 
-      <h2 className="font-semibold mt-6 mb-2">7. Data Sharing</h2>
-      <p>
-        We may share data with hosting providers, analytics services, and payment processors.
-        We do not sell personal data.
-      </p>
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">7. Data Sharing</h2>
+            <p>
+              We may share data with hosting providers, analytics services, and payment processors.
+              We do not sell personal data.
+            </p>
+          </section>
 
-      <h2 className="font-semibold mt-6 mb-2">8. International Transfers</h2>
-      <p>
-        Personal data may be processed outside your country of residence with appropriate safeguards.
-      </p>
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">8. International Transfers</h2>
+            <p>
+              Personal data may be processed outside your country of residence with appropriate safeguards.
+            </p>
+          </section>
 
-      <h2 className="font-semibold mt-6 mb-2">9. Data Retention</h2>
-      <p>
-        Data is retained only as long as necessary to fulfill obligations, meet legal requirements,
-        and resolve disputes.
-      </p>
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">9. Data Retention</h2>
+            <p>
+              Data is retained only as long as necessary to fulfill obligations, meet legal requirements,
+              and resolve disputes.
+            </p>
+          </section>
 
-      <h2 className="font-semibold mt-6 mb-2">10. Data Subject Rights</h2>
-      <ul className="list-disc pl-6">
-        <li>Access, rectify, or erase data</li>
-        <li>Restrict or object to processing</li>
-        <li>Data portability</li>
-        <li>Withdraw consent</li>
-        <li>Lodge a complaint</li>
-      </ul>
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">10. Data Subject Rights</h2>
+            <ul className="list-disc pl-6 space-y-1">
+              <li>Access, rectify, or erase data</li>
+              <li>Restrict or object to processing</li>
+              <li>Data portability</li>
+              <li>Withdraw consent</li>
+              <li>Lodge a complaint</li>
+            </ul>
+          </section>
 
-      <h2 className="font-semibold mt-6 mb-2">11. Data Security</h2>
-      <p>
-        We implement technical and organizational measures to protect personal data,
-        but no online system can guarantee absolute security.
-      </p>
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">11. Data Security</h2>
+            <p>
+              We implement technical and organizational measures to protect personal data,
+              but no online system can guarantee absolute security.
+            </p>
+          </section>
 
-      <h2 className="font-semibold mt-6 mb-2">12. Third-Party Websites</h2>
-      <p>
-        Our website may link to third-party sites. We are not responsible for their privacy practices.
-      </p>
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">12. Third-Party Websites</h2>
+            <p>
+              Our website may link to third-party sites. We are not responsible for their privacy practices.
+            </p>
+          </section>
 
-      <h2 className="font-semibold mt-6 mb-2">13. Policy Updates</h2>
-      <p>
-        We may update this Privacy Policy at any time. Material changes will be posted here.
-      </p>
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">13. Policy Updates</h2>
+            <p>
+              We may update this Privacy Policy at any time. Material changes will be posted here.
+            </p>
+          </section>
 
-      <h2 className="font-semibold mt-6 mb-2">14. Contact</h2>
-      <p>
-        Nova Exams<br />
-        Email: astronomer291@gmail.com
-      </p>
+          <section>
+            <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">14. Contact</h2>
+            <p>
+              Nova Exams<br />
+              Email: astronomer291@gmail.com
+            </p>
+          </section>
+        </div>
+      </div>
     </div>
   );
 }
