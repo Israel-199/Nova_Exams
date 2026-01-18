@@ -1,5 +1,6 @@
 import { ArrowLeft, Mail, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
+import navLogo from "@/assets/navlogo.png";
 
 function TermsPage() {
   return (
@@ -28,8 +29,9 @@ function TermsPage() {
               1. Agreement to Terms
             </h2>
             <p>
-              By accessing or using this website and its services, you agree to be legally bound
-              by these Terms of Service. If you do not agree, you must not use the Service.
+              By accessing or using this website and its services, you agree to
+              be legally bound by these Terms of Service. If you do not agree,
+              you must not use the Service.
             </p>
           </section>
 
@@ -38,9 +40,9 @@ function TermsPage() {
               2. Services Description
             </h2>
             <p>
-              Nova Exams provides English proficiency exam preparation and mentorship services,
-              mock testing tools, and exam facilitation. Nova Exams is not an official exam body
-              unless expressly stated.
+              Nova Exams provides English proficiency exam preparation and
+              mentorship services, mock testing tools, and exam facilitation.
+              Nova Exams is not an official exam body unless expressly stated.
             </p>
           </section>
 
@@ -49,8 +51,8 @@ function TermsPage() {
               3. Eligibility
             </h2>
             <p>
-              You must be legally capable of entering into binding agreements. Minors may use the
-              Service only with parental consent.
+              You must be legally capable of entering into binding agreements.
+              Minors may use the Service only with parental consent.
             </p>
           </section>
 
@@ -71,8 +73,9 @@ function TermsPage() {
               5. Fees, Payments, and Refunds
             </h2>
             <p>
-              Fees are disclosed prior to purchase. Payments are final unless explicitly stated otherwise.
-              Nova Exams does not guarantee exam results.
+              Fees are disclosed prior to purchase. Payments are final unless
+              explicitly stated otherwise. Nova Exams does not guarantee exam
+              results.
             </p>
           </section>
 
@@ -81,7 +84,8 @@ function TermsPage() {
               6. Intellectual Property Rights
             </h2>
             <p>
-              All content and trademarks are owned by or licensed to Nova Exams. Unauthorized use is prohibited.
+              All content and trademarks are owned by or licensed to Nova Exams.
+              Unauthorized use is prohibited.
             </p>
           </section>
 
@@ -90,8 +94,8 @@ function TermsPage() {
               7. Disclaimers
             </h2>
             <p>
-              The Service is provided “as is” and “as available.” We do not warrant uninterrupted access
-              or specific outcomes.
+              The Service is provided “as is” and “as available.” We do not
+              warrant uninterrupted access or specific outcomes.
             </p>
           </section>
 
@@ -100,8 +104,8 @@ function TermsPage() {
               8. Limitation of Liability
             </h2>
             <p>
-              Nova Exams shall not be liable for indirect losses, exam outcomes, or technical failures
-              beyond reasonable control.
+              Nova Exams shall not be liable for indirect losses, exam outcomes,
+              or technical failures beyond reasonable control.
             </p>
           </section>
 
@@ -119,7 +123,8 @@ function TermsPage() {
               10. Governing Law and Jurisdiction
             </h2>
             <p>
-              These Terms are governed by the laws of Ethiopia, subject to mandatory consumer protection rights.
+              These Terms are governed by the laws of Ethiopia, subject to
+              mandatory consumer protection rights.
             </p>
           </section>
 
@@ -128,7 +133,8 @@ function TermsPage() {
               11. Amendments
             </h2>
             <p>
-              We may amend these Terms at any time. Continued use constitutes acceptance of the revised Terms.
+              We may amend these Terms at any time. Continued use constitutes
+              acceptance of the revised Terms.
             </p>
           </section>
           <section>
@@ -136,8 +142,18 @@ function TermsPage() {
               12. Contact
             </h2>
             <div className="space-y-2">
-              <p>Nova Exams</p>
-              <p className="flex items-center gap-2">
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 rounded-full bg-purple-950 flex items-center justify-center">
+                  <img
+                    src={navLogo}
+                    alt="Nova Exams Logo"
+                    className="w-3 h-3"
+                  />
+                </div>
+                <p className="font-display text-sm text-black">Nova Exams</p>
+              </div>
+
+              <p className="flex items-center gap-1">
                 <Mail className="w-4 h-4 text-[hsl(var(--secondary))]" />
                 <a
                   href="mailto:astronomer291@gmail.com"
