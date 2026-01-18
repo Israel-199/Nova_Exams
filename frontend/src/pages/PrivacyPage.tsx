@@ -1,8 +1,8 @@
-
+import { Mail, MapPin } from "lucide-react";
 
 function PrivacyPage() {
   return (
-    <div className="min-h-screen py-16 px-6">
+    <div className="bg-[hsl(var(--hero-bg))] text-[hsl(var(--card-foreground))] min-h-screen py-16 px-6">
       <div className="max-w-3xl mx-auto">
         <h1 className="text-4xl font-bold mb-4 text-[hsl(var(--secondary))]">
           Privacy Policy
@@ -27,8 +27,11 @@ function PrivacyPage() {
             <p>
               Nova Exams<br />
               Nur Plaza, 7th Floor<br />
-              Bethel Area, Addis Ababa, Ethiopia<br />
-              Email: astronomer291@gmail.com
+              Bethel Area, Addis Ababa, Ethiopia
+            </p>
+            <p className="flex items-center gap-2 mt-2">
+              <Mail className="w-4 h-4 text-[hsl(var(--secondary))]" />
+              astronomer291@gmail.com
             </p>
           </section>
 
@@ -127,10 +130,16 @@ function PrivacyPage() {
 
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">14. Contact</h2>
-            <p>
-              Nova Exams<br />
-              Email: astronomer291@gmail.com
-            </p>
+            <div className="space-y-2">
+              <p className="flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-[hsl(var(--secondary))]" />
+                Nur Plaza, 7th Floor, Bethel Area, Addis Ababa, Ethiopia
+              </p>
+              <p className="flex items-center gap-2">
+                <Mail className="w-4 h-4 text-[hsl(var(--secondary))]" />
+                astronomer291@gmail.com
+              </p>
+            </div>
           </section>
         </div>
       </div>
