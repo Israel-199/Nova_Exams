@@ -15,6 +15,8 @@ import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
 import { useSession } from "@/hooks/useAuth"; 
+import { PrivacyPage } from "./pages/PrivacyPage";
+import { TermsPage } from "./pages/TermsPage";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +50,8 @@ const App = () => (
             <Route path="/contact" element={<Contact />} />
             <Route path="/contact-us" element={<Contact />} />
             <Route path="/booking" element={<Booking />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+
             <Route
               path="/admin"
               element={
