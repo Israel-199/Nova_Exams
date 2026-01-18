@@ -42,24 +42,24 @@ function PrivacyPage() {
             <p>Nova Exams</p>
             <p className="flex items-center gap-2 mt-2">
               <a
-                href="https://www.google.com/maps/search/?api=1&query=Nur+Plaza,+7th+Floor,+Bethel+Area,+Addis+Ababa,+Ethiopia"
+                href="https://www.google.com/maps/place/Nur+plaza+%2F+%E1%8A%91%E1%88%AD+%E1%8D%95%E1%88%8B%E1%8B%9B/@9.0036896,38.619998,13z/data=!4m10!1m2!2m1!1sNur+Plaza,+Bethel+Area,+Addis+Ababa,+Ethiopia!3m6!1s0x164b870017ae74a5:0x16040086b8193c6!8m2!3d9.0036896!4d38.6920958!15sCi1OdXIgUGxhemEsIEJldGhlbCBBcmVhLCBBZGRpcyBBYmFiYSwgRXRoaW9waWGSAQ9zaG9wcGluZ19jZW50ZXLgAQA!16s%2Fg%2F11xrpg707x?entry=ttu&g_ep=EgoyMDI2MDExMy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 hover:underline hover:text-yellow-400 transition-colors"
+                className="flex items-center gap-2 hover:underline hover:text-[hsl(var(--secondary))] transition-colors"
               >
                 <MapPin className="w-4 h-4 text-[hsl(var(--secondary))]" />
                 <span>Nur Plaza, 7th Floor, Bethel Area, Addis Ababa, Ethiopia</span>
               </a>
             </p>
-            <p className="flex items-center gap-2 mt-2">
-              <a
-                href="mailto:astronomer291@gmail.com"
-                className="flex items-center gap-2 hover:underline hover:text-yellow-400 transition-colors"
-              >
+            <p className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-[hsl(var(--secondary))]" />
-                <span>astronomer291@gmail.com</span>
-              </a>
-            </p>
+                <a
+                  href="mailto:astronomer291@gmail.com"
+                  className="hover:underline hover:text-[hsl(var(--secondary))] transition-colors"
+                >
+                  astronomer291@gmail.com
+                </a>
+              </p>
           </section>
 
           <section>
@@ -184,7 +184,7 @@ function PrivacyPage() {
             <div className="space-y-2">
               <p className="flex items-center gap-2">
                 <a
-                  href="https://www.google.com/maps/search/?api=1&query=Nur+Plaza,+7th+Floor,+Bethel+Area,+Addis+Ababa,+Ethiopia"
+                  href="https://www.google.com/maps/place/Nur+plaza+%2F+%E1%8A%91%E1%88%AD+%E1%8D%95%E1%88%8B%E1%8B%9B/@9.0036896,38.619998,13z/data=!4m10!1m2!2m1!1sNur+Plaza,+Bethel+Area,+Addis+Ababa,+Ethiopia!3m6!1s0x164b870017ae74a5:0x16040086b8193c6!8m2!3d9.0036896!4d38.6920958!15sCi1OdXIgUGxhemEsIEJldGhlbCBBcmVhLCBBZGRpcyBBYmFiYSwgRXRoaW9waWGSAQ9zaG9wcGluZ19jZW50ZXLgAQA!16s%2Fg%2F11xrpg707x?entry=ttu&g_ep=EgoyMDI2MDExMy4wIKXMDSoKLDEwMDc5MjA3M0gBUAM%3D"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 hover:underline hover:text-[hsl(var(--secondary))] transition-colors"
@@ -193,13 +193,13 @@ function PrivacyPage() {
                   <span>Nur Plaza, 7th Floor, Bethel Area, Addis Ababa, Ethiopia</span>
                 </a>
               </p>
-              <p className="flex items-center gap-2">
+             <p className="flex items-center gap-2">
+                <Mail className="w-4 h-4 text-[hsl(var(--secondary))]" />
                 <a
                   href="mailto:astronomer291@gmail.com"
-                  className="flex items-center gap-2 hover:underline text-[hsl(var(--secondary))] transition-colors"
+                  className="hover:underline hover:text-[hsl(var(--secondary))] transition-colors"
                 >
-                  <Mail className="w-4 h-4 text-[hsl(var(--secondary))]" />
-                  <span>astronomer291@gmail.com</span>
+                  astronomer291@gmail.com
                 </a>
               </p>
             </div>
