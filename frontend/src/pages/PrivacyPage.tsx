@@ -2,7 +2,7 @@ import { Mail, MapPin } from "lucide-react";
 
 function PrivacyPage() {
   return (
-    <div className="bg-[hsl(var(--hero-bg))] text-[hsl(var(--card-foreground))] min-h-screen py-16 px-6">
+    <div className="min-h-screen py-16 px-6">
       <div className="max-w-3xl mx-auto">
         <h1 className="text-4xl font-bold mb-4 text-[hsl(var(--secondary))]">
           Privacy Policy
