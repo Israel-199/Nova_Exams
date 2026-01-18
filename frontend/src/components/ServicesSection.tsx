@@ -54,7 +54,7 @@ export function ServicesSection() {
           viewport={{ once: true }}
           className="text-center max-w-2xl mx-auto mb-16"
         >
-          <span className="inline-block px-4 py-1 rounded-full bg-secondary/10 text-secondary font-medium text-sm mb-4">
+          <span className="inline-block px-4 py-1 rounded-full bg-secondary/10 text-secondary font-medium text-[19px] mb-4">
             Our Services
           </span>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4">
