@@ -77,7 +77,6 @@ const About = () => {
     <div className="min-h-screen bg-background overflow-x-hidden">
       <Navbar bgColor="bg-gradient-secondary" />
       <main className="pt-20">
-        {/* Hero */}
         <section className="py-24 bg-gradient-secondary">
           <div className="container mx-auto px-4 text-center">
             <motion.h1
@@ -102,8 +101,6 @@ const About = () => {
             </motion.p>
           </div>
         </section>
-
-        {/* Mission */}
         <section className="py-24">
           <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -160,8 +157,6 @@ const About = () => {
             </div>
           </div>
         </section>
-
-        {/* Why Choose Us */}
         <section className="py-24 bg-muted">
           <div className="container mx-auto px-4">
             <motion.div
@@ -203,8 +198,6 @@ const About = () => {
             </div>
           </div>
         </section>
-
-        {/* Team */}
         <section className="py-24 bg-background min-h-screen flex items-center justify-center">
           {" "}
           <div className="bg-white rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] p-8 md:p-12 w-full">
@@ -224,14 +217,14 @@ const About = () => {
                   </span>{" "}
                 </h2>{" "}
               </div>{" "}
-              {/* Carousel */}{" "}
+  {" "}
               <div
                 className="relative max-w-6xl mx-auto items-center justify-center flex flex-col"
                 onMouseEnter={() => setIsPaused(true)}
                 onMouseLeave={() => setIsPaused(false)}
               >
                 {" "}
-                {/* Navigation Buttons */}{" "}
+               {" "}
                 <button
                   onClick={prev}
                   className="absolute left-0 md:-left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-card text-foreground flex items-center justify-center hover:bg-secondary hover:text-secondary-foreground transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 border border-border"
@@ -248,7 +241,7 @@ const About = () => {
                   {" "}
                   <ChevronRight className="w-5 h-5" />{" "}
                 </button>{" "}
-                {/* Cards */}{" "}
+              {" "}
                 <div className="flex items-center justify-center gap-4 md:gap-6 px-12 md:px-16">
                   {" "}
                   {visibleIndices.map((index, position) => {
