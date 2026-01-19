@@ -116,8 +116,6 @@ const Blog = () => {
               ))}
             </div>
           </motion.div>
-
-          {/* Posts */}
           {isLoading ? (
             <p className="text-center text-muted-foreground">
               Loading posts...
