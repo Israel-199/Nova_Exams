@@ -101,7 +101,7 @@ const BlogPostsSection = () => {
               <Plus className="h-4 w-4" /> Add Post
             </Button>
           </DialogTrigger>
-          <DialogContent className="bg-card">
+          <DialogContent className="bg-card max-h-[95vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
                 {editingBlog ? "Edit Blog Post" : "Add New Blog Post"}
