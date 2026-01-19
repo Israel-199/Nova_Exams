@@ -151,7 +151,7 @@ const Blog = () => {
                         </div>
 
                         <h3 className="text-xl font-bold">{post.title}</h3>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-muted-foreground whitespace-pre-line">
                           {post.excerpt}
                         </p>
 
