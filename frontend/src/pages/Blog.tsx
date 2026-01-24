@@ -34,19 +34,19 @@ const Blog = () => {
 
   const categories = ["All", ...new Set(posts.map((post) => post.category))];
 
- const filteredPosts = posts.filter((post) => {
-  const searchTerm = search.trim().toLowerCase();
+  const filteredPosts = posts.filter((post) => {
+    const searchTerm = search.trim().toLowerCase();
 
-  const matchesSearch =
-    post.title.toLowerCase().includes(searchTerm) ||
-    post.category.toLowerCase().includes(searchTerm) ||
-    post.excerpt?.toLowerCase().includes(searchTerm); 
+    const matchesSearch =
+      post.title.toLowerCase().includes(searchTerm) ||
+      post.category.toLowerCase().includes(searchTerm) ||
+      post.excerpt?.toLowerCase().includes(searchTerm);
 
-  const matchesCategory =
-    activeCategory === "All" || post.category === activeCategory;
+    const matchesCategory =
+      activeCategory === "All" || post.category === activeCategory;
 
-  return matchesSearch && matchesCategory;
-});
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <div className="min-h-screen bg-background">
