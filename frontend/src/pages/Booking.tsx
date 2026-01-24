@@ -177,10 +177,10 @@ const Booking = () => {
                               {exam.examType.toLowerCase().includes("other")
                                 ? "Contact for details"
                                 : exam.sum != null
-                                ? `${exam.sum.toLocaleString()} ETB`
-                                : exam.basePrice != null
-                                ? `${exam.basePrice.toLocaleString()} ETB`
-                                : ""}
+                                  ? `${exam.sum.toLocaleString()} ETB`
+                                  : exam.basePrice != null
+                                    ? `${exam.basePrice.toLocaleString()} ETB`
+                                    : ""}
                             </p>
                           </CardContent>
                         </Card>
@@ -294,8 +294,8 @@ const Booking = () => {
                             {selectedExamData?.basePrice != null
                               ? selectedExamData.basePrice.toLocaleString()
                               : selectedExamData?.sum != null
-                              ? selectedExamData.sum.toLocaleString()
-                              : "0"}
+                                ? selectedExamData.sum.toLocaleString()
+                                : "0"}
                           </span>
                         </div>
 
