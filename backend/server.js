@@ -7,9 +7,10 @@ const adminRoutes = require("./routes/admin.routes");
 const teamRoutes = require("./routes/team.routes");
 
 const allowedOrigins = [
-  "http://localhost:3000",
-  "https://nova-exams.vercel.app/"
+  process.env.FRONTEND_URL,      
+  "http://localhost:3000"
 ];
+
 
 const express = require("express");
 const cookieParser = require("cookie-parser");
