@@ -17,7 +17,6 @@ export function CTASection() {
                 <span className="inline-block animate-question ml-4">?</span>
               </span>
             </h2>
-
             <p className="text-secondary-foreground/90 text-lg mb-8">
               Book your exam today and take the first step towards achieving
               your educational goals. Our team is here to support you every step
