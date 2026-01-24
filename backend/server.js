@@ -37,7 +37,6 @@ app.use(cors({
 }));
 
 
-
 app.use("/api/exams", examRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/blogs", blogRoutes);
