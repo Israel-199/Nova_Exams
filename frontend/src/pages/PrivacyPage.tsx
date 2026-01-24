@@ -27,10 +27,11 @@ function PrivacyPage() {
               1. Introduction
             </h2>
             <p>
-              Nova Exams (“we,” “us,” or “our”) operates this website and related services
-              (collectively, the “Service”). This Privacy Policy describes how we collect,
-              use, store, disclose, and protect personal data in compliance with applicable
-              data protection laws, including the EU General Data Protection Regulation (GDPR).
+              Nova Exams (“we,” “us,” or “our”) operates this website and
+              related services (collectively, the “Service”). This Privacy
+              Policy describes how we collect, use, store, disclose, and protect
+              personal data in compliance with applicable data protection laws,
+              including the EU General Data Protection Regulation (GDPR).
             </p>
           </section>
 
@@ -47,18 +48,20 @@ function PrivacyPage() {
                 className="flex items-center gap-2 hover:underline hover:text-[hsl(var(--secondary))] transition-colors"
               >
                 <MapPin className="w-4 h-4 text-[hsl(var(--secondary))]" />
-                <span>Nur Plaza, 7th Floor, Bethel Area, Addis Ababa, Ethiopia</span>
+                <span>
+                  Nur Plaza, 7th Floor, Bethel Area, Addis Ababa, Ethiopia
+                </span>
               </a>
             </p>
             <p className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-[hsl(var(--secondary))]" />
-                <a
-                  href="mailto:astronomer291@gmail.com"
-                  className="hover:underline hover:text-[hsl(var(--secondary))] transition-colors"
-                >
-                  astronomer291@gmail.com
-                </a>
-              </p>
+              <Mail className="w-4 h-4 text-[hsl(var(--secondary))]" />
+              <a
+                href="mailto:astronomer291@gmail.com"
+                className="hover:underline hover:text-[hsl(var(--secondary))] transition-colors"
+              >
+                astronomer291@gmail.com
+              </a>
+            </p>
           </section>
           <section>
             <h2 className="text-xl font-semibold mb-2 text-[hsl(var(--secondary))]">
@@ -76,8 +79,8 @@ function PrivacyPage() {
               4. Legal Bases for Processing
             </h2>
             <p>
-              We process personal data under lawful bases including contractual necessity,
-              consent, legitimate interests, and legal obligations.
+              We process personal data under lawful bases including contractual
+              necessity, consent, legitimate interests, and legal obligations.
             </p>
           </section>
           <section>
@@ -97,8 +100,8 @@ function PrivacyPage() {
               6. Cookies and Tracking
             </h2>
             <p>
-              We use cookies for essential functionality and analytics. Where required by law,
-              cookies are deployed only after user consent.
+              We use cookies for essential functionality and analytics. Where
+              required by law, cookies are deployed only after user consent.
             </p>
           </section>
           <section>
@@ -106,8 +109,8 @@ function PrivacyPage() {
               7. Data Sharing
             </h2>
             <p>
-              We may share data with hosting providers, analytics services, and payment processors.
-              We do not sell personal data.
+              We may share data with hosting providers, analytics services, and
+              payment processors. We do not sell personal data.
             </p>
           </section>
           <section>
@@ -115,7 +118,8 @@ function PrivacyPage() {
               8. International Transfers
             </h2>
             <p>
-              Personal data may be processed outside your country of residence with appropriate safeguards.
+              Personal data may be processed outside your country of residence
+              with appropriate safeguards.
             </p>
           </section>
           <section>
@@ -123,8 +127,8 @@ function PrivacyPage() {
               9. Data Retention
             </h2>
             <p>
-              Data is retained only as long as necessary to fulfill obligations, meet legal requirements,
-              and resolve disputes.
+              Data is retained only as long as necessary to fulfill obligations,
+              meet legal requirements, and resolve disputes.
             </p>
           </section>
           <section>
@@ -144,8 +148,9 @@ function PrivacyPage() {
               11. Data Security
             </h2>
             <p>
-              We implement technical and organizational measures to protect personal data,
-              but no online system can guarantee absolute security.
+              We implement technical and organizational measures to protect
+              personal data, but no online system can guarantee absolute
+              security.
             </p>
           </section>
           <section>
@@ -153,7 +158,8 @@ function PrivacyPage() {
               12. Third-Party Websites
             </h2>
             <p>
-              Our website may link to third-party sites. We are not responsible for their privacy practices.
+              Our website may link to third-party sites. We are not responsible
+              for their privacy practices.
             </p>
           </section>
           <section>
@@ -161,7 +167,8 @@ function PrivacyPage() {
               13. Policy Updates
             </h2>
             <p>
-              We may update this Privacy Policy at any time. Material changes will be posted here.
+              We may update this Privacy Policy at any time. Material changes
+              will be posted here.
             </p>
           </section>
           <section>
@@ -177,10 +184,12 @@ function PrivacyPage() {
                   className="flex items-center gap-2 hover:underline hover:text-[hsl(var(--secondary))] transition-colors"
                 >
                   <MapPin className="w-4 h-4 text-[hsl(var(--secondary))]" />
-                  <span>Nur Plaza, 7th Floor, Bethel Area, Addis Ababa, Ethiopia</span>
+                  <span>
+                    Nur Plaza, 7th Floor, Bethel Area, Addis Ababa, Ethiopia
+                  </span>
                 </a>
               </p>
-             <p className="flex items-center gap-2">
+              <p className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-[hsl(var(--secondary))]" />
                 <a
                   href="mailto:astronomer291@gmail.com"
