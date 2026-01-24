@@ -49,7 +49,6 @@ const Contact = () => {
       <Navbar bgColor="bg-gradient-secondary" />{" "}
       <main className="pt-20">
         {" "}
-        {" "}
         <section className="py-24 bg-gradient-secondary">
           {" "}
           <div className="container mx-auto px-4 text-center">
@@ -77,14 +76,12 @@ const Contact = () => {
             </motion.p>{" "}
           </div>{" "}
         </section>{" "}
-         {" "}
         <section className="py-24">
           {" "}
           <div className="container mx-auto px-4">
             {" "}
             <div className="grid lg:grid-cols-2 gap-12">
               {" "}
-                {" "}
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
