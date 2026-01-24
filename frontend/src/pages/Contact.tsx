@@ -270,13 +270,11 @@ const Contact = () => {
                 </Card>{" "}
               </motion.div>{" "}
             </div>
-            {/* Our Services */}
             <div className="mt-24">
               <h3 className="font-display text-4xl font-bold text-center text-foreground mb-12">
                 Our <span className="text-gradient-secondary">Services</span>
               </h3>
               <div className="grid md:grid-cols-3 gap-8">
-                {/* Exam Room Service */}
                 <motion.div
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
