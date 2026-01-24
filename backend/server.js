@@ -26,7 +26,7 @@ app.use(cors({
       !origin ||
       allowedOrigins.includes(origin) ||
       /\.vercel\.app$/.test(origin) ||
-      /\.novaexams\.com$/.test(origin)   
+      /^https:\/\/(\w+\.)?novaexams\.com$/.test(origin) 
     ) {
       callback(null, true);
     } else {
@@ -35,6 +35,7 @@ app.use(cors({
   },
   credentials: true,
 }));
+
 
 
 app.use("/api/exams", examRoutes);
