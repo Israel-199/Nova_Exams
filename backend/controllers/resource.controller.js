@@ -6,7 +6,7 @@ exports.createResource = async (req, res) => {
   try {
     const { type, title, description, pdfUploadMode, videoType, sourceUrl } = req.body;
 
-    if (!type || !title || !description) {
+    if (!type || !title) {
       return res.status(400).json({
         success: false,
         message: "Missing required fields: type, title, description",
@@ -96,7 +96,6 @@ exports.updateResource = async (req, res) => {
       updateData.sourceType = "url";
     }
 
-    // Handle PDF upload
     if (type === "pdf" && req.files?.pdfFile?.[0]) {
       const file = req.files.pdfFile[0];
       console.log("PDF file received (update):", file);
@@ -111,7 +110,6 @@ exports.updateResource = async (req, res) => {
       updateData.sourceType = "upload";
     }
 
-    // Handle video upload
     if (type === "video") {
       if (videoType === "youtube" && sourceUrl) {
         updateData.sourceUrl = sourceUrl;
