@@ -48,7 +48,6 @@ const Blog = () => {
   return matchesSearch && matchesCategory;
 });
 
-
   return (
     <div className="min-h-screen bg-background">
       <Navbar bgColor="bg-gradient-secondary" />
