@@ -212,19 +212,16 @@ const About = () => {
                 </span>{" "}
                 <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-8">
                   {" "}
-                  Meet Our <span className="text-gradient-secondary">
-                    Team
-                  </span>{" "}
+                  Meet Our{" "}
+                  <span className="text-gradient-secondary">Team</span>{" "}
                 </h2>{" "}
               </div>{" "}
-  {" "}
               <div
                 className="relative max-w-6xl mx-auto items-center justify-center flex flex-col"
                 onMouseEnter={() => setIsPaused(true)}
                 onMouseLeave={() => setIsPaused(false)}
               >
                 {" "}
-               {" "}
                 <button
                   onClick={prev}
                   className="absolute left-0 md:-left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-card text-foreground flex items-center justify-center hover:bg-secondary hover:text-secondary-foreground transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-110 border border-border"
@@ -241,7 +238,6 @@ const About = () => {
                   {" "}
                   <ChevronRight className="w-5 h-5" />{" "}
                 </button>{" "}
-              {" "}
                 <div className="flex items-center justify-center gap-4 md:gap-6 px-12 md:px-16">
                   {" "}
                   {visibleIndices.map((index, position) => {
@@ -254,7 +250,7 @@ const About = () => {
                           "flex-shrink-0 bg-card border-border transition-all duration-500 w-full md:w-[340px]",
                           isCenter
                             ? "scale-100 opacity-100 shadow-2xl z-10 border-secondary"
-                            : "hidden md:block scale-95 opacity-50 shadow-md hover:opacity-70"
+                            : "hidden md:block scale-95 opacity-50 shadow-md hover:opacity-70",
                         )}
                       >
                         {" "}
@@ -291,7 +287,6 @@ const About = () => {
                     );
                   })}{" "}
                 </div>{" "}
-                {" "}
                 <div className="flex items-center justify-center gap-3 mt-12">
                   {isLoading ? (
                     <div className="text-center py-24">Loading team...</div>
@@ -304,7 +299,7 @@ const About = () => {
                           "rounded-full transition-all duration-500 ease-out",
                           index === currentIndex
                             ? "w-8 h-3 bg-secondary"
-                            : "w-3 h-3 bg-muted-foreground/30 hover:bg-secondary/50 hover:scale-125"
+                            : "w-3 h-3 bg-muted-foreground/30 hover:bg-secondary/50 hover:scale-125",
                         )}
                         aria-label={`Go to team member ${index + 1}`}
                       />
