@@ -22,7 +22,12 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin) || /\.vercel\.app$/.test(origin)) {
+    if (
+      !origin ||
+      allowedOrigins.includes(origin) ||
+      /\.vercel\.app$/.test(origin) ||
+      /\.novaexams\.com$/.test(origin)   
+    ) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
