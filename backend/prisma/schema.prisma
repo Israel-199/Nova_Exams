@@ -11,8 +11,9 @@ model Exam {
   id              String   @id @default(uuid())
   examType        String
   mentorship      String
-  examRoomService Float    @default(0)
-  sum             Float    @default(0)
+  mentorshipValue Int      @default(0)   // ✅ only this has a default
+  examRoomService Float
+  sum             Float
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
