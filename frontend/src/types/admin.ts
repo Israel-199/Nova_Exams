@@ -7,7 +7,6 @@ export interface Exam {
   sum: number;
 }
 
-
 export interface Testimonial {
   id: string;          
   student: string;
