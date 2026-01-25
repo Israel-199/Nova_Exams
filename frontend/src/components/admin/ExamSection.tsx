@@ -192,7 +192,7 @@ const ExamsSection = () => {
                   <tr key={exam.id} className="border-b hover:bg-muted/5">
                     <td className="py-4 px-4">{exam.examType}</td>
                     <td className="py-4 px-4">{exam.mentorship}</td>
-                    <td className="py-4 px-4">{exam.mentorshipValue}</td> {/* ✅ */}
+                    <td className="py-4 px-4">{exam.mentorshipValue}</td> 
                     <td className="py-4 px-4">{exam.examRoomService} ETB</td>
                     <td className="py-4 px-4">{exam.sum} ETB</td>
                     <td className="py-4 px-4 text-right">
