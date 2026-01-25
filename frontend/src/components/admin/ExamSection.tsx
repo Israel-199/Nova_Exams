@@ -45,7 +45,7 @@ const ExamsSection = () => {
     const payload = {
       examType: formData.get("examType") as Exam["examType"],
       mentorship: formData.get("mentorship") as string,
-      mentorshipValue: Number(formData.get("mentorshipValue")) || 0, // ✅ new integer field
+      mentorshipValue: Number(formData.get("mentorshipValue")) || 0,
       examRoomService: Number(formData.get("examRoomService")) || 0,
       sum: Number(formData.get("sum")) || 0,
     };
@@ -181,7 +181,7 @@ const ExamsSection = () => {
                 <tr className="border-b">
                   <th className="text-left py-3 px-4">Exam Type</th>
                   <th className="text-left py-3 px-4">Mentorship</th>
-                  <th className="text-left py-3 px-4">Mentorship Value</th> {/* ✅ */}
+                  <th className="text-left py-3 px-4">Mentorship Value</th> 
                   <th className="text-left py-3 px-4">Exam Room Service</th>
                   <th className="text-left py-3 px-4">Sum</th>
                   <th className="text-right py-3 px-4">Actions</th>
