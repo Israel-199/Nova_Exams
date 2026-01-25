@@ -1,7 +1,7 @@
 const prisma = require("../prisma/client");
 
 exports.createExam = async (req, res) => {
-  const { examType, mentorship, examRoomService, sum } = req.body;
+  const { examType, mentorship, mentorshipValue, examRoomService, sum } = req.body;
 
   if (
     !examType ||
@@ -16,7 +16,15 @@ exports.createExam = async (req, res) => {
   }
 
   try {
-    const exam = await prisma.exam.create({ data: req.body });
+    const exam = await prisma.exam.create({
+      data: {
+        examType,
+        mentorship,
+        mentorshipValue: mentorshipValue !== undefined ? Number(mentorshipValue) : 0, // ✅ default 0 if not provided
+        examRoomService: Number(examRoomService),
+        sum: Number(sum),
+      },
+    });
     res.status(201).json({
       success: true,
       message: "Exam created successfully",
@@ -78,7 +86,13 @@ exports.updateExam = async (req, res) => {
   try {
     const exam = await prisma.exam.update({
       where: { id: req.params.id },
-      data: req.body,
+      data: {
+        examType: req.body.examType,
+        mentorship: req.body.mentorship,
+        mentorshipValue: req.body.mentorshipValue !== undefined ? Number(req.body.mentorshipValue) : undefined, // ✅ update if provided
+        examRoomService: Number(req.body.examRoomService),
+        sum: Number(req.body.sum),
+      },
     });
 
     res.json({
