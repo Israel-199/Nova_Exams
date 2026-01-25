@@ -18,7 +18,6 @@ import { ConsultationBooking } from "@/components/ConsultationBooking";
 import { ChatBot } from "@/components/ChatBot";
 import { TelegramButton } from "@/components/TelegramButton";
 
-// ❌ Removed hard-coded MENTORSHIP_PRICE
 
 export interface Exam {
   id: string;
@@ -26,7 +25,7 @@ export interface Exam {
   name: string;
   description: string;
   mentorship?: string;
-  mentorshipValue?: number;   // ✅ backend-provided mentorship price
+  mentorshipValue?: number;   
   examRoomService?: number;
   basePrice?: number;
   sum?: number;
@@ -46,7 +45,6 @@ const Booking = () => {
     selectedExamData?.examType?.toLowerCase() === "others" ||
     selectedExamData?.examType?.toLowerCase() === "other";
 
-  // ✅ Use mentorshipValue from backend instead of constant
   const totalPrice = selectedExamData
     ? (selectedExamData.basePrice ?? selectedExamData.sum ?? 0) +
       (wantsMentorship ? (selectedExamData.mentorshipValue ?? 0) : 0)
