@@ -37,7 +37,7 @@ export function useUpdateExam() {
       id: string;
       examType: string;
       mentorship: string;
-      mentorshipValue: number;   // ✅ new integer field
+      mentorshipValue: number;  
       examRoomService: number;
       sum: number;
     }) => {
