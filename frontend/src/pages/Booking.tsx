@@ -181,12 +181,6 @@ const Booking = () => {
                                     ? `${exam.basePrice.toLocaleString()} ETB`
                                     : ""}
                             </p>
-                            {exam.mentorshipValue != null && (
-                              <p className="text-secondary font-semibold mt-1">
-                                Mentorship Price:{" "}
-                                {exam.mentorshipValue.toLocaleString()} ETB
-                              </p>
-                            )}
                           </CardContent>
                         </Card>
                       ))
