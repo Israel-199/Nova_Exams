@@ -5,8 +5,8 @@ export function useExams() {
   return useQuery({
     queryKey: ["exams"],
     queryFn: async () => {
-      const res = await api.get("/exams"); 
-      return res.data.data; 
+      const res = await api.get("/exams");
+      return res.data.data;
     },
   });
 }
@@ -17,6 +17,7 @@ export function useAddExam() {
     mutationFn: async (exam: {
       examType: string;
       mentorship: string;
+      mentorshipValue: number;   // ✅ new integer field
       examRoomService: number;
       sum: number;
     }) => {
@@ -36,6 +37,7 @@ export function useUpdateExam() {
       id: string;
       examType: string;
       mentorship: string;
+      mentorshipValue: number;   // ✅ new integer field
       examRoomService: number;
       sum: number;
     }) => {
@@ -52,7 +54,7 @@ export function useDeleteExam() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (id: string) => {
-      const res = await api.delete(`/exams/${id}`); 
+      const res = await api.delete(`/exams/${id}`);
       return res.data;
     },
     onSuccess: () => {
