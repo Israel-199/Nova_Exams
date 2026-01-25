@@ -20,7 +20,7 @@ exports.createExam = async (req, res) => {
       data: {
         examType,
         mentorship,
-        mentorshipValue: mentorshipValue !== undefined ? Number(mentorshipValue) : 0, // ✅ default 0 if not provided
+        mentorshipValue: mentorshipValue !== undefined ? Number(mentorshipValue) : 0, 
         examRoomService: Number(examRoomService),
         sum: Number(sum),
       },
@@ -89,7 +89,7 @@ exports.updateExam = async (req, res) => {
       data: {
         examType: req.body.examType,
         mentorship: req.body.mentorship,
-        mentorshipValue: req.body.mentorshipValue !== undefined ? Number(req.body.mentorshipValue) : undefined, // ✅ update if provided
+        mentorshipValue: req.body.mentorshipValue !== undefined ? Number(req.body.mentorshipValue) : undefined, 
         examRoomService: Number(req.body.examRoomService),
         sum: Number(req.body.sum),
       },
