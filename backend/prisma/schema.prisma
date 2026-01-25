@@ -18,7 +18,6 @@ model Exam {
   updatedAt       DateTime @updatedAt
 }
 
-
 model Testimonial {
   id          String   @id @default(uuid())
   student     String  
