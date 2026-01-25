@@ -299,12 +299,11 @@ const Booking = () => {
               {selectedExamData?.name} Exam
             </span>
             <span className="text-foreground">
-              ETB{" "}
               {selectedExamData?.basePrice != null
                 ? selectedExamData.basePrice.toLocaleString()
                 : selectedExamData?.sum != null
                   ? selectedExamData.sum.toLocaleString()
-                  : "0"}
+                  : "0"} ETB{" "}
             </span>
           </div>
 
@@ -314,7 +313,7 @@ const Booking = () => {
                 Mentorship Program
               </span>
               <span className="text-foreground">
-                ETB {(selectedExamData?.mentorshipValue ?? 0).toLocaleString()}
+                {(selectedExamData?.mentorshipValue ?? 0).toLocaleString()} ETB
               </span>
             </div>
           )}
@@ -329,10 +328,10 @@ const Booking = () => {
                         <div className="border-t border-border pt-3 flex justify-between font-bold">
                           <span className="text-foreground">Total</span>
                           <span className="text-secondary text-xl">
-                            ETB{" "}
+                           
                             {totalPrice != null
                               ? totalPrice.toLocaleString()
-                              : "0"}
+                              : "0"}  ETB{" "}
                           </span>
                         </div>
                       </div>
