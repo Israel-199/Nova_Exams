@@ -188,7 +188,6 @@ const Booking = () => {
                   </div>
                 </div>
               )}
-
               {step === 2 && (
                 <div className="max-w-lg mx-auto">
                   {isOthersExam ? (
