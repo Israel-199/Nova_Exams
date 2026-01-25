@@ -1,8 +1,8 @@
 export interface Exam {
   id: string;
   examType: "Duolingo" | "TOEFL" | "Pearson" | "IELTS Home" | "Others";
-  mentorship: string;        // descriptive text (e.g. "Guided by mentor X")
-  mentorshipValue: number;   // ✅ new integer field
+  mentorship: string;        
+  mentorshipValue: number;   
   examRoomService: number;
   sum: number;
 }
