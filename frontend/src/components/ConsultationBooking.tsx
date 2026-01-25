@@ -136,7 +136,7 @@ export const ConsultationBooking = () => {
                   window.open(
                     "https://calendly.com/astronomer291/30min",
                     "_blank",
-                    "noopener,noreferrer"
+                    "noopener,noreferrer",
                   )
                 }
               >
