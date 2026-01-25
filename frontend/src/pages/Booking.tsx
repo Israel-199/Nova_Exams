@@ -18,7 +18,7 @@ import { ConsultationBooking } from "@/components/ConsultationBooking";
 import { ChatBot } from "@/components/ChatBot";
 import { TelegramButton } from "@/components/TelegramButton";
 
-const MENTORSHIP_PRICE = 2000;
+// ❌ Removed hard-coded MENTORSHIP_PRICE
 
 export interface Exam {
   id: string;
@@ -26,6 +26,7 @@ export interface Exam {
   name: string;
   description: string;
   mentorship?: string;
+  mentorshipValue?: number;   // ✅ backend-provided mentorship price
   examRoomService?: number;
   basePrice?: number;
   sum?: number;
@@ -45,9 +46,10 @@ const Booking = () => {
     selectedExamData?.examType?.toLowerCase() === "others" ||
     selectedExamData?.examType?.toLowerCase() === "other";
 
+  // ✅ Use mentorshipValue from backend instead of constant
   const totalPrice = selectedExamData
     ? (selectedExamData.basePrice ?? selectedExamData.sum ?? 0) +
-      (wantsMentorship ? MENTORSHIP_PRICE : 0)
+      (wantsMentorship ? (selectedExamData.mentorshipValue ?? 0) : 0)
     : 0;
 
   const handleProceed = () => {
@@ -134,182 +136,189 @@ const Booking = () => {
                 </div>
               ))}
             </div>
-            <div className="max-w-4xl mx-auto">
-              {step === 1 && (
-                <div>
-                  <h2 className="font-display text-2xl font-bold text-foreground mb-6 text-center">
-                    Choose Your Exam
-                  </h2>
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {isLoading ? (
-                      <div className="flex items-center justify-center min-h-[400px] col-span-full">
-                        <Loader2 className="w-8 h-8 animate-spin text-secondary" />
-                      </div>
-                    ) : (
-                      exams.map((exam: Exam) => (
-                        <Card
-                          key={exam.id}
-                          className={`cursor-pointer transition-all ${
-                            selectedExam === exam.id
-                              ? "border-secondary ring-2 ring-secondary"
-                              : "border-border hover:border-secondary/50"
-                          }`}
-                          onClick={() => setSelectedExam(exam.id)}
-                        >
-                          <CardHeader className="pb-2">
-                            <div className="flex items-center justify-between">
-                              <Badge className="bg-primary text-primary-foreground">
-                                {exam.examType}
-                              </Badge>
-                              {selectedExam === exam.id && (
-                                <CheckCircle className="w-5 h-5 text-secondary" />
-                              )}
-                            </div>
-                            <CardTitle className="text-lg font-display">
-                              {exam.examType} Exam
-                            </CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <p className="text-sm text-muted-foreground mb-3">
-                              {exam.mentorship}
-                            </p>
-                            <p className="font-bold text-foreground">
-                              {exam.examType.toLowerCase().includes("other")
-                                ? "Contact for details"
-                                : exam.sum != null
-                                  ? `${exam.sum.toLocaleString()} ETB`
-                                  : exam.basePrice != null
-                                    ? `${exam.basePrice.toLocaleString()} ETB`
-                                    : ""}
-                            </p>
-                          </CardContent>
-                        </Card>
-                      ))
-                    )}
-                  </div>
-                </div>
-              )}
-              {step === 2 && (
-                <div className="max-w-lg mx-auto">
-                  {isOthersExam ? (
-                    <Card className="bg-tertiary/10 border-tertiary/30 shadow-lg max-w-3xl mx-auto mt-8">
-                      <CardContent className="p-8 text-center">
-                        <div className="w-16 h-16 rounded-full bg-tertiary/20 flex items-center justify-center mx-auto mb-4">
-                          <MessageCircle className="w-8 h-8 text-tertiary animate-bounce" />
-                        </div>
-                        <h3 className="font-display text-2xl font-bold text-foreground mb-3">
-                          Need a Different Exam?
-                        </h3>
-                        <p className="text-muted-foreground mb-6 max-w-lg mx-auto">
-                          For exams not listed above or custom requirements,
-                          please contact our center directly. We're here to help
-                          you find the right solution.
-                        </p>
-                        <Button
-                          variant="hero"
-                          size="lg"
-                          className="ml-auto"
-                          onClick={() =>
-                            (window.location.href = "tel:+251949700013")
-                          }
-                        >
-                          <Phone className="w-5 h-5 mr-2" />
-                          Contact the Center
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ) : (
-                    <>
-                      <Card className="mb-6">
-                        <CardContent className="p-6">
-                          <div className="flex items-start gap-4">
-                            <Checkbox
-                              id="mentorship"
-                              checked={wantsMentorship}
-                              onCheckedChange={(checked) =>
-                                setWantsMentorship(checked as boolean)
-                              }
-                            />
-                            <div className="flex-1">
-                              <label
-                                htmlFor="mentorship"
-                                className="font-display font-semibold text-foreground cursor-pointer"
-                              >
-                                Add Mentorship Program
-                              </label>
-                              <p className="text-sm text-muted-foreground mt-1">
-                                Get expert guidance and preparation tips from
-                                high scorers. Includes study materials and
-                                practice sessions.
-                              </p>
-                              <p className="text-secondary font-bold mt-2">
-                                +ETB {MENTORSHIP_PRICE.toLocaleString()}
-                              </p>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                      <Card className="bg-muted">
-                        <CardContent className="p-6">
-                          <h3 className="font-display font-semibold text-foreground mb-4">
-                            Included Services:
-                          </h3>
-                          <ul className="space-y-2">
-                            <li className="flex items-center gap-2 text-foreground">
-                              <CheckCircle className="w-4 h-4 text-secondary" />
-                              Exam-based preparation
-                            </li>
-                            <li className="flex items-center gap-2 text-foreground">
-                              <CheckCircle className="w-4 h-4 text-secondary" />
-                              Professional Exam Environment
-                            </li>
-                            <li className="flex items-center gap-2 text-foreground">
-                              <CheckCircle className="w-4 h-4 text-secondary" />
-                              Technical Support
-                            </li>
-                          </ul>
-                        </CardContent>
-                      </Card>
-                    </>
+           <div className="max-w-4xl mx-auto">
+  {step === 1 && (
+    <div>
+      <h2 className="font-display text-2xl font-bold text-foreground mb-6 text-center">
+        Choose Your Exam
+      </h2>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {isLoading ? (
+          <div className="flex items-center justify-center min-h-[400px] col-span-full">
+            <Loader2 className="w-8 h-8 animate-spin text-secondary" />
+          </div>
+        ) : (
+          exams.map((exam: Exam) => (
+            <Card
+              key={exam.id}
+              className={`cursor-pointer transition-all ${
+                selectedExam === exam.id
+                  ? "border-secondary ring-2 ring-secondary"
+                  : "border-border hover:border-secondary/50"
+              }`}
+              onClick={() => setSelectedExam(exam.id)}
+            >
+              <CardHeader className="pb-2">
+                <div className="flex items-center justify-between">
+                  <Badge className="bg-primary text-primary-foreground">
+                    {exam.examType}
+                  </Badge>
+                  {selectedExam === exam.id && (
+                    <CheckCircle className="w-5 h-5 text-secondary" />
                   )}
                 </div>
-              )}
-              {step === 3 && !isOthersExam && (
-                <div className="max-w-lg mx-auto">
-                  <h2 className="font-display text-2xl font-bold text-foreground mb-6 text-center">
-                    Confirm & Pay
-                  </h2>
-                  <Card className="mb-6">
-                    <CardContent className="p-6">
-                      <h3 className="font-display font-semibold text-foreground mb-4">
-                        Order Summary
-                      </h3>
-                      <div className="space-y-3 mb-6">
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">
-                            {selectedExamData?.name} Exam
-                          </span>
-                          <span className="text-foreground">
-                            ETB{" "}
-                            {selectedExamData?.basePrice != null
-                              ? selectedExamData.basePrice.toLocaleString()
-                              : selectedExamData?.sum != null
-                                ? selectedExamData.sum.toLocaleString()
-                                : "0"}
-                          </span>
-                        </div>
+                <CardTitle className="text-lg font-display">
+                  {exam.examType} Exam
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-3">
+                  {exam.mentorship}
+                </p>
+                <p className="font-bold text-foreground">
+                  {exam.examType.toLowerCase().includes("other")
+                    ? "Contact for details"
+                    : exam.sum != null
+                      ? `${exam.sum.toLocaleString()} ETB`
+                      : exam.basePrice != null
+                        ? `${exam.basePrice.toLocaleString()} ETB`
+                        : ""}
+                </p>
+                {exam.mentorshipValue != null && (
+                  <p className="text-secondary font-semibold mt-1">
+                    Mentorship Price: {exam.mentorshipValue.toLocaleString()} ETB
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+          ))
+        )}
+      </div>
+    </div>
+  )}
 
-                        {wantsMentorship && (
-                          <div className="flex justify-between">
-                            <span className="text-muted-foreground">
-                              Mentorship Program
-                            </span>
-                            <span className="text-foreground">
-                              ETB {MENTORSHIP_PRICE.toLocaleString()}
-                            </span>
-                          </div>
-                        )}
+  {step === 2 && (
+    <div className="max-w-lg mx-auto">
+      {isOthersExam ? (
+        <Card className="bg-tertiary/10 border-tertiary/30 shadow-lg max-w-3xl mx-auto mt-8">
+          <CardContent className="p-8 text-center">
+            <div className="w-16 h-16 rounded-full bg-tertiary/20 flex items-center justify-center mx-auto mb-4">
+              <MessageCircle className="w-8 h-8 text-tertiary animate-bounce" />
+            </div>
+            <h3 className="font-display text-2xl font-bold text-foreground mb-3">
+              Need a Different Exam?
+            </h3>
+            <p className="text-muted-foreground mb-6 max-w-lg mx-auto">
+              For exams not listed above or custom requirements,
+              please contact our center directly. We're here to help
+              you find the right solution.
+            </p>
+            <Button
+              variant="hero"
+              size="lg"
+              className="ml-auto"
+              onClick={() =>
+                (window.location.href = "tel:+251949700013")
+              }
+            >
+              <Phone className="w-5 h-5 mr-2" />
+              Contact the Center
+            </Button>
+          </CardContent>
+        </Card>
+      ) : (
+        <>
+          <Card className="mb-6">
+            <CardContent className="p-6">
+              <div className="flex items-start gap-4">
+                <Checkbox
+                  id="mentorship"
+                  checked={wantsMentorship}
+                  onCheckedChange={(checked) =>
+                    setWantsMentorship(checked as boolean)
+                  }
+                />
+                <div className="flex-1">
+                  <label
+                    htmlFor="mentorship"
+                    className="font-display font-semibold text-foreground cursor-pointer"
+                  >
+                    Add Mentorship Program
+                  </label>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Get expert guidance and preparation tips from
+                    high scorers. Includes study materials and
+                    practice sessions.
+                  </p>
+                  <p className="text-secondary font-bold mt-2">
+                    + {(selectedExamData?.mentorshipValue ?? 0).toLocaleString()} ETB
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
+                     <Card className="bg-muted">
+  <CardContent className="p-6">
+    <h3 className="font-display font-semibold text-foreground mb-4">
+      Included Services:
+    </h3>
+    <ul className="space-y-2">
+      <li className="flex items-center gap-2 text-foreground">
+        <CheckCircle className="w-4 h-4 text-secondary" />
+        Exam-based preparation
+      </li>
+      <li className="flex items-center gap-2 text-foreground">
+        <CheckCircle className="w-4 h-4 text-secondary" />
+        Professional Exam Environment
+      </li>
+      <li className="flex items-center gap-2 text-foreground">
+        <CheckCircle className="w-4 h-4 text-secondary" />
+        Technical Support
+      </li>
+    </ul>
+  </CardContent>
+</Card>
+</>
+)}
+</div>
+)}
+{step === 3 && !isOthersExam && (
+  <div className="max-w-lg mx-auto">
+    <h2 className="font-display text-2xl font-bold text-foreground mb-6 text-center">
+      Confirm & Pay
+    </h2>
+    <Card className="mb-6">
+      <CardContent className="p-6">
+        <h3 className="font-display font-semibold text-foreground mb-4">
+          Order Summary
+        </h3>
+        <div className="space-y-3 mb-6">
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">
+              {selectedExamData?.name} Exam
+            </span>
+            <span className="text-foreground">
+              ETB{" "}
+              {selectedExamData?.basePrice != null
+                ? selectedExamData.basePrice.toLocaleString()
+                : selectedExamData?.sum != null
+                  ? selectedExamData.sum.toLocaleString()
+                  : "0"}
+            </span>
+          </div>
+
+          {wantsMentorship && (
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">
+                Mentorship Program
+              </span>
+              <span className="text-foreground">
+                ETB {(selectedExamData?.mentorshipValue ?? 0).toLocaleString()}
+              </span>
+            </div>
+          )}
+ 
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">
                             Exam Room Service
