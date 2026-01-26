@@ -55,7 +55,7 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
               z1,
               dots[nextIdx],
               dots[nextIdx + 1],
-              dots[nextIdx + 2]
+              dots[nextIdx + 2],
             );
           }
 
@@ -67,7 +67,7 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
               z1,
               dots[nextIdx],
               dots[nextIdx + 1],
-              dots[nextIdx + 2]
+              dots[nextIdx + 2],
             );
           }
         }
@@ -215,10 +215,10 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
           />
         </bufferGeometry>
         <pointsMaterial
-          size={0.08} 
+          size={0.08}
           color="#63b3ed"
           transparent
-          opacity={0.05} 
+          opacity={0.05}
           sizeAttenuation
           blending={THREE.AdditiveBlending}
         />
@@ -237,7 +237,7 @@ function FluidGrid({ mousePosition, isHovering }: GridProps) {
           size={0.015}
           color="#81e6d9"
           transparent
-          opacity={0.08} 
+          opacity={0.08}
           sizeAttenuation
         />
       </points>
