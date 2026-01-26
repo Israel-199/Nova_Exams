@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Video, Clock, Users, ExternalLink } from "lucide-react";
-
 interface ConsultationType {
   id: string;
   title: string;
