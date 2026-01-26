@@ -159,7 +159,7 @@ export function Navbar({
         </div>
       )}
       {!user && (
-        <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen} >
+        <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen}>
           <DialogContent className="w-full max-w-sm sm:max-w-md sm:mx-0 bg-card border-border rounded-lg sm:rounded-xl">
             <DialogHeader className="text-center">
               <div className="mx-auto w-12 h-12 rounded-xl bg-gradient-secondary flex items-center justify-center ">
