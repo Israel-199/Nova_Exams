@@ -17,7 +17,7 @@ export function useAddExam() {
     mutationFn: async (exam: {
       examType: string;
       mentorship: string;
-      mentorshipValue: number;   
+      mentorshipValue: number;
       examRoomService: number;
       sum: number;
     }) => {
@@ -37,7 +37,7 @@ export function useUpdateExam() {
       id: string;
       examType: string;
       mentorship: string;
-      mentorshipValue: number;  
+      mentorshipValue: number;
       examRoomService: number;
       sum: number;
     }) => {
