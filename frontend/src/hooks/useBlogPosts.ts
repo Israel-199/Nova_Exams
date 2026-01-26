@@ -6,7 +6,7 @@ export function useBlogPosts() {
   return useQuery<BlogPost[], Error>({
     queryKey: ["blogs"],
     queryFn: async () => {
-      const res = await api.get("/blogs"); 
+      const res = await api.get("/blogs");
       return res.data.data;
     },
   });
@@ -16,7 +16,7 @@ export function useAddBlogPost() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (blogData: Partial<BlogPost>) => {
-      const res = await api.post("/blogs", blogData); 
+      const res = await api.post("/blogs", blogData);
       return res.data.data;
     },
     onSuccess: () => {
@@ -28,8 +28,14 @@ export function useAddBlogPost() {
 export function useUpdateBlogPost() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, blogData }: { id: string; blogData: Partial<BlogPost> }) => {
-      const res = await api.patch(`/blogs/${id}`, blogData); 
+    mutationFn: async ({
+      id,
+      blogData,
+    }: {
+      id: string;
+      blogData: Partial<BlogPost>;
+    }) => {
+      const res = await api.patch(`/blogs/${id}`, blogData);
       return res.data.data;
     },
     onSuccess: () => {
@@ -37,7 +43,6 @@ export function useUpdateBlogPost() {
     },
   });
 }
-
 
 export function useDeleteBlogPost() {
   const queryClient = useQueryClient();
