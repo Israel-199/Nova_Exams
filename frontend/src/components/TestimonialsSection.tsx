@@ -20,7 +20,7 @@ export function TestimonialsSection() {
   const prev = useCallback(() => {
     if (testimonials.length > 0) {
       setCurrentIndex(
-        (prev) => (prev - 1 + testimonials.length) % testimonials.length
+        (prev) => (prev - 1 + testimonials.length) % testimonials.length,
       );
     }
   }, [testimonials]);
@@ -106,7 +106,7 @@ export function TestimonialsSection() {
                       "flex-shrink-0 bg-card border-border transition-all duration-500 w-full md:w-[340px]",
                       isCenter
                         ? "scale-100 opacity-100 shadow-2xl z-10 border-secondary"
-                        : "hidden md:block scale-95 opacity-50 shadow-md hover:opacity-70"
+                        : "hidden md:block scale-95 opacity-50 shadow-md hover:opacity-70",
                     )}
                   >
                     <CardContent className="p-6 md:p-8 min-h-[150px] md:min-h-[200px]">
@@ -158,7 +158,7 @@ export function TestimonialsSection() {
                     "rounded-full transition-all duration-500 ease-out",
                     index === currentIndex
                       ? "w-8 h-3 bg-secondary"
-                      : "w-3 h-3 bg-muted-foreground/30 hover:bg-secondary/50 hover:scale-125"
+                      : "w-3 h-3 bg-muted-foreground/30 hover:bg-secondary/50 hover:scale-125",
                   )}
                   aria-label={`Go to testimonial ${index + 1}`}
                 />
