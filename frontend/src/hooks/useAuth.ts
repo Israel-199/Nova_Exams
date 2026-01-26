@@ -30,9 +30,8 @@ export function useLogout() {
   const queryClient = useQueryClient();
   return async () => {
     try {
-      await api.post("/admin/logout"); 
-    } catch (e) {
-    }
+      await api.post("/admin/logout");
+    } catch (e) {}
     queryClient.setQueryData(["session"], null);
     queryClient.invalidateQueries({ queryKey: ["session"] });
   };
