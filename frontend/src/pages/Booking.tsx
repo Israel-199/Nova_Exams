@@ -302,7 +302,6 @@ const Booking = () => {
                             ETB{" "}
                           </span>
                         </div>
-
                         {wantsMentorship && (
                           <div className="flex justify-between">
                             <span className="text-muted-foreground">
@@ -316,14 +315,12 @@ const Booking = () => {
                             </span>
                           </div>
                         )}
-
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">
                             Exam Room Service
                           </span>
                           <span className="text-foreground">Included</span>
                         </div>
-
                         <div className="border-t border-border pt-3 flex justify-between font-bold">
                           <span className="text-foreground">Total</span>
                           <span className="text-secondary text-xl">
@@ -334,7 +331,6 @@ const Booking = () => {
                           </span>
                         </div>
                       </div>
-
                       <div className="flex items-center gap-3 p-4 bg-muted rounded-lg">
                         <CreditCard className="w-6 h-6 text-secondary" />
                         <div>
@@ -356,7 +352,6 @@ const Booking = () => {
                     Back
                   </Button>
                 )}
-
                 {!(step === 2 && isOthersExam) && (
                   <Button
                     variant="hero"
