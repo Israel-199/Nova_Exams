@@ -139,6 +139,7 @@ export const ConsultationBooking = () => {
                     "noopener,noreferrer",
                   )
                 }
+                className="w-full"
               >
                 <ExternalLink className="w-4 h-4 mr-2" />
                 Open Calendly Scheduler
