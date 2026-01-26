@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle } from "lucide-react";
-import { motion } from "framer-motion"; 
+import { motion } from "framer-motion";
 
 const exams = [
   {
@@ -58,7 +58,7 @@ export function ExamsSection() {
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.15 }}
-              viewport={{ once: true }} 
+              viewport={{ once: true }}
             >
               <Card className="bg-indigo-foreground/5 border-indigo-foreground/10 backdrop-blur-sm hover:border-primary/50 transition-all duration-300 group">
                 <CardHeader>
