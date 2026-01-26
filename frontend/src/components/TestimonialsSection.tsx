@@ -73,7 +73,6 @@ export function TestimonialsSection() {
               </span>
             </div>
           </div>
-
           <div
             className="relative max-w-6xl mx-auto items-center justify-center flex flex-col"
             onMouseEnter={() => setIsPaused(true)}
@@ -93,7 +92,6 @@ export function TestimonialsSection() {
             >
               <ChevronRight className="w-5 h-5" />
             </button>
-
             <div className="flex items-center justify-center gap-4 md:gap-6 px-12 md:px-16">
               {visibleIndices.map((index, position) => {
                 const t = testimonials[index];
