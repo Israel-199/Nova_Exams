@@ -17,7 +17,6 @@ export interface Testimonial {
   created_at?: string;
 }
 
-
 export interface BlogPost {
   id: string;
   title: string;
@@ -27,7 +26,6 @@ export interface BlogPost {
   date: string;       
   readTime?: string;  
 }
-
 
 export interface Resource {
   id: string;
