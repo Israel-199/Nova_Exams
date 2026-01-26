@@ -40,7 +40,6 @@ const consultationTypes: ConsultationType[] = [
     url: "https://calendly.com/astronomer291/30min",
   },
 ];
-
 export const ConsultationBooking = () => {
   const [selectedType, setSelectedType] = useState<string | null>(null);
 
