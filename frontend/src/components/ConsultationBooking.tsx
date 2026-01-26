@@ -12,7 +12,6 @@ interface ConsultationType {
   icon: React.ReactNode;
   url: string;
 }
-
 const consultationTypes: ConsultationType[] = [
   {
     id: "exam-prep",
