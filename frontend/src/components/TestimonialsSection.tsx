@@ -148,7 +148,6 @@ export function TestimonialsSection() {
                 );
               })}
             </div>
-
             <div className="flex items-center justify-center gap-3 mt-12">
               {testimonials.map((_, index) => (
                 <button
