@@ -141,7 +141,7 @@ export const ConsultationBooking = () => {
                 }
                 className="w-full"
               >
-                <ExternalLink className="w-4 h-4 mr-2" />
+                <ExternalLink className="w-4 h-4 mr-1" />
                 Open Calendly Scheduler
               </Button>
               <p className="text-xs text-muted-foreground mt-4">
