@@ -30,7 +30,6 @@ export function Footer() {
               guidance.
             </p>
           </div>
-
           <div>
             <h4 className="font-display font-semibold text-lg mb-4 text-primary">
               Quick Links
@@ -66,7 +65,6 @@ export function Footer() {
               ))}
             </ul>
           </div>
-
           <div>
             <h4 className="font-display font-semibold text-lg mb-4 text-primary">
               Exams Offered
@@ -154,7 +152,6 @@ export function Footer() {
             </div>
           </div>
         </div>
-
         <div className="mt-12 pt-8 border-t border-indigo-foreground/20 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-indigo-foreground/60">
             © {new Date().getFullYear()} Nova Exams. All rights reserved.
