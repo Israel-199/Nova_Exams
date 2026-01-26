@@ -2,7 +2,6 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { TeamMember } from "@/types/admin";
 
-
 export function useTeamMembers() {
   return useQuery<TeamMember[], Error>({
     queryKey: ["team"],
@@ -31,7 +30,13 @@ export function useAddTeamMember() {
 export function useUpdateTeamMember() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, formData }: { id: number; formData: FormData }) => {
+    mutationFn: async ({
+      id,
+      formData,
+    }: {
+      id: number;
+      formData: FormData;
+    }) => {
       const res = await api.patch(`/team/${id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });

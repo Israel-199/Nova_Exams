@@ -2,7 +2,6 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { Resource } from "@/types/admin";
 
-
 export function useResources() {
   return useQuery<Resource[], Error>({
     queryKey: ["resources"],
@@ -12,7 +11,6 @@ export function useResources() {
     },
   });
 }
-
 
 function buildResourcePayload(resourceData: Partial<Resource>) {
   const formData = new FormData();
@@ -42,7 +40,6 @@ function buildResourcePayload(resourceData: Partial<Resource>) {
   return formData;
 }
 
-
 export function useAddResource() {
   const queryClient = useQueryClient();
   return useMutation({
@@ -53,7 +50,10 @@ export function useAddResource() {
           : resourceData;
 
       const res = await api.post("/resources", payload, {
-        headers: payload instanceof FormData ? { "Content-Type": "multipart/form-data" } : {},
+        headers:
+          payload instanceof FormData
+            ? { "Content-Type": "multipart/form-data" }
+            : {},
       });
       return res.data.data;
     },
@@ -66,14 +66,23 @@ export function useAddResource() {
 export function useUpdateResource() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, resourceData }: { id: string; resourceData: Partial<Resource> }) => {
+    mutationFn: async ({
+      id,
+      resourceData,
+    }: {
+      id: string;
+      resourceData: Partial<Resource>;
+    }) => {
       const payload =
         resourceData.pdfFile || resourceData.videoFile
           ? buildResourcePayload(resourceData)
           : resourceData;
 
       const res = await api.patch(`/resources/${id}`, payload, {
-        headers: payload instanceof FormData ? { "Content-Type": "multipart/form-data" } : {},
+        headers:
+          payload instanceof FormData
+            ? { "Content-Type": "multipart/form-data" }
+            : {},
       });
       return res.data.data;
     },

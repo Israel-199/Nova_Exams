@@ -7,7 +7,7 @@ export function useTestimonials() {
     queryKey: ["testimonials"],
     queryFn: async () => {
       const res = await api.get("/testimonials");
-      return res.data.data; 
+      return res.data.data;
     },
   });
 }
@@ -30,7 +30,13 @@ export function useAddTestimonial() {
 export function useUpdateTestimonial() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, formData }: { id: string; formData: FormData }) => {
+    mutationFn: async ({
+      id,
+      formData,
+    }: {
+      id: string;
+      formData: FormData;
+    }) => {
       const res = await api.patch(`/testimonials/${id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
