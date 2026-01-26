@@ -131,7 +131,7 @@ export const ConsultationBooking = () => {
               </p>
               <Button
                 variant="hero"
-                size="lg"
+                size="sm"
                 onClick={() =>
                   window.open(
                     "https://calendly.com/astronomer291/30min",
