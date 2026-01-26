@@ -91,7 +91,6 @@ const Admin = () => {
       newPassword: "",
     });
   };
-
   return (
     <div className="min-h-screen bg-background relative">
       <div className="absolute top-4 right-4 z-50">
@@ -118,7 +117,6 @@ const Admin = () => {
               <span className="font-medium">Back</span>
             </Link>
           </div>
-
           <div className="mb-8 mt-7">
             <h1 className="text-4xl font-display font-bold text-foreground mb-2">
               Admin Dashboard
@@ -143,7 +141,6 @@ const Admin = () => {
             resourcesCount={resource.length}
             teamCount={team.length}
           />
-
           <Tabs defaultValue="exams" className="space-y-6">
             <TabsList className="bg-muted/50 p-1">
               <TabsTrigger value="exams">Exam Prices</TabsTrigger>
@@ -152,7 +149,6 @@ const Admin = () => {
               <TabsTrigger value="resources">Resources</TabsTrigger>
               <TabsTrigger value="team">Team Members</TabsTrigger>{" "}
             </TabsList>
-
             <TabsContent value="exams">
               {isExamsLoading ? (
                 <div className="flex justify-center py-10">
@@ -164,7 +160,6 @@ const Admin = () => {
                 <ExamsSection />
               )}
             </TabsContent>
-
             <TabsContent value="testimonials">
               <TestimonialsSection />
             </TabsContent>
@@ -248,7 +243,6 @@ const Admin = () => {
                 )}
               </button>
             </div>
-
             <div className="flex gap-3">
               <Button
                 onClick={handleProfileUpdate}
