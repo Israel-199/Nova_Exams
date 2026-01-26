@@ -41,7 +41,7 @@ export function ChatBot() {
         text: "Hi! I'm Nova's AI assistant. How can I help you today?",
         isUser: false,
       },
-    ]
+    ],
   );
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
