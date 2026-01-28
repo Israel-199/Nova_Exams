@@ -134,9 +134,6 @@ export function HeroSection() {
       src={novacertificate}
       alt="Student"
       className="w-full h-full object-contain rounded-2xl bg-white" 
-      // ✅ object-contain shows full image without cropping
-      // ✅ rounded-2xl applies rounded corners
-      // ✅ optional bg-white fills empty space around image
     />
   </motion.div>
 </div>
