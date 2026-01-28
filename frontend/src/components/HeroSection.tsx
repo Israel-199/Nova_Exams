@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X, Star, Award, ArrowRight, CheckCircle } from "lucide-react";
+import { X, ArrowRight, CheckCircle } from "lucide-react";
 import novacertificate from "../assets/novacertificate.jpg";
 import { WireframeMesh } from "./WireframeMesh";
 import { Link } from "react-router-dom";
@@ -14,8 +14,6 @@ const features = [
 ];
 
 export function HeroSection() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   return (
     <section className="relative min-h-screen w-full bg-hero overflow-hidden">
       <WireframeMesh />
