@@ -122,21 +122,19 @@ export function HeroSection() {
             </div>
           </div>
 
-    <div className="relative hidden lg:block h-[500px]">
-  <motion.div
-    className="absolute inset-0 w-full h-full shadow-2xl"
-    animate={{ y: [0, -20, 0] }}
-    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-  >
-    <img
-      src={novacertificate}
-      alt="Student"
-      className="w-full h-full object-contain rounded-2xl bg-white" 
-    />
-  </motion.div>
-</div>
-
-
+          <div className="relative hidden lg:block h-[500px]">
+            <motion.div
+              className="absolute inset-0 w-full h-full shadow-2xl"
+              animate={{ y: [0, -20, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <img
+                src={novacertificate}
+                alt="Student"
+                className="w-full h-full object-contain rounded-2xl bg-white"
+              />
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>
