@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { X, Star, Award, ArrowRight, CheckCircle } from "lucide-react";
-import student1 from "@/assets/student-1.jpg";
-import student2 from "@/assets/student-2.jpg";
-import student3 from "@/assets/student-3.jpg";
+import novacertificate from "../assets/novacertificate.jpg";
 import { WireframeMesh } from "./WireframeMesh";
 import { Link } from "react-router-dom";
 import { Button } from "../components/ui/button";
@@ -126,101 +124,24 @@ export function HeroSection() {
             </div>
           </div>
 
-          <div className="relative hidden lg:block h-[500px]">
-            <motion.div
-              className="absolute left-0 top-8 w-64 h-80 rounded-2xl overflow-hidden shadow-2xl"
-              animate={{ y: [0, -20, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <img
-                src={student1}
-                alt="Student"
-                className="w-full h-full object-cover"
-              />
-            </motion.div>
+    <div className="relative hidden lg:block h-[500px]">
+  <motion.div
+    className="absolute inset-0 w-full h-full shadow-2xl"
+    animate={{ y: [0, -20, 0] }}
+    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+  >
+    <img
+      src={novacertificate}
+      alt="Student"
+      className="w-full h-full object-contain rounded-2xl bg-white" 
+      // ✅ object-contain shows full image without cropping
+      // ✅ rounded-2xl applies rounded corners
+      // ✅ optional bg-white fills empty space around image
+    />
+  </motion.div>
+</div>
 
-            <motion.div
-              className="absolute right-0 top-0 w-48 h-60 rounded-2xl overflow-hidden shadow-2xl"
-              animate={{ y: [0, -15, 0] }}
-              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <img
-                src={student2}
-                alt="Student"
-                className="w-full h-full object-cover"
-              />
-            </motion.div>
 
-            <motion.div
-              className="absolute right-8 bottom-0 w-56 h-72 rounded-2xl overflow-hidden shadow-2xl"
-              animate={{ y: [0, -25, 0] }}
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <img
-                src={student3}
-                alt="Student"
-                className="w-full h-full object-cover"
-              />
-            </motion.div>
-            <div className="absolute right-20 top-32 bg-white rounded-xl shadow-lg p-3">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center overflow-hidden">
-                  <img
-                    src={student2}
-                    alt="Abel Tadesse"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div>
-                  <p className="font-semibold text-foreground text-sm">
-                    Abel Tadesse
-                  </p>
-                  <p className="text-muted-foreground text-xs">TOEFL student</p>
-                  <div className="flex gap-0.5 mt-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="w-3 h-3 fill-primary text-primary"
-                      />
-                    ))}
-                  </div>
-                  <p className="text-muted-foreground text-xs mt-1">
-                    Scored 100 🎉
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="absolute left-5 bottom-32 bg-white rounded-xl shadow-lg p-3">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-teal/20 flex items-center justify-center">
-                  <Award className="w-5 h-5 text-teal" />
-                </div>
-                <div>
-                  <p className="font-bold text-foreground text-lg">500+</p>
-                  <p className="text-muted-foreground text-xs">
-                    Exams Booked Successfully
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="absolute right-10 bottom-10 bg-white rounded-xl shadow-lg p-3">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
-                  <Award className="w-4 h-4 text-secondary-foreground" />
-                </div>
-                <div>
-                  <p className="font-semibold text-secondary text-sm">
-                    Congrats!
-                  </p>
-                  <p className="text-muted-foreground text-xs">
-                    Admission Secured Abroad
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
